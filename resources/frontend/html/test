@@ -1,0 +1,189 @@
+<section class="row d-flex gap-3">
+                    <div class="col-5">
+                        <div class="card mb-3">
+                            <div class="row g-0">
+                                <div class="col-md-3">
+                                    <img src="../images/cover1.jpg" class="img-fluid rounded-start" alt="...">
+                                </div>
+                                <div class="col-md-9 d-flex align-items-center">
+                                    <div class="card-body d-flex flex-column gap-2">
+                                        <h5 class="card-title">
+                                            <a href="#">Mắt Biếc</a>
+                                        </h5>
+                                        <p class="card-text">
+                                            Tác giả: Nguyễn Nhật Ánh
+                                        </p>
+                                        <p class="card-text">
+                                            "Mắt Biếc" là câu chuyện kể về cuộc đời của nhân vật Ngạn. Sinh ra và lớn lên ở một ngôi làn tên Đo Đo (cũng là nguyên quán của Nguyễn Nhật Ánh - tác giả), Ngạn thầm yêu
+                                            <!-- <span class="collapse" id="collapseExample">
+                                                từ nhỏ cô nàng cùng xóm có đôi mắt tuyệt đẹp - Hà Lan. Tuổi thơ ở nơi làng xóm bình yên giản dị thật là đẹp, nhưng rồi cũng đến lúc kết thúc khi cả hai đều phải lên thành phố tiếp tục việc học, và tấm bi kịch bắt đầu từ đây.
+                                            </span>
+                                            <span>
+                                                <a data-bs-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">...xem thêm</a>
+                                            </span> -->
+                                            <span><a style="color: var(--primary)">... xem chi tiết</a></span>
+                                        </p>
+                                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                        <!-- <div class="d-flex justify-content-end align-items-center">
+                                            <a href="#" class="btn btn-primary">Đọc</a>
+                                        </div>                  -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-5">
+                        <div class="card mb-3">
+                            <div class="row g-0">
+                                <div class="col-md-3">
+                                    <img src="../images/cover1.jpg" class="img-fluid rounded-start" alt="...">
+                                </div>
+                                <div class="col-md-9 d-flex align-items-center">
+                                    <div class="card-body d-flex flex-column gap-2">
+                                        <h5 class="card-title">
+                                            <a href="#">Mắt Biếc</a>
+                                        </h5>
+                                        <p class="card-text">
+                                            Tác giả: Nguyễn Nhật Ánh
+                                        </p>
+                                        <p class="card-text">
+                                            "Mắt Biếc" là câu chuyện kể về cuộc đời của nhân vật Ngạn. Sinh ra và lớn lên ở một ngôi làn tên Đo Đo (cũng là nguyên quán của Nguyễn Nhật Ánh - tác giả), Ngạn thầm yêu
+                                            <!-- <span class="collapse" id="collapseExample">
+                                                từ nhỏ cô nàng cùng xóm có đôi mắt tuyệt đẹp - Hà Lan. Tuổi thơ ở nơi làng xóm bình yên giản dị thật là đẹp, nhưng rồi cũng đến lúc kết thúc khi cả hai đều phải lên thành phố tiếp tục việc học, và tấm bi kịch bắt đầu từ đây.
+                                            </span>
+                                            <span>
+                                                <a data-bs-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">...xem thêm</a>
+                                            </span> -->
+                                            <span><a style="color: var(--primary)">... xem chi tiết</a></span>
+                                        </p>
+                                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                        <!-- <div class="d-flex justify-content-end align-items-center">
+                                            <a href="#" class="btn btn-primary">Đọc</a>
+                                        </div>                  -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-5">
+                        <div class="card mb-3">
+                            <div class="row g-0">
+                                <div class="col-md-3">
+                                    <img src="../images/cover1.jpg" class="img-fluid rounded-start" alt="...">
+                                </div>
+                                <div class="col-md-9 d-flex align-items-center">
+                                    <div class="card-body d-flex flex-column gap-2">
+                                        <h5 class="card-title">
+                                            <a href="#">Mắt Biếc</a>
+                                        </h5>
+                                        <p class="card-text">
+                                            Tác giả: Nguyễn Nhật Ánh
+                                        </p>
+                                        <p class="card-text">
+                                            "Mắt Biếc" là câu chuyện kể về cuộc đời của nhân vật Ngạn. Sinh ra và lớn lên ở một ngôi làn tên Đo Đo (cũng là nguyên quán của Nguyễn Nhật Ánh - tác giả), Ngạn thầm yêu
+                                            <!-- <span class="collapse" id="collapseExample">
+                                                từ nhỏ cô nàng cùng xóm có đôi mắt tuyệt đẹp - Hà Lan. Tuổi thơ ở nơi làng xóm bình yên giản dị thật là đẹp, nhưng rồi cũng đến lúc kết thúc khi cả hai đều phải lên thành phố tiếp tục việc học, và tấm bi kịch bắt đầu từ đây.
+                                            </span>
+                                            <span>
+                                                <a data-bs-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">...xem thêm</a>
+                                            </span> -->
+                                            <span><a style="color: var(--primary)">... xem chi tiết</a></span>
+                                        </p>
+                                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                        <!-- <div class="d-flex justify-content-end align-items-center">
+                                            <a href="#" class="btn btn-primary">Đọc</a>
+                                        </div>                  -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-5">
+                        <div class="card mb-3">
+                            <div class="row g-0">
+                                <div class="col-md-3">
+                                    <img src="../images/cover1.jpg" class="img-fluid rounded-start" alt="...">
+                                </div>
+                                <div class="col-md-9 d-flex align-items-center">
+                                    <div class="card-body d-flex flex-column">
+                                        <h5 class="card-title">
+                                            <a href="#">Mắt Biếc</a>
+                                        </h5>
+                                        <p class="card-text">
+                                            Tác giả: Nguyễn Nhật Ánh
+                                        </p>
+                                        <p class="card-text">
+                                            "Mắt Biếc" là câu chuyện kể về cuộc đời của nhân vật Ngạn. Sinh ra và lớn lên ở một ngôi làn tên Đo Đo (cũng là nguyên quán của Nguyễn Nhật Ánh - tác giả), Ngạn thầm yêu
+                                            <!-- <span class="collapse" id="collapseExample">
+                                                từ nhỏ cô nàng cùng xóm có đôi mắt tuyệt đẹp - Hà Lan. Tuổi thơ ở nơi làng xóm bình yên giản dị thật là đẹp, nhưng rồi cũng đến lúc kết thúc khi cả hai đều phải lên thành phố tiếp tục việc học, và tấm bi kịch bắt đầu từ đây.
+                                            </span>
+                                            <span>
+                                                <a data-bs-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">...xem thêm</a>
+                                            </span> -->
+                                            <span><a style="color: var(--primary)">... xem chi tiết</a></span>
+                                        </p>
+                                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                        <!-- <div class="d-flex justify-content-end align-items-center">
+                                            <a href="#" class="btn btn-primary">Đọc</a>
+                                        </div>                  -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+</section>
+
+
+<div class="card-group">
+                    <div class="card">
+                      <img src="../images/cover1.jpg" class="card-img-top" alt="...">
+                      <div class="card-body">
+                        <h5 class="card-title">Mắt Biếc</h5>
+                        <p class="card-text">
+                            "Mắt Biếc" là câu chuyện kể về cuộc đời của nhân vật Ngạn. Sinh ra và lớn lên ở một ngôi làn tên Đo Đo (cũng là nguyên quán của Nguyễn Nhật Ánh - tác giả), Ngạn thầm yêu
+                            <!-- <span class="collapse" id="collapseExample">
+                                từ nhỏ cô nàng cùng xóm có đôi mắt tuyệt đẹp - Hà Lan. Tuổi thơ ở nơi làng xóm bình yên giản dị thật là đẹp, nhưng rồi cũng đến lúc kết thúc khi cả hai đều phải lên thành phố tiếp tục việc học, và tấm bi kịch bắt đầu từ đây.
+                            </span>
+                            <span>
+                                <a data-bs-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">...xem thêm</a>
+                            </span> -->
+                            <span><a style="color: var(--primary)">... xem chi tiết</a></span>
+                        </p>
+                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <img src="../images/cover1.jpg" class="card-img-top" alt="...">
+                      <div class="card-body">
+                        <h5 class="card-title">Mắt Biếc</h5>
+                        <p class="card-text">
+                            "Mắt Biếc" là câu chuyện kể về cuộc đời của nhân vật Ngạn. Sinh ra và lớn lên ở một ngôi làn tên Đo Đo (cũng là nguyên quán của Nguyễn Nhật Ánh - tác giả), Ngạn thầm yêu
+                            <!-- <span class="collapse" id="collapseExample">
+                                từ nhỏ cô nàng cùng xóm có đôi mắt tuyệt đẹp - Hà Lan. Tuổi thơ ở nơi làng xóm bình yên giản dị thật là đẹp, nhưng rồi cũng đến lúc kết thúc khi cả hai đều phải lên thành phố tiếp tục việc học, và tấm bi kịch bắt đầu từ đây.
+                            </span>
+                            <span>
+                                <a data-bs-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">...xem thêm</a>
+                            </span> -->
+                            <span><a style="color: var(--primary)">... xem chi tiết</a></span>
+                        </p>
+                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <img src="../images/cover1.jpg" class="card-img-top" alt="...">
+                      <div class="card-body">
+                        <h5 class="card-title">Mắt Biếc</h5>
+                        <p class="card-text">
+                            "Mắt Biếc" là câu chuyện kể về cuộc đời của nhân vật Ngạn. Sinh ra và lớn lên ở một ngôi làn tên Đo Đo (cũng là nguyên quán của Nguyễn Nhật Ánh - tác giả), Ngạn thầm yêu
+                            <!-- <span class="collapse" id="collapseExample">
+                                từ nhỏ cô nàng cùng xóm có đôi mắt tuyệt đẹp - Hà Lan. Tuổi thơ ở nơi làng xóm bình yên giản dị thật là đẹp, nhưng rồi cũng đến lúc kết thúc khi cả hai đều phải lên thành phố tiếp tục việc học, và tấm bi kịch bắt đầu từ đây.
+                            </span>
+                            <span>
+                                <a data-bs-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">...xem thêm</a>
+                            </span> -->
+                            <span><a style="color: var(--primary)">... xem chi tiết</a></span>
+                        </p>    
+                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                      </div>
+                    </div>
+</div>

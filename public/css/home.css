@@ -1,0 +1,82 @@
+.carousel-item img {
+    /* width: 400px; */
+    height: 400px;
+}
+
+
+.card {
+    font-size: var(--font);
+}
+
+
+.card img {
+    /* margin: auto; */
+    object-fit: cover;
+}
+
+.card-title {
+    font-weight: bold;
+}
+
+.card-title a {
+    color: black;
+    text-decoration: none;
+}
+
+.card-title a:hover {
+    color: var(--primary);
+    text-decoration: underline;
+    color: orangered;
+}
+footer a{
+    color: black;
+    text-decoration: none;
+    text-shadow: 5px;
+}
+
+.carousel-item {
+    overflow: hidden;
+}
+
+.carousel-item img {
+    width: 535px;
+    height: 401px;
+}
+
+.icon {
+    color: var(--primary);
+}
+
+.see-all-works {
+    color: rgba(69, 67, 67, 0.819);
+    font-size: 18px;
+}
+
+.see-all-works:hover {
+    color: var(--primary);
+    transform: scale(1.02);
+}
+
+/* .card .btn {
+    background-color: var(--primary);
+    border: 2px solid var(--primary);
+    padding-inline: 2rem;
+    font-weight: bold;
+    font-size: var(--font);
+}
+
+.card .btn:not(.disabled):active {
+    background-color: var(--primary);
+    border: 2px solid var(--primary);
+    color: white;
+}
+
+.card .btn:hover {
+    background-color: white;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+} */
+
+/* .carousel-inner {
+    background-image: ;
+} */

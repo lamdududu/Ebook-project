@@ -1,0 +1,58 @@
+ <section class="table-responsive pb-5">
+                                <h5 class="pb-2" style="font-weight: bold;">Thông tin tác phẩm</h5>
+                                <table class="table">
+                                    <tbody>
+                                        <tr class="align-middle">
+                                            <th scope="row">Tác giả</th>
+                                            <td>{{$work->tac_gia}}</td>
+                                            <th scope="row">Dịch giả</th>
+                                            @if($work->dich_gia)
+                                            <td>{{$work->dich_gia}}</td>
+                                            @else
+                                            <td>Không có</td>
+                                            @endif
+                                        <tr>
+                                        <tr class="align-middle">
+                                            <th scope="row">Ngôn ngữ</th>
+                                            <td>{{$work->ngon_ngu}}</td>
+                                            <th scope="row">Năm xuất bản</th>
+                                            <td>{{$work->nam_xuat_ban}}</td>
+                                        <tr>
+                                        <tr class="align-middle">
+                                            <th scope="row">Tổng biên tập</th>
+                                            <td>{{$work->tong_bien_tap}}</td>
+                                            <th scope="row">Biên tập</th>
+                                            <td>{{$work->bien_tap_vien}}</td>
+                                        <tr>
+                                        <tr class="align-middle">
+                                            <th scope="row">Nhà xuất bản</th>
+                                            <td>{{$work->nha_xuat_ban}}</td>
+                                            <th scope="row">Bản quyền</th>
+                                            <td>{{$copyright->ten_nha_cung_cap}}</td>
+                                        <tr>
+                                        <tr class="align-middle">
+                                            <th scope="row">Số ĐKXB</th>
+                                            <td>{{$work->so_dkxb}}</td>
+                                            <th scope="row">Mã số ISBN</th>
+                                            <td>{{$work->ma_so_isbn}}</td>
+                                        <tr>
+                                        <tr class="align-middle">
+                                            <th scope="row">Số QĐXB</th>
+                                            <td>{{$work->so_qdxb}}</td>
+                                            <th scope="row">Ngày cấp QĐXB</th>
+                                            <td>{{ date('d-m-Y', strtotime($work->ngay_cap_qdxb)) }}</td>
+                                        <tr>
+                                        <tr class="align-middle">
+                                            <th scope="row">Thể loại</th>
+                                            <td>
+                                                @foreach($categories as $category)
+                                                <span>{{$category->ten_the_loai}}</span>
+                                                @if (!$loop->last)
+                                                <span>/ </span> <!-- Hiển thị dấu phẩy nếu không phải là phần tử cuối cùng -->
+                                                @endif
+                                                @endforeach
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </section>

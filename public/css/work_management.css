@@ -1,0 +1,129 @@
+.nav-tabs {
+    background-color: white;
+}
+
+.nav-tabs a {
+    color: var(--primary);
+}
+
+.nav a:hover {
+    background-color: var(--primary);
+    color: white;
+}
+ 
+
+.new-work .btn {
+    background-color: var(--primary);
+    border: 2px solid var(--primary);
+    border-radius: 1rem;
+    font-size: 15px;
+    padding-inline: 1rem;
+    color: white;
+}
+.new-work .btn:active {
+    background-color: var(--primary);
+    border: 2px solid var(--primary);
+    color: white;
+    /* background-color: white;
+    border: 2px solid var(--primary);
+    color: var(--primary); */
+}
+.new-work .btn:hover {
+    background-color: white;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    transform: scale(1.02);
+}
+
+.table {
+    font-size: 13px;
+}
+
+.custom-table-header th {
+    background-color: var(--primary);
+    color: white;
+}
+
+.custom-text a{
+    color: var(--primary);
+}
+
+.container .row .work-details {
+    /* display: flex;
+    flex-direction: column;
+    gap: 3   px;
+    justify-content: center; */
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.container .row .work-details p {
+    /* margin-bottom: 0; */
+}
+
+.container .row .detail {
+    font-weight: bold;
+}
+
+.container .row .work-cover {
+    width: 250px;
+    height: 375px;
+}
+
+.work-cover img {
+    object-fit: contain;
+    opacity: 50%;
+}
+
+@media only screen and (min-width: 1200px) {
+    .custom-textarea {
+        max-width: 966px;
+    }
+}
+
+.custom-input-upload {
+    font-size: 12px;
+}
+
+.custom-input-upload:active, .custom-input-upload:focus {
+    border: 1px solid var(--primary);
+    box-shadow: 0 0 1px 2px rgb(249, 207, 166);
+}
+
+.custom-input-text {
+    font-size: 13px;
+}
+
+.custom-input-text:active, .custom-input-text:focus {
+    border: 1px solid var(--primary);
+    box-shadow: 0 0 1px 3px rgb(249, 207, 166);
+}
+
+input[type="checkbox"]:not(:checked) {
+    margin-bottom: 4px;
+    box-shadow: 0 0 2px 1px var(--primary);
+    border-color: rgb(249, 207, 166);
+}
+
+input[type="checkbox"]:checked {
+    margin-bottom: 4px;
+    background-color: var(--primary);
+    border-color: var(--primary);
+    box-shadow: 0 0 3px 1px var(--primary);
+}
+
+.summary {
+    overflow: scroll;
+    text-align: justify;
+    padding: 1.2rem;
+}
+
+.title-info {
+    font-weight: bold;
+}
+
+.customer-flex-info {
+    gap: 10rem;
+}

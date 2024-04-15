@@ -1,0 +1,4 @@
+@extends('')
+admin_view.admin_work
+
+@section('route', '{{ route('work.edit', ['id' => $work->id])}}')

@@ -1,0 +1,15 @@
+.work-content {
+    margin: 0;  
+    /* padding-inline: 10%; */
+    text-align: justify;
+}
+
+.cover-read-view img {
+    max-width: 200px;
+    max-height: 1.5 max-width;
+}
+
+.custom-info-read span {
+    font-size: 13px;
+    margin: 0;
+}
