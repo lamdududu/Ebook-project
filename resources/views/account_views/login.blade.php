@@ -39,24 +39,51 @@
                 </div>
             </div>
             <section class="container  col-8 col-xl-3 p-3 login-form">
-                <form class="needs-validation" novalidate>
-                    <legend class="p-2">Đăng nhập</legend>
+                <form class="needs-validation" action="{{ route('login') }}" method="post" novalidate>
+                    {{ csrf_field() }}
+                    <legend class="p-2 text-center">Đăng nhập</legend>
+                    
                     <div class="row justify-content-center pb-2">
+
                         <div class="col input-group">
+                        <!-- input-group -->
                             <span class="input-group-text rounded-start-3" id="basic-addon1">Tài khoản</span>
-                            <input type="text" class="form-control shadow-none rounded-end-3" placeholder="Nhập tên tài khoản hoặc mail..." aria-label="Tài khoản" aria-describedby="basic-addon1">
-                            <div class="invalid-feedback">
-                                Tài khoản không tồn tại.
-                            </div>
+                            <!-- <label for="name" class="form-label">Tài khoản</label> -->
+                            <input type="text" name="name" class="form-control shadow-none rounded-end-3 {{ $errors->has('name') || $errors->has('username') ? 'is-invalid' : '' }} {{ old('name') ? 'is-valid' : '' }}" value="{{ old('name') }}" placeholder="Nhập tên tài khoản hoặc mail..." aria-label="Tài khoản" aria-describedby="basic-addon1">
+                            @if($errors->has('name'))
+                                    @error('name') {{$message}} @enderror
+                                </div>
+                            @endif
+                            @if($errors->has('username'))
+                                <!-- <div class="alert alert-danger"> -->
+                                    
+                                <!-- </div> -->
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('username') }}
+                                </div>
+                            @endif
+                            
                         </div>
                     </div>
                     <div class="row justify-content-center pb-2">
                         <div class="col input-group padding-custom-pass">
+                        <!-- input-group  padding-custom-pass -->
                             <span class="input-group-text rounded-start-3" id="basic-addon1">Mật khẩu</span>
-                            <input type="password" class="form-control shadow-none rounded-end-3" placeholder="Nhập mật khẩu..." aria-label="Mật khẩu" aria-describedby="basic-addon1">
-                        </div>
-                        <div class="invalid-feedback">
-                            Sai mật khẩu.
+                            <!-- <label for="name" class="form-label">Mật khẩu</label> -->
+                            <input type="password" name="password" class="form-control shadow-none rounded-end-3 {{ $errors->has('password') || $errors->has('pass') ? 'is-invalid' : '' }}" placeholder="Nhập mật khẩu..." aria-label="Mật khẩu" aria-describedby="basic-addon1">
+                            @if($errors->has('password'))
+                                <div class="invalid-feedback">
+                                   @error('password') {{$message}} @enderror
+                                </div>
+                            @endif
+                            @if($errors->has('pass'))
+                                <!-- <div class="alert alert-danger"> -->
+                                    
+                                <!-- </div> -->
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('pass') }}
+                                </div>
+                            @endif
                         </div>
                     </div>
                     <div class="row align-items-center">
@@ -66,7 +93,7 @@
                         <!-- btn btn-primary btn-sm -->
                     </div>
                 </form>
-                <hr>
+                <hr class="hr">
                 <div class="row">
                     <div class="col d-flex flex-column justify-content-center align-items-center">
                         <div class="forgot-pass-a">

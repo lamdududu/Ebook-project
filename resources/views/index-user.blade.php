@@ -51,8 +51,13 @@
                         </a>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class='bi bi-person'></i>
-                                <strong>Tài khoản</strong>
+                                @if(session()->has('userName'))
+                                    <i class='bi bi-person'></i>
+                                    <strong>{{session('userName')}}</strong>
+                                @else
+                                    <i class='bi bi-person'></i>
+                                    <strong>Tài khoản</strong>
+                                @endif
                             </a>
                             <ul class="dropdown-menu custom-dropdown-account" aria-labelledby="navbarScrollingDropdown">
                                 <li><a class="dropdown-item" href="#">Thông tin tài khoản</a></li>
@@ -60,7 +65,7 @@
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="#" style="color: red;">
+                                <li><a class="dropdown-item text-danger" href="{{ route('logout') }}" >
                                     <i class="bi bi-box-arrow-left"></i>
                                     <span>Đăng xuất</span>
                                 </a></li>

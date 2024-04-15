@@ -10,11 +10,16 @@ use Illuminate\Support\Facades\Route;
 
 use function Ramsey\Uuid\v1;
 
-
+// Hiển thị trang đăng nhập
 Route::get('/dangnhap', function () {
-    return view('login');   
-})->name('login');
+    return view('account_views.login');
+})->name('login.page');
 
+// Đăng nhập
+Route::post('/dangnhap/dangnhap', [AccountController::class, 'authenticateLogin'])->name('login');
+
+// Đăng xuất
+Route::get('/dangxuat', [AccountController::class, 'logout'])->name('logout');
 
 // Hiển thị trang chủ
 Route::get('/', [WorkListController::class, 'getNominations'])->name('home');

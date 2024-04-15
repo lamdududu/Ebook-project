@@ -16,10 +16,17 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+    protected $table = 'accounts';
+    // protected $primaryKey = 'id';
+
     protected $fillable = [
-        'name',
+        // 'name',
+        // 'email',
+        // 'password',
+        'ten_tai_khoan',
         'email',
-        'password',
+        'mat_khau',
     ];
 
     /**
@@ -28,8 +35,9 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
-        'remember_token',
+        // 'password',
+        // 'remember_token',
+        'mat_khau',
     ];
 
     /**
@@ -40,8 +48,9 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            // 'email_verified_at' => 'datetime',
+            // 'password' => 'hashed',
+            'mat_khau' => 'hashed,'
         ];
     }
 }

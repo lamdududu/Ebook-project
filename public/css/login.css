@@ -408,3 +408,7 @@ footer .disc {
         pointer-events: none;
     }
 } */
+
+.is-valid {
+    border-left: none;   
+}
