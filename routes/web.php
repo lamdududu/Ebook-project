@@ -21,6 +21,18 @@ Route::post('/dangnhap/dangnhap', [AccountController::class, 'authenticateLogin'
 // Đăng xuất
 Route::get('/dangxuat', [AccountController::class, 'logout'])->name('logout');
 
+// Trang đăng ký tài khoản
+Route::get('/dangky', function () {
+    return view('account_views.register');
+})->name('register.page');
+
+// Đăng ký
+Route::post('/dangky/dangky', [AccountController::class, 'authenticateRegister'])->name('register');
+
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+
 // Hiển thị trang chủ
 Route::get('/', [WorkListController::class, 'getNominations'])->name('home');
 
@@ -54,6 +66,9 @@ Route::get('/quantrivien/tacpham/chitiettacpham/chinhsua/{id}', [WorkManagementC
 // Cập nhật các thay đổi của tác phẩm
 Route::post('/quantrivien/tacpham/chitiettacpham/capnhat/{id}', [WorkManagementController::class, 'update'])->name('work.update');
 
+//----------------------------------------------------------------
+//----------------------------------------------------------------
+//----------------------------------------------------------------
 
 // Quản lý tài khoản
 // Hiển thị danh sách tài khoản người dùng

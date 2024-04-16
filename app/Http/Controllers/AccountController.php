@@ -72,6 +72,54 @@ class AccountController extends Controller
         Session::flush();
         return redirect()->route('login.page');
     }
+
+
+    public function authenticateRegister(Request $request)
+    {
+        $request->validate(
+            [
+                'name' => 'required',
+                'password' => 'required',
+            ],
+            [
+                'name.required' => 'Chưa nhập tên tài khoản hoặc email',
+                'password.required' => 'Chưa nhập mật khẩu',
+            ]
+        );
+
+        $username = Account::where('ten_tai_khoan', $request['name'])->first();
+        $email = Account::where('email', $request['name'])->first();
+
+        if(!$username && !$email) {
+            return redirect()->route('login.page')
+                            ->withErrors(['username' => 'Tài khoản chưa được đăng ký'])
+                            ->withInput($request->only('name'));
+        }
+        
+        else {
+            $user = $username ?: $email;
+            $inputPassword = $request['password'];
+            if($user->trang_thai == 2) {
+                return redirect()->route('login.page')
+                            ->withErrors(['username' => 'Tài khoản của bạn đã bị khóa'])
+                            ->withInput($request->only('name'));
+            }
+            else {
+                if(!Hash::check($inputPassword, $user['mat_khau'])) {
+                    $request->request->remove('password');
+                    return redirect()->route('login.page')
+                                    ->withErrors(['pass' => 'Sai mật khẩu'])
+                                    ->withInput($request->only('name'));
+                }
+                else {
+                    $request->request->remove('password');
+                    Session::put('userId', $user->id);
+                    Session::put('userName', $user->ten_tai_khoan);
+                    return redirect()->route('home');
+                }
+            }     
+        }
+    }
     // protected $account;
     // protected $session;
     // protected $hash;

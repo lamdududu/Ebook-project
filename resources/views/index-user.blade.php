@@ -50,26 +50,42 @@
                             <strong>Thư viện</strong>
                         </a>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                @if(session()->has('userName'))
+                            @if(session()->has('userName'))
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class='bi bi-person'></i>
                                     <strong>{{session('userName')}}</strong>
-                                @else
+                                </a>
+                                <ul class="dropdown-menu custom-dropdown-account" aria-labelledby="navbarScrollingDropdown">
+                                    <li><a class="dropdown-item" href="#">Thông tin tài khoản</a></li>
+                                    <li><a class="dropdown-item" href="#">Cài đặt</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item text-danger" href="{{ route('logout') }}" >
+                                        <i class="bi bi-box-arrow-left"></i>
+                                        <span>Đăng xuất</span>
+                                    </a></li>
+                                </ul>
+                            @else
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class='bi bi-person'></i>
                                     <strong>Tài khoản</strong>
-                                @endif
-                            </a>
-                            <ul class="dropdown-menu custom-dropdown-account" aria-labelledby="navbarScrollingDropdown">
-                                <li><a class="dropdown-item" href="#">Thông tin tài khoản</a></li>
-                                <li><a class="dropdown-item" href="#">Cài đặt</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item text-danger" href="{{ route('logout') }}" >
-                                    <i class="bi bi-box-arrow-left"></i>
-                                    <span>Đăng xuất</span>
-                                </a></li>
-                            </ul>
+                                    
+                                </a>
+                                <ul class="dropdown-menu custom-dropdown-account" aria-labelledby="navbarScrollingDropdown">
+                                    <li><a class="dropdown-item" href="{{ route('login.page') }}">
+                                        <i class="bi bi-box-arrow-in-right"></i>
+                                        <span>Đăng nhập</span>
+                                    </a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" style="color: var(--primary)" href="#">
+                                        <i class="bi bi-person-add"></i>
+                                        <span>Đăng ký</span>
+                                    </a></li>
+                                </ul>
+                            @endif
                         </li>
                 </div>
             </nav>

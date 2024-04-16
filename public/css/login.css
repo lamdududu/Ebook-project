@@ -141,11 +141,24 @@ a::after {
     height: 4vh;
 }
 
-.input-group input {
-    font-size: 13px;
+/* .position-parent {
+    position: relative;
+    border: 1px solid black;
 }
 
-.input-group span {
+.left {
+    width: 40%;
+    position: fixed; 
+    top: 20%;
+    left: 15%;
+} */
+
+.input-custom input {
+    font-size: 13px;
+    /* border-radius: none; */
+}
+
+.input-custom span {
     font-size: 13px;
 }
 
@@ -159,7 +172,7 @@ a::after {
     border: 2px solid var(--primary);
 }
 
-.input-group input[type="text"]:focus, input[type="password"]:focus {
+.input-custom input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus, input[type="upload"]:focus {
     border: 2px solid var(--primary);
 }
 
@@ -411,4 +424,8 @@ footer .disc {
 
 .is-valid {
     border-left: none;   
+}
+
+.label {
+    padding-right: 1rem;
 }
