@@ -28,7 +28,7 @@ class AccountController extends Controller
         $request->validate(
             [
                 'name' => 'required|regex:/^(?=.*[\p{L}])[\p{L}\s]+$/u',
-                'username' => 'required||regex:/^[a-zA-Z_][\w]*$/|min:5|max:20',
+                'username' => 'required||regex:/^[a-zA-Z][a-zA-Z0-9]*$/|min:5|max:20',
                 'password' => 'required|min:6|max:50|regex:/^\S+$/|confirmed',
                 'password_confirmation' => 'required',
                 'email' => 'required|email',
@@ -42,7 +42,7 @@ class AccountController extends Controller
                 'username.required' => 'Chưa nhập tên đăng nhập',
                 'username.min' => 'Tên đăng nhập phải có ít nhất 5 ký tự',
                 'username.max' => 'Tên tài khoản quá dài (tối đa 20 ký tự)',
-                'username.regex' => 'Tên đăng nhập không hợp lệ (bắt đầu bằng chữ cái, hoặc dấu gạch dưới (_) và chỉ được chứa ký tự chữ cái, số và dấu gạch dưới)',
+                'username.regex' => 'Tên đăng nhập không hợp lệ (bắt đầu bằng chữ cái và chỉ được chứa ký tự chữ cái, số)',
                 'password.required' => 'Chưa nhập mật khẩu',
                 'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự',
                 'password.max' => 'Mật khẩu quá dài (tối đa 50 ký tự)',
@@ -93,7 +93,8 @@ class AccountController extends Controller
 
         $user->save();
 
-        Session::put('userName', $user->ten_tai_khoan);
+        unset($user['mat_khau']);
+        Session::put('user', $user);
 
         return redirect()->route('home')
             ->with('success', 'Đăng ký tài khoản thành công');
@@ -123,28 +124,47 @@ class AccountController extends Controller
         $username = Account::where('ten_tai_khoan', $request['username'])->first();
         $email = Account::where('email', $request['username'])->first();
 
-        if (!$username && !$email) {
+        if (!$username && !$email)
+        {
             return redirect()->route('login.page')
                 ->withErrors(['username' => 'Tài khoản chưa được đăng ký'])
                 ->withInput($request->only('username'));
-        } else {
+        }
+        else
+        {
             $user = $username ?: $email;
             $inputPassword = $request['password'];
+
             if ($user->trang_thai == 2) {
                 return redirect()->route('login.page')
                     ->withErrors(['username' => 'Tài khoản của bạn đã bị khóa'])
                     ->withInput($request->only('username'));
-            } else {
-                if (!Hash::check($inputPassword, $user['mat_khau'])) {
-                    $request->request->remove('password');
+            }
+
+            else {
+                if (!Hash::check($inputPassword, $user['mat_khau']))
+                {
                     return redirect()->route('login.page')
                         ->withErrors(['pass' => 'Sai mật khẩu'])
                         ->withInput($request->only('username'));
-                } else {
-                    $request->request->remove('password');
-                    Session::put('userId', $user->id);
-                    Session::put('userName', $user->ten_tai_khoan);
-                    return redirect()->route('home');
+                }
+                else 
+                {
+                    unset($user['mat_khau']);
+
+                    Session::put('user', $user);
+                    
+                    if($user->isAdmin()) {
+                        return redirect()->route('accounts.management');
+                    }
+            
+                    else if($user->isEditor()) {
+                        return redirect()->route('works.management');
+                    }
+            
+                    else {
+                        return redirect()->route('home');
+                    } 
                 }
             }
         }

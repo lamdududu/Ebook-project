@@ -47,5 +47,13 @@ class Account extends Authenticatable
             'mat_khau' => 'hashed',
         ];
     }
+
+    public function isAdmin() {
+        return $this->loai_tai_khoan == '1';
+    }
+
+    public function isEditor() {
+        return $this->loai_tai_khoan == '2';
+    }
 }
 

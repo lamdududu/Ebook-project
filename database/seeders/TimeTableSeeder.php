@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class TimeTableSeeder extends Seeder
 {
@@ -12,6 +13,10 @@ class TimeTableSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        $data = [
+            'thoi_diem' => '2024/04/17'
+        ];
+
+        DB::table('times')->insert($data);
     }
 }

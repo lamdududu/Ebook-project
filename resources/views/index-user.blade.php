@@ -50,10 +50,10 @@
                             <strong>Thư viện</strong>
                         </a>
                         <li class="nav-item dropdown">
-                            @if(session()->has('userName'))
+                            @if(session()->has('user'))
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class='bi bi-person'></i>
-                                    <strong>{{session('userName')}}</strong>
+                                    <strong>{{Session::get('user.ten_tai_khoan')}}</strong>
                                 </a>
                                 <ul class="dropdown-menu custom-dropdown-account" aria-labelledby="navbarScrollingDropdown">
                                     <li><a class="dropdown-item" href="#">Thông tin tài khoản</a></li>

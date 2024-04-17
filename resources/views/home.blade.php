@@ -68,7 +68,7 @@
             </h3>
           </div>
         </section>
-        <div id="carouselHotWorks" class="carousel carousel-dark slide" data-bs-ride="carousel" style="max-width: 750px;">
+        <div id="carouselHotWorks" class="carousel carousel-dark slide" data-bs-ride="carousel" style="max-width: 1000px;">
           <div class="carousel-inner">
           <?php $i=0; ?>
           @foreach($hotWorks as $work)
@@ -78,7 +78,7 @@
               <div class="carousel-item" data-bs-interval="5000">
             @endif
             <div class="d-flex justify-content-center">
-            <div class="card mb-3 px-3" style="max-width: 540px;">
+            <div class="card mb-3 px-3" style="max-width: 800px;">
               <div class="row g-0">
                 <div class="col-5 col-md-3 d-flex justify-content-center align-items-center">
                   @if ($work->anh_bia)
@@ -89,7 +89,7 @@
                   <div class="card-body">
                     <a href="{{ route('read.details', ['id' => $work->id]) }}" class="title">
                       <h5 class="card-title" data-bs-toggle="tooltip" data-bs-placement="right" title="{{$work->tua_de}}" style="font-weight: bold;">
-                        {{Illuminate\Support\Str::limit($work->tua_de, $limit = 30, $end = '...')}}
+                        {{Illuminate\Support\Str::limit($work->tua_de, $limit = 46, $end = '...')}}
                       </h5>
                     </a>
                     <p class="card-text">Tác giả: <span>{{$work->tac_gia}}</span></p>
@@ -145,7 +145,7 @@
             </h3>
           </div>
         </section>
-        <div id="carouselNomWorks" class="carousel carousel-dark slide" data-bs-ride="carousel" style="max-width: 750px;">
+        <div id="carouselNomWorks" class="carousel carousel-dark slide" data-bs-ride="carousel" style="max-width: 1000px;">
           <div class="carousel-inner">
           <?php $i=0; ?>
           @foreach($nomWorks as $work)
@@ -155,7 +155,7 @@
               <div class="carousel-item" data-bs-interval="5000">
             @endif
             <div class="d-flex justify-content-center">
-            <div class="card mb-3 px-3" style="max-width: 540px;">
+            <div class="card mb-3 px-3" style="max-width: 800px;">
               <div class="row g-0">
                 <div class="col-5 col-md-3 d-flex justify-content-center align-items-center">
                   @if ($work->anh_bia)
@@ -166,7 +166,7 @@
                   <div class="card-body">
                     <a href="{{ route('read.details', ['id' => $work->id]) }}" class="title">
                       <h5 class="card-title" data-bs-toggle="tooltip" data-bs-placement="right" title="{{$work->tua_de}}" style="font-weight: bold;">
-                        {{Illuminate\Support\Str::limit($work->tua_de, $limit = 30, $end = '...')}}
+                        {{Illuminate\Support\Str::limit($work->tua_de, $limit = 46, $end = '...')}}
                       </h5>
                     </a>
                     <p class="card-text">Tác giả: <span>{{$work->tac_gia}}</span></p>
@@ -222,7 +222,7 @@
               </h3>
           </div>
         </section>
-        <div id="carouselAwWorks" class="carousel carousel-dark slide" data-bs-ride="carousel" style="max-width: 750px;">
+        <div id="carouselAwWorks" class="carousel carousel-dark slide" data-bs-ride="carousel" style="max-width: 1000px;">
           <div class="carousel-inner">
           <?php $i=0; ?>
           @foreach($awWorks as $work)
@@ -232,7 +232,7 @@
               <div class="carousel-item" data-bs-interval="5000">
             @endif
             <div class="d-flex justify-content-center">
-            <div class="card mb-3 px-3" style="max-width: 540px;">
+            <div class="card mb-3 px-3" style="max-width: 800px;">
               <div class="row g-0">
                 <div class="col-5 col-md-3 d-flex justify-content-center align-items-center">
                   @if ($work->anh_bia)
@@ -243,7 +243,7 @@
                   <div class="card-body">
                     <a href="{{ route('read.details', ['id' => $work->id]) }}" class="title">
                       <h5 class="card-title" data-bs-toggle="tooltip" data-bs-placement="right" title="{{$work->tua_de}}" style="font-weight: bold;">
-                        {{Illuminate\Support\Str::limit($work->tua_de, $limit = 30, $end = '...')}}
+                        {{Illuminate\Support\Str::limit($work->tua_de, $limit = 46, $end = '...')}}
                       </h5>
                     </a>
                     <p class="card-text">Tác giả: <span>{{$work->tac_gia}}</span></p>

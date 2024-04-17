@@ -49,7 +49,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle fs-5" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class='bi bi-person'></i>
-                                <strong>Tài khoản</strong>
+                                <strong>{{Session::get('user.ten_tai_khoan')}}</strong>
                             </a>
                             <ul class="dropdown-menu custom-dropdown-account" aria-labelledby="navbarScrollingDropdown">
                                 <li><a class="dropdown-item" href="#">Thông tin tài khoản</a></li>
@@ -57,7 +57,7 @@
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="#" style="color: red;">
+                                <li><a class="dropdown-item" href="{{ route('logout') }}" style="color: red;">
                                     <i class="bi bi-box-arrow-left"></i>
                                     <span>Đăng xuất</span>
                                 </a></li>

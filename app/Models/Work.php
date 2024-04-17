@@ -8,5 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Work extends Model
 {
     use HasFactory;
-    public $timestamps = true;
+    
+    public function prices() {
+        return $this->hasMany(Price::class);
+    }
 }

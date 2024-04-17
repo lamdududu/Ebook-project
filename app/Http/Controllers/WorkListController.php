@@ -8,7 +8,10 @@ use App\Models\WorksCategories;
 use App\Models\Category;
 use App\Models\Nomination;
 use App\Models\WorksNominations;
+use App\Models\Price;
+use App\Models\Time;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class WorkListController extends Controller
 {
@@ -17,11 +20,24 @@ class WorkListController extends Controller
      */
     public function index()
     {
+        // lấy đường dẫn đến thư mục chứa ảnh bìa
         $coverStoragePath = Storage::url('covers');
-        $books = Work::all();
-        $categories = Category::all();
 
-        return view('works_view.works_childe', compact('categories', 'books', 'coverStoragePath'));
+        // lấy thông tin tác phẩm
+        $books = Work::all();
+
+        // lấy thể loại
+        $categories = Category::all();
+        
+        //lấy thời điểm gần nhất và không trễ hơn thời điểm hiện tại
+        // $latestTime = Time::where('thoi_diem', '<=', Carbon::now())->first();
+        
+        //lấy giá hiện tại
+        if($books) {
+            $prices = $books->prices()->groupBy('tac_pham');
+        }
+
+        return view('works_view.works_childe', compact('categories', 'books', 'coverStoragePath', 'prices'));
         // $categories = Category::all();
         // return view('works')->with('categories', $categories);
     }
