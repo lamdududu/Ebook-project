@@ -80,7 +80,7 @@
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
-                                    <li><a class="dropdown-item" style="color: var(--primary)" href="#">
+                                    <li><a class="dropdown-item" style="color: var(--primary)" href="{{ route('register.page') }}">
                                         <i class="bi bi-person-add"></i>
                                         <span>Đăng ký</span>
                                     </a></li>

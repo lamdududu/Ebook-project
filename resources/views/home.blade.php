@@ -18,7 +18,16 @@
         </div>
 
     </div> -->
+  @if(Session()->has('success'))
+    <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+        <div><strong>Đăng ký tài khoản thành công.</strong></div>
+        <div>Chúc bạn có những trải nghiệm tuyệt vời tại E-read!</div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  @endif
+
   <main class="container pb-3">
+    
     <article class="row container">
       <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">

@@ -21,10 +21,10 @@ class Account extends Authenticatable
         'mat_khau',
     ];
     
-    public function setPasswordAttribute($value)
-    {
-        $this->attributes['mat_khau'] = Hash::make($value);
-    }
+    // public function setPasswordAttribute($value)
+    // {
+    //     $this->attributes['mat_khau'] = Hash::make($value);
+    // }
     /**
      * The attributes that should be hidden for serialization.
      *

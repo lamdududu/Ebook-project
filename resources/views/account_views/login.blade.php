@@ -14,21 +14,12 @@
                     <!-- input-group -->
                     <span class="col-sm-3 col-label-form input-group-text rounded-start-3" id="basic-addon1">Tài khoản</span>
                     <!-- <label for="name" class="form-label">Tài khoản</label> -->
-                    <input type="text" name="name" class="form-control shadow-none rounded-end-3 {{ $errors->has('name') || $errors->has('username') ? 'is-invalid' : '' }} {{ old('name') ? 'is-valid' : '' }}" value="{{ old('name') }}" placeholder="Nhập tên tài khoản hoặc mail..." aria-label="Tài khoản" aria-describedby="basic-addon1">
-                    @if($errors->has('name'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('name') }}
-                    </div>
-                    @endif
-                    @if($errors->has('username'))
-                    <!-- <div class="alert alert-danger"> -->
-
-                    <!-- </div> -->
-                    <div class="invalid-feedback">
-                        {{ $errors->first('username') }}
-                    </div>
-                    @endif
-
+                    <input type="text" name="username" class="form-control shadow-none rounded-end-3 {{ $errors->has('username') ? 'is-invalid' : '' }} {{ old('username') ? 'is-valid' : '' }}" value="{{ old('username') }}" placeholder="Nhập tên tài khoản hoặc mail..." aria-label="Tài khoản" aria-describedby="basic-addon1">
+                        @if($errors->has('username'))
+                            <div class="invalid-feedback">
+                                {{ $errors->first('username') }}
+                            </div>
+                        @endif
                 </div>
             </div>
             <div class="row justify-content-center pb-2">
@@ -36,19 +27,11 @@
                     <!-- input-group  padding-custom-pass -->
                     <span class="col-sm-3 col-label-form input-group-text rounded-start-3" id="basic-addon1">Mật khẩu</span>
                     <!-- <label for="name" class="form-label">Mật khẩu</label> -->
-                    <input type="password" name="password" class="form-control shadow-none rounded-end-3 {{ $errors->has('password') || $errors->has('pass') ? 'is-invalid' : '' }}" placeholder="Nhập mật khẩu..." aria-label="Mật khẩu" aria-describedby="basic-addon1">
+                    <input type="password" name="password" class="form-control shadow-none rounded-end-3 {{ $errors->has('password') ? 'is-invalid' : '' }}" placeholder="Nhập mật khẩu..." aria-label="Mật khẩu" aria-describedby="basic-addon1">
                     @if($errors->has('password'))
-                    <div class="invalid-feedback">
-                        @error('password') {{$message}} @enderror
-                    </div>
-                    @endif
-                    @if($errors->has('pass'))
-                    <!-- <div class="alert alert-danger"> -->
-
-                    <!-- </div> -->
-                    <div class="invalid-feedback">
-                        {{ $errors->first('pass') }}
-                    </div>
+                        <div class="invalid-feedback">
+                            @error('password') {{$message}} @enderror
+                        </div>
                     @endif
                 </div>
             </div>
