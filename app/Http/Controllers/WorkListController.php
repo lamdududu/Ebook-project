@@ -11,6 +11,7 @@ use App\Models\WorksNominations;
 use App\Models\Price;
 use App\Models\Time;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class WorkListController extends Controller
@@ -24,20 +25,26 @@ class WorkListController extends Controller
         $coverStoragePath = Storage::url('covers');
 
         // lấy thông tin tác phẩm
-        $books = Work::all();
+        // $books = Work::all();
 
         // lấy thể loại
         $categories = Category::all();
         
         //lấy thời điểm gần nhất và không trễ hơn thời điểm hiện tại
         // $latestTime = Time::where('thoi_diem', '<=', Carbon::now())->first();
-        
-        //lấy giá hiện tại
-        if($books) {
-            $prices = $books->prices()->groupBy('tac_pham');
-        }
 
-        return view('works_view.works_childe', compact('categories', 'books', 'coverStoragePath', 'prices'));
+       $books = DB::select(
+            'select w.*, b.gia_thanh
+            from (SELECT w.id, p.gia_thanh, max(t.thoi_diem)
+            FROM prices p
+            JOIN works w ON w.id = p.tac_pham
+            JOIN times t ON t.id = p.thoi_diem
+            where t.thoi_diem <= Now()
+            GROUP BY w.id) b join works w on b.id = w.id;'
+       );
+        
+
+        return view('works_view.works_childe', compact('categories', 'books', 'coverStoragePath'));
         // $categories = Category::all();
         // return view('works')->with('categories', $categories);
     }
@@ -81,19 +88,65 @@ class WorkListController extends Controller
     public function getNominations() {
 
         $nominations = Nomination::All();
+
+        $works = DB::select(
+            'select w.*, b.gia_thanh
+            from (SELECT w.id, p.gia_thanh, max(t.thoi_diem)
+            FROM prices p
+            JOIN works w ON w.id = p.tac_pham
+            JOIN times t ON t.id = p.thoi_diem
+            where t.thoi_diem <= Now()
+            GROUP BY w.id) b join works w on b.id = w.id;'
+       );
         
-        $workNom = WorksNominations::where('de_cu', '1')->get();
-        $hotWorks = Work::whereIn('id', $workNom->pluck('tac_pham'))->get();
+        // lấy danh sách tác phẩm nổi bật
+        // $workNom = WorksNominations::where('de_cu', '1')->get();
+        // $hotWorks = Work::whereIn('id', $workNom->pluck('tac_pham'))->get();
 
-        $workNom = WorksNominations::where('de_cu', '2')->get();
-        $nomWorks = Work::whereIn('id', $workNom->pluck('tac_pham'))->get();
+        $hotWorks = DB::select(
+            'select w.*, b.gia_thanh
+            from (SELECT w.id, p.gia_thanh, max(t.thoi_diem) as thoi_diem
+                FROM prices p
+                JOIN works w ON w.id = p.tac_pham
+                JOIN times t ON t.id = p.thoi_diem
+                where t.thoi_diem <= Now()
+                GROUP BY w.id) b join works w on b.id = w.id
+                                join works_nominations n on b.id = n.id
+            where n.de_cu = 1
+            limit 8;');
 
-        $workNom = WorksNominations::where('de_cu', '3')->get();
-        $awWorks = Work::whereIn('id', $workNom->pluck('tac_pham'))->get();
+
+        // lấy danh sách tác phẩm được biên tập viên đề cử
+        // $workNom = WorksNominations::where('de_cu', '2')->get();
+        // $nomWorks = Work::whereIn('id', $workNom->pluck('tac_pham'))->get();
+        
+        $nomWorks = DB::select(
+            'select w.*, b.gia_thanh
+            from (SELECT w.id, p.gia_thanh, max(t.thoi_diem) as thoi_diem
+                FROM prices p
+                JOIN works w ON w.id = p.tac_pham
+                JOIN times t ON t.id = p.thoi_diem
+                where t.thoi_diem <= Now()
+                GROUP BY w.id) b join works w on b.id = w.id
+                                join works_nominations n on b.id = n.id
+            where n.de_cu = 2;');
+
+        // lấy danh sách tác phẩm đã đạt giải
+        // $workNom = WorksNominations::where('de_cu', '3')->get();
+        // $awWorks = Work::whereIn('id', $workNom->pluck('tac_pham'))->get();
+        
+        $awWorks = DB::select(
+            'select w.*, b.gia_thanh
+            from (SELECT w.id, p.gia_thanh, max(t.thoi_diem) as thoi_diem
+                FROM prices p
+                JOIN works w ON w.id = p.tac_pham
+                JOIN times t ON t.id = p.thoi_diem
+                where t.thoi_diem <= Now()
+                GROUP BY w.id) b join works w on b.id = w.id
+                                join works_nominations n on b.id = n.id
+            where n.de_cu = 3;');
 
         $coverStoragePath = Storage::url('covers');
-
-        $works = Work::take(8)->get();
 
         return view('home', compact('hotWorks', 'nomWorks', 'awWorks', 'coverStoragePath', 'nominations', 'works'));
     }

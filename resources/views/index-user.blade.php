@@ -45,11 +45,15 @@
                             <input class="form-control me-1 search-custom" type="search" placeholder="Tìm kiếm..." aria-label="Search">
                             <button class="btn me-3 search-btn" type="submit"><i class='bi bi-search'></i></button>
                         </form>
-                        <a class="nav-link px-lg-4" href="#">
+                        <a class="nav-link py-lg-0 py-2 px-lg-4" href="#">
                             <i class="bi bi-collection"></i>
                             <strong>Thư viện</strong>
                         </a>
-                        <li class="nav-item dropdown">
+                        <a class="nav-link py-lg-0 py-2 px-lg-4" href="{{ route('cart') }}">
+                            <i class="bi bi-bag"></i>
+                            <strong>Giỏ hàng</strong>
+                        </a>
+                        <li class="nav-item dropdown py-lg-0 py-2 px-lg-4">
                             @if(session()->has('user'))
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class='bi bi-person'></i>

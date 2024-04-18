@@ -26,6 +26,11 @@ a:hover, button:hover {
     cursor: pointer;
 }
 
+/* a:active, a:focus {
+    box-shadow: none;
+    border: none;
+} */
+
 img{
     width: 100%;
 }
@@ -34,7 +39,7 @@ input {
     outline: none;
 }
 
-a{
+a {
     text-decoration: none;
 }
 

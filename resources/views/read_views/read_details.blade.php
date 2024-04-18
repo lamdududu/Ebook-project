@@ -105,7 +105,7 @@
                     <div>
                         <h5 style="font-weight: bold;">Mô tả nội dung</h5>
                         <div>
-                            {{$work->mo_ta_noi_dung}}
+                            {!! nl2br($work->mo_ta_noi_dung) !!}
                         </div>
                     </div>
                     </div>

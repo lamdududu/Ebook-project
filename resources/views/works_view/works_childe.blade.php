@@ -19,10 +19,11 @@
                 {{Illuminate\Support\Str::limit($book->tua_de, $limit = 30, $end = '...')}}
               </h5>
             </a>
+            <p class="card-text prices">Giá: <span>{{$book->gia_thanh}} VND</span></p>
             <p class="card-text">Tác giả: <span>{{$book->tac_gia}}</span></p>
             <p class="card-text">
               <!-- {{nl2br(str_replace('\n', "\n",Illuminate\Support\Str::limit($book->mo_ta_noi_dung, $limit = 500, $end = '...')))}} -->
-              {{Illuminate\Support\Str::limit($book->mo_ta_noi_dung, $limit = 300, $end = '...')}}
+              {{Illuminate\Support\Str::limit($book->mo_ta_noi_dung, $limit = 250, $end = '...')}}
               <span><a href="{{ route('read.details', ['id' => $book->id]) }}" style="color: var(--primary)">xem chi tiết</a></span>
             </p>
           </div>
@@ -30,16 +31,16 @@
         <div class="d-flex justify-content-end pb-3" style="gap: 1rem;">
           <a href="{{ route('read.content', ['id' => $book->id]) }}" class="px-3 btn btn-primary">
             <i class="bi bi-eye-fill"></i>
-            <span>Đọc</span>
+            <span>Đọc thử</span>
           </a>
           <a href="#" class="px-3 btn btn-primary">
             <i class="bi bi-download"></i>
             <span>Tải xuống</span>
           </a>
-          <a href="#" class="px-3 btn btn-primary">
+          <!-- <a href="#" class="px-3 btn btn-primary">
             <i class="bi bi-bag-plus-fill"></i>
-            <span>Mua</span>
-          </a>
+            <span>Thêm vào giỏ hàng</span>
+          </a> -->
         </div>
       </div>
     </div>

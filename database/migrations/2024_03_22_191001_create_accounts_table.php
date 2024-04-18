@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
             $table->string('ten_tai_khoan',30)->nullable(false)->unique();
-            $table->string('mat_khau',30)->nullable(false);
+            $table->string('mat_khau',255)->nullable(false);
             $table->string('email',50)->unique()->nullable(false);
             $table->char('so_dien_thoai',10)->nullable(false);
             $table->string('ho_ten_nguoi_dung', 50)->nullable(false);

@@ -92,6 +92,7 @@
                         {{Illuminate\Support\Str::limit($work->tua_de, $limit = 46, $end = '...')}}
                       </h5>
                     </a>
+                    <p class="card-text prices">Giá: <span>{{$work->gia_thanh}} VND</span></p>
                     <p class="card-text">Tác giả: <span>{{$work->tac_gia}}</span></p>
                     <p class="card-text">
                       <!-- {{nl2br(str_replace('\n', "\n",Illuminate\Support\Str::limit($work->mo_ta_noi_dung, $limit = 500, $end = '...')))}} -->
@@ -169,6 +170,7 @@
                         {{Illuminate\Support\Str::limit($work->tua_de, $limit = 46, $end = '...')}}
                       </h5>
                     </a>
+                    <p class="card-text prices">Giá: <span>{{$work->gia_thanh}} VND</span></p>
                     <p class="card-text">Tác giả: <span>{{$work->tac_gia}}</span></p>
                     <p class="card-text">
                       <!-- {{nl2br(str_replace('\n', "\n",Illuminate\Support\Str::limit($work->mo_ta_noi_dung, $limit = 500, $end = '...')))}} -->
@@ -246,6 +248,7 @@
                         {{Illuminate\Support\Str::limit($work->tua_de, $limit = 46, $end = '...')}}
                       </h5>
                     </a>
+                    <p class="card-text prices">Giá: <span>{{$work->gia_thanh}} VND</span></p>
                     <p class="card-text">Tác giả: <span>{{$work->tac_gia}}</span></p>
                     <p class="card-text">
                       <!-- {{nl2br(str_replace('\n', "\n",Illuminate\Support\Str::limit($work->mo_ta_noi_dung, $limit = 500, $end = '...')))}} -->
@@ -331,10 +334,11 @@
                         {{Illuminate\Support\Str::limit($work->tua_de, $limit = 30, $end = '...')}}
                       </h5>
                     </a>
+                    <p class="card-text prices">Giá: <span>{{$work->gia_thanh}} VND</span></p>
                     <p class="card-text">Tác giả: <span>{{$work->tac_gia}}</span></p>
                     <p class="card-text">
                       <!-- {{nl2br(str_replace('\n', "\n",Illuminate\Support\Str::limit($work->mo_ta_noi_dung, $limit = 500, $end = '...')))}} -->
-                      {{Illuminate\Support\Str::limit($work->mo_ta_noi_dung, $limit = 300, $end = '...')}}
+                      {{Illuminate\Support\Str::limit($work->mo_ta_noi_dung, $limit = 250, $end = '...')}}
                       <span><a href="{{ route('read.details', ['id' => $work->id]) }}" style="color: var(--primary)">xem chi tiết</a></span>
                     </p>
                   </div>
