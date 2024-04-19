@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('times', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('thoi_diem')->nullable(false)->unique();
+            $table->dateTime('thoi_diem')->nullable(false);
             $table->timestamps();
         });
     }

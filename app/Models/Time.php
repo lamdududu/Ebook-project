@@ -12,4 +12,8 @@ class Time extends Model
     public function prices() {
         return $this->hasMany(Price::class);
     }
+
+    protected $fillable = [
+        'thoi_diem',
+    ];
 }

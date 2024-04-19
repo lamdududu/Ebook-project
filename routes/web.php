@@ -6,6 +6,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\WorkManagementController;
 use App\Http\Controllers\WorkReadController;
 use App\Http\Controllers\WorkListController;
+use App\Http\Controllers\PriceManagementController;
 use App\Models\Work;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,18 @@ Route::get('/dangky', function () {
 
 // Đăng ký
 Route::post('/dangky/dangky', [AccountController::class, 'authenticateRegister'])->middleware('isLogged')->name('register');
+
+// Thông tin tài khoản
+Route::get('/taikhoan/thongtintaikhoan', [AccountController::class, 'getAccInfor'])->name('account-information');
+
+// Cập nhật thông tin cơ bản
+Route::post('/taikhoan/thongtintaikhoan/thongtincoban/capnhat', [AccountController::class, 'updateAccInfor'])->name('info.update');
+
+// Cập nhật thông tin cơ bản
+Route::post('/taikhoan/thongtintaikhoan/matkhau/capnhat', [AccountController::class, 'updateAccPassword'])->name('password.update');
+
+// Cập nhật thông tin cơ bản
+Route::post('/taikhoan/thongtintaikhoan/taikhoanthanhtoan/capnhat', [AccountController::class, 'updateAccPayment'])->name('payment.update');
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
@@ -63,7 +76,7 @@ Route::get('/giohang', [CartController::class, 'index'])->middleware('isUnlogged
 
 // Quản lý tác phẩm
 // Hiển thị danh sách tác phẩm
-Route::get('/quantrivien/tacpham', [WorkManagementController::class, 'index'])->middleware('isEditor')->name('works.management');
+Route::get('/quantrivien/tacpham', [WorkManagementController::class, 'index'])->middleware('workManager')->name('works.management');
 
 // Hiển thị chi tiết thông tin tác phẩm
 Route::get('/quantrivien/tacpham/chitiettacpham/{id}', [WorkManagementController::class, 'getWork'])->middleware('isEditor')->name('work.details');
@@ -80,6 +93,21 @@ Route::get('/quantrivien/tacpham/tacphammoi', [WorkManagementController::class, 
 
 // Tạo tác phẩm mới
 Route::post('/quantrivien/tacpham/tacphammoi/luutacpham', [WorkManagementController::class, 'create'])->middleware('isEditor')->name('work.create');
+
+// Hiển thị danh sách tác phẩm với giá
+Route::get('/quantrivien/tacpham/giaban', [WorkManagementController::class, 'getWorksWithPrices'])->name('work.prices');
+
+//----------------------------------------------------------------
+//----------------------------------------------------------------
+//----------------------------------------------------------------
+
+
+// Giá bán
+// Tạo giá bán
+Route::get('/quantrivien/tacpham/giabanmoi', [PriceManagementController::class, 'createNewPrices'])->middleware('isAdmin')->name('prices.new');
+
+// Lưu giá mới
+Route::post('/quantrivien/tacpham/giabanmoi/luu', [PriceManagementController::class, 'create'])->middleware('isAdmin')->name('prices.create');
 
 //----------------------------------------------------------------
 //----------------------------------------------------------------

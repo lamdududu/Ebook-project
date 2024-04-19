@@ -1,5 +1,5 @@
 
-.position-parent {
+/* .position-parent {
     position: relative;
     border: 1px solid black;
 }
@@ -30,7 +30,7 @@
     border: 2px solid var(--primary);
 }
 
-.input-custom input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus, input[type="upload"]:focus {
+.input-custom input[type="date"]:focus, input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus, input[type="upload"]:focus {
     border: 2px solid var(--primary);
 }
 

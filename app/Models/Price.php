@@ -16,4 +16,10 @@ class Price extends Model
     public function work() {
         return $this->belongsTo(Work::class);
     }
+
+    protected $fillable = [
+        'thoi_diem',
+        'tac_pham',
+        'gia_thanh'
+    ];
 }

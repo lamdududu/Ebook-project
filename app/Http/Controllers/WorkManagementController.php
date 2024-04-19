@@ -12,11 +12,13 @@ use App\Models\WorkStatus;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
 
 class WorkManagementController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Hiển thị danh sách tác phẩm (toàn bộ) ở giao diện của biên tập viên.
+     * route('work.management')
      */
     public function index()
     {
@@ -29,11 +31,12 @@ class WorkManagementController extends Controller
             ->select('works.*', 'accounts.ten_tai_khoan', 'work_statuses.ten_trang_thai_tp')
             ->get();
 
-        return view('work_management_views.work_management_list', compact('data'));
+        return view('work_management_views.full-list', compact('data'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Hiển thị chi tiết của một tác phẩm ở giao diện của biên tập viên.
+     * route('work.details')
      */
     public function getWork($id)
     {
@@ -52,7 +55,7 @@ class WorkManagementController extends Controller
         $copyright = CopyrightProvider::find($work->ban_quyen);
 
 
-        return view('work_management_views.work_management_details', compact('work', 'coverStoragePath', 'workStoragePath', 'categories', 'copyright', 'status', 'account'));
+        return view('details', compact('work', 'coverStoragePath', 'workStoragePath', 'categories', 'copyright', 'status', 'account'));
     }
 
     /**
@@ -65,7 +68,7 @@ class WorkManagementController extends Controller
         $statuses = WorkStatus::all();
         $categories = Category::all();
             
-        return view('work_management_views.work_management_create', compact('categories', 'copyrights', 'statuses'));
+        return view('work_management_views.create', compact('categories', 'copyrights', 'statuses'));
     }
 
     /**
@@ -217,7 +220,7 @@ class WorkManagementController extends Controller
         $copyright = CopyrightProvider::find($work->ban_quyen);
             
 
-        return view('work_management_views.work_management_edit', compact('work', 'coverStoragePath', 'categories', 'copyright', 'status', 'account', 'copyrights', 'statuses', 'workCate'));
+        return view('work_management_views.edit', compact('work', 'coverStoragePath', 'categories', 'copyright', 'status', 'account', 'copyrights', 'statuses', 'workCate'));
     }
 
     /**
@@ -353,8 +356,28 @@ class WorkManagementController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function getWorksWithPrices()
     {
-        //
+        // $works = DB::select(
+        //     'SELECT w.id, w.tua_de, a.ten_tai_khoan, s.ten_trang_thai_tp, b.gia_thanh, b.thoi_diem
+        //     FROM works w
+        //     LEFT JOIN (
+        //         SELECT p.tac_pham, p.gia_thanh, t.thoi_diem
+        //         FROM prices p
+        //         LEFT JOIN times t ON p.thoi_diem = t.id
+        //         GROUP BY p.tac_pham
+        //     ) b ON w.id = b.tac_pham
+        //     LEFT JOIN accounts a ON w.tai_khoan_dang_tai = a.id
+        //     LEFT JOIN work_statuses s ON w.trang_thai = s.id;'
+        // );
+
+        $works = Work::leftJoin('prices as p', 'p.tac_pham', '=', 'works.id')
+                        ->leftJoin('times as t', 'p.thoi_diem', '=', 't.id')
+                        ->leftJoin('accounts as a', 'works.tai_khoan_dang_tai', '=', 'a.id')
+                        ->leftJoin('work_statuses as s', 'works.trang_thai', '=', 's.id')
+                        ->select('works.id', 'works.tua_de', 'a.ten_tai_khoan', 's.ten_trang_thai_tp', 'p.gia_thanh', 't.thoi_diem')
+                        ->get();
+
+        return view('work_management_views.prices', compact('works'));
     }
 }
