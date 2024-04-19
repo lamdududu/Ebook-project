@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('payment_accounts', function (Blueprint $table) {
             $table->id();
             $table->string('so_tai_khoan', 20)->nullable(false)->unique();
-            $table->string('ten_chu_so_huu', 50)->nullable(false);
             $table->string('mat_khau', 30)->nullable(false);
             $table->unsignedBigInteger('tai_khoan')->nullable(false);
             $table->timestamps();

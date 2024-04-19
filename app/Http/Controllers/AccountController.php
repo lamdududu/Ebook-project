@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Account;
+use App\Models\PaymentAccount;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Carbon\Carbon;
@@ -169,42 +170,22 @@ class AccountController extends Controller
             }
         }
     }
-    // protected $account;
-    // protected $session;
-    // protected $hash;
+    
+    public function getUserInfor($id) {
+        $account = Account::find($id);
 
-    // public function __construct(Account $account, Session $session, Hash $hash)
-    // {
-    //     $this->account = $account;
-    //     $this->session = $session;
-    //     $this->hash = $hash;
-    // }
+        $accPayment = PaymentAccount::where('tai_khoan', $account->id)->pluck('so_tai_khoan')->first();
 
-    // public function authenticateLogin(Request $request)
-    // {
-    //     try {
-    //         // Kiểm tra xác thực tên tài khoản hoặc email
-    //         $username = $this->account->where('ten_tai_khoan', $request->name)->first();
-    //         $email = $this->account->where('email', $request->name)->first();
+        return view('account_views.user-information', compact('account', 'accPayment'));
+    }
 
-    //         if(!$username && !$email) {
-    //             return redirect()->route('login.page')->withErrors(['messageError' => 'Tài khoản chưa được đăng ký']);
-    //         } else {
-    //             $user = $username ?: $email;
-    //             // Xác thực mật khẩu
-    //             if(!$this->hash->check($request->password, $user->mat_khau)) {
-    //                 return redirect()->route('login.page')->withErrors(['messageError' => 'Sai mật khẩu']);
-    //             } else {
-    //                 // Lưu thông tin người dùng vào session
-    //                 $this->session::put('user', $user);
-    //                 return redirect()->route('home');
-    //             }
-    //         } 
-    //     } catch (\Exception $e) {
-    //         // Xử lý lỗi một cách an toàn
-    //         return redirect()->route('login.page')->withErrors(['messageError' => 'Đã xảy ra lỗi trong quá trình xác thực']);
-    //     }    
-    // }
+    public function edit($id) {
+        $account = Account::find($id);
+
+        $accPayment = PaymentAccount::where('tai_khoan', $account->id)->first();
+
+        return view('account_views.change-info', compact('account', 'accPayment'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -225,18 +206,7 @@ class AccountController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.

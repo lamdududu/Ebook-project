@@ -52,7 +52,7 @@
                                 <strong>{{Session::get('user.ten_tai_khoan')}}</strong>
                             </a>
                             <ul class="dropdown-menu custom-dropdown-account" aria-labelledby="navbarScrollingDropdown">
-                                <li><a class="dropdown-item" href="#">Thông tin tài khoản</a></li>
+                                <li><a class="dropdown-item" href="{{ route('account-information', ['id' => Session::get('user.id')]) }}">Thông tin tài khoản</a></li>
                                 <li><a class="dropdown-item" href="#">Cài đặt</a></li>
                                 <li>
                                     <hr class="dropdown-divider">

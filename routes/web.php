@@ -32,7 +32,10 @@ Route::get('/dangky', function () {
 Route::post('/dangky/dangky', [AccountController::class, 'authenticateRegister'])->middleware('isLogged')->name('register');
 
 // Thông tin tài khoản
-Route::get('/taikhoan/thongtintaikhoan', [AccountController::class, 'getAccInfor'])->name('account-information');
+Route::get('/taikhoan/thongtintaikhoan/{id}', [AccountController::class, 'getUserInfor'])->name('account-information');
+
+// Thông tin tài khoản
+Route::get('/taikhoan/thongtintaikhoan/capnhat/{id}', [AccountController::class, 'edit'])->name('account.edit');
 
 // Cập nhật thông tin cơ bản
 Route::post('/taikhoan/thongtintaikhoan/thongtincoban/capnhat', [AccountController::class, 'updateAccInfor'])->name('info.update');
