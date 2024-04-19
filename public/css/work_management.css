@@ -127,3 +127,10 @@ input[type="checkbox"]:checked {
 .customer-flex-info {
     gap: 10rem;
 }
+
+.cover {
+    /* border: 1px solid var(--primary); */
+    box-shadow: 0px 0px 3px var(--primary);
+    display: flex;
+    align-items: center;
+}

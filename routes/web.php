@@ -72,7 +72,11 @@ Route::get('/quantrivien/tacpham/chitiettacpham/{id}', [WorkManagementController
 Route::get('/quantrivien/tacpham/chitiettacpham/chinhsua/{id}', [WorkManagementController::class, 'edit'])->middleware('isEditor')->name('work.edit');
 
 // Cập nhật các thay đổi của tác phẩm
-Route::post('/quantrivien/tacpham/chitiettacpham/capnhat/{id}', [WorkManagementController::class, 'update'])->middleware('isEditor')->name('work.update');
+Route::post('/quantrivien/tacpham/chitiettacpham/chinhsua/capnhat/{id}', [WorkManagementController::class, 'update'])->middleware('isEditor')->name('work.update');
+
+
+// Tạo tác phẩm mới
+Route::get('/quantrivien/tacpham/tacphammoi', [WorkManagementController::class, 'createNewWork'])->middleware('isEditor')->name('work.new');
 
 //----------------------------------------------------------------
 //----------------------------------------------------------------

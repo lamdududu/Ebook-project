@@ -10,6 +10,7 @@ use App\Models\WorksCategories;
 use App\Models\Work;
 use App\Models\WorkStatus;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class WorkManagementController extends Controller
 {
@@ -59,47 +60,24 @@ class WorkManagementController extends Controller
         $statuses = WorkStatus::all();
         $categories = Category::all();
         
-        if($id != 0) {
-            $coverStoragePath = Storage::url('covers');
-            $workStoragePath = Storage::url('works');
+        
+        $coverStoragePath = Storage::url('covers');
+            // $workStoragePath = Storage::url('works');
 
-            $work = Work::find($id);
+        $work = Work::find($id);
 
-            $workCate = WorksCategories::where('tac_pham', $id)->pluck('the_loai')->toArray();
+        $workCate = WorksCategories::where('tac_pham', $id)->pluck('the_loai')->toArray();
+            // $workProvider = CopyrightProvider::where('id', $work->ban_quyen);
             // $categoriesOfWork = Category::whereIn('id', $workCate->pluck('the_loai'))->get();
 
-            $account = Account::find($work->tai_khoan_dang_tai);
+        $account = Account::find($work->tai_khoan_dang_tai);
 
-            $status = WorkStatus::find($work->trang_thai);
+        $status = WorkStatus::find($work->trang_thai);
 
-            $copyright = CopyrightProvider::find($work->ban_quyen);
+        $copyright = CopyrightProvider::find($work->ban_quyen);
             
 
-            return view('work_management_views.work_management', compact('work', 'coverStoragePath', 'workStoragePath', 'categories', 'copyright', 'status', 'account', 'copyrights', 'statuses', 'workCate'));
-        }
-        else {
-            $work = [
-                'tua_de' => '',
-                'tac_gia' => '',
-                'dich_gia' => '',
-                'ngon_ngu' => '',
-                'nha_xuat_ban' => '',
-                'nam_xuat_ban' => '',
-                'tong_bien_tap' => '',
-                'bien_tap_vien' => '',
-                'so_dkxb' => '',
-                'so_qdxb' => '',
-                'ngay_cap_qdxb' => '',
-                'ma_so_isbn' => '',
-                'tep_tin' => '',
-                'anh_bia' => '',
-                'mo_ta_noi_dung' => '',
-                'tai_khoan_dang_tai' => '',
-                'trang_thai' => '',
-                'ban_quyen' => '',
-            ];
-            return view('work_management_views.work_management', compact('work', 'statuses', 'categories', 'copyrights'));
-        }
+        return view('work_management_views.work_management_edit', compact('work', 'coverStoragePath', 'categories', 'copyright', 'status', 'account', 'copyrights', 'statuses', 'workCate'));
     }
 
     /**
@@ -113,9 +91,13 @@ class WorkManagementController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function createNewWork()
     {
-        //
+        $copyrights = CopyrightProvider::All();
+        $statuses = WorkStatus::all();
+        $categories = Category::all();
+            
+        return view('work_management_views.work_management_create', compact('categories', 'copyrights', 'statuses'));
     }
 
     /**
@@ -127,30 +109,122 @@ class WorkManagementController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'fileCover' => 'image | mimes: jpeg, png, jpg | max: 2048',
-            'titleWork' => 'required | string',
-            'translator' => 'nullable | string',
-            'author' => 'required | string',
-            'language' => 'required | string',
-            'publishYear' => 'required | integer',
-            'dirEditor' => 'required | string',
-            'editor' => 'required | string',
-            'publisher' => 'required | string',
-            'provider' => 'required',
-            'dkxb' => 'required | string',
-            'isbn'=> 'required | string',
-            'qdxb' => 'required | string',
-            'dkxbDate' => 'required | before: now',
-            'categoryCheck.*' => 'required',
-            'statusWork' => 'required',
-            'fileWork' => 'file | mimes: docx, doc, txt, pdf'
-        ]);
+        $request->validate(
+            [
+                'fileCover' => 'nullable|image|mimes:jpeg,png,jpg|max: 2048',
+                'titleWork' => 'required|string',
+                'translator' => 'nullable|string',
+                'author' => 'required|string',
+                'language' => 'required|string',
+                // kiểm tra năm xuất bản phải nhỏ hơn hoặc bằng năm hiện tại
+                'publishYear' => 'required|integer|lte:'. date('Y'),
+                'dirEditor' => 'required|string',
+                'editor' => 'required|string',
+                'publisher' => 'required|string',
+                'provider' => 'required',
+                'dkxb' => 'required|string',
+                'isbn'=> 'required|string',
+                'qdxb' => 'required|string',
+                'qdxbDate' => 'required|before: now',
+                // kiểm tra mảng categoryCheck có ít nhất 1 phần tử (có ít nhất 1 thể loại được chọn)
+                'categoryCheck' => 'required|array|min:1',
+                // 'categoryCheck.*' => 'accepted',
+                'statusWork' => 'required',
+                'fileWork' => 'nullable|file|mimes:docx,doc,txt,pdf|max:20480',
+                'summary' => 'required|string',
+            ],
+            [
+                'fileCover.image' => 'Không phải tệp tin hình ảnh (.jpeg, .png, .jpg)',
+                'fileCover.mimes' => 'Không phải tệp tin hình ảnh (.jpeg, .png, .jpg)',
+                'fileCover.max' => 'Kích thước ảnh quá lớn',
+                'titleWork.required' => 'Chưa nhập tựa đề',
+                'titleWork.string' => 'Tựa đề sai định dạng',
+                'translator.string' => 'Nhập sai định dạng',
+                'author.required' => 'Chưa nhập tên tác giả',
+                'author.string' => 'Tên tác giả sai định dạng',
+                'language.required' => 'Chưa nhập ngôn ngữ',
+                'language.string' => 'Ngôn ngữ sai định dạng',
+                'publishYear.required' => 'Chưa nhập năm xuất bản',
+                'publishYear.integer' => 'Năm xuất bản sai định dạng',
+                'publishYear.lte' => 'Dường như đã xảy ra nhầm lần về năm xuất bản, vui lòng kiểm tra lại',
+                'dirEditor.required' => 'Chưa nhập tên tổng biên tập',
+                'dirEditor.string' => 'Tên tổng biên tập sai định dạng',
+                'editor.required' => 'Chưa nhập tên biên tập',
+                'editor.string' => 'Tên biên tập sai định dạng',
+                'publisher.required' => 'Chưa nhập tên nhà xuất bản',
+                'publisher.string' => 'Tên nhà xuất bản sai định dạng',
+                'provider.required' => 'Chưa chọn nhà cung cấp bản quyền',
+                'dkxb.required' => 'Chưa nhập số đăng ký xuất bản',
+                'dkxb.string' => 'Số đăng ký xuất bản sai định dạng',
+                'isbn.required' => 'Chưa nhập mã số ISBN',
+                'isbn.string' => 'Mã số ISBN sai định dạng',
+                'qdxb.required' => 'Chưa nhập số quyết định xuất bản',
+                'qdxb.string' => 'Số quyết định xuất bản sai định dạng',
+                'qdxbDate.required' => 'Chưa nhập ngày quyết định xuất bản',
+                'qdxbDate.before' => 'Dường như có sự nhầm lẫn về ngày quyết định xuất bản, vui lòng kiểm tra lại',
+                'categoryCheck.required' => 'Chưa chọn thể loại',
+                'categoryCheck.array' => 'Chưa chọn thể loại',
+                'categoryCheck.min' => 'Chưa chọn thể loại',
+                'statusWork.required' => 'Chưa chọn trạng thái',
+                'fileWork.mimes' => 'Không phải tệp tin văn bản (.doc, .docx, .txt, .pdf)',
+                'summary.required' => 'Chưa nhập mô tả nội dung tác phẩm',
+                'summary.string' => 'Mô tả nội dung sai định dạng',
+            ]
+        );
 
-        $work = $request->all();
+        if($request->file('fileCover')) {
+            $fileCover = $request['fileCover'];
+            
+            // lấy tên file
+            $fileNameCover = str_replace(' ', '', $fileCover->getClientOriginalName());
+            
+            // upload tệp tin với tên đã xóa khoảng trắng (tránh lỗi)
+            $path = $fileCover->storeAs('public/covers', $fileNameCover);
+        }
+
+        if($request->file('fileWork')) {
+            $fileWork = $request['fileWork'];
+            
+            // lấy tên file
+            $fileNameWork = str_replace(' ', '', $fileWork->getClientOriginalName());
+            
+            // upload tệp tin với tên đã xóa khoảng trắng (tránh lỗi)
+            $path = $fileWork->storeAs('public/works', $fileNameWork);
+        }
+
+        // $work = new Work;
+
+        $work = [
+            'tua_de' => $request->input('titleWork'),
+            'tac_gia' => $request->input('author'),
+            'dich_gia' => $request->input('translator'),
+            'ngon_ngu' => $request->input('language'),
+            'nam_xuat_ban'  => $request->input('publishYear'),
+            'nha_xuat_ban'=> $request->input('publisher'),
+            'tong_bien_tap' => $request->input('dirEditor'),
+            'bien_tap_vien' => $request->input('editor'),
+            'so_dkxb' => $request->input('dkxb'),
+            'so_qdxb' => $request->input('qdxb'),
+            'ngay_cap_qdxb' => Carbon::parse($request->input('qdxbDate'))->format('Y-m-d'),
+            'ma_so_isbn' => $request->input('isbn'),
+            'anh_bia' => $fileNameCover,
+            'tep_tin' => $fileNameWork,
+            'mo_ta_noi_dung' => $request->input('summary'),
+            'ban_quyen' => $request->input('provider'),
+        ];
+
         Work::where('id', $id)->update($work);
 
-        return redirect()->route('work.details')->with('success', 'Cập nhật thành công');
+        WorksCategories::where('tac_pham', $id)->delete();
+
+        foreach($request->input('categoryCheck', []) as $category) {
+            WorksCategories::create([
+                'tac_pham' => $id,
+                'the_loai' => $category,
+            ]);
+        }
+
+        return redirect()->route('work_management_views.work_management_details')->with('success', 'Cập nhật thành công');
     }
 
     /**

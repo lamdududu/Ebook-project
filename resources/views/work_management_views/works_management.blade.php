@@ -21,7 +21,7 @@
                     </li>
                 </nav>
                 <div class="py-4 text-center new-work">
-                    <a href="{{ route('work.edit', ['id' => 0]) }}" class="btn btn-primary">
+                    <a href="{{ route('work.new') }}" class="btn btn-primary">
                         <i class="bi bi-file-earmark-plus-fill"></i>
                         <span>Tác phẩm mới</span>
                     </a>
