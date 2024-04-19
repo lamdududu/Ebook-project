@@ -5,7 +5,7 @@
 @section('main')
 <main class="container py-5">
     
-    <form method="post" action="#" class="row">
+    <form method="post" action="{{ route('work.create') }}" class="row" enctype="multipart/form-data">
         @csrf
         <section class="col">
             <div class="d-flex justify-content-center">
@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="pt-1">
-                <input type="file" name="fileCover" class="form-control custom-input-upload {{ $errors->has('username') ? 'is-invalid' : '' }}">
+                <input type="file" name="fileCover" class="form-control custom-input-upload {{ $errors->has('fileCover') ? 'is-invalid' : '' }}">
                     @if($errors->has('fileCover'))
                         <div class="invalid-feedback">
                             {{ $errors->first('fileCover') }}
@@ -107,21 +107,28 @@
                                 <tr class="align-middle">
                                     <th scope="row">Nhà xuất bản</th>
                                     <td>
-                                        <input type="text" class="form-control custom-input-text {{ $errors->has('publiser') ? 'is-invalid' : ''}} {{ old('publiser') ? 'is-valid' : '' }}" name="publiser" value="{{old('publiser')}}">
-                                        @if($errors->has('publiser'))
+                                        <input type="text" class="form-control custom-input-text {{ $errors->has('publisher') ? 'is-invalid' : ''}} {{ old('publisher') ? 'is-valid' : '' }}" name="publisher" value="{{old('publisher')}}">
+                                        @if($errors->has('publisher'))
                                             <div class="invalid-feedback">
-                                                {{ $errors->first('publiser') }}
+                                                {{ $errors->first('publisher') }}
                                             </div>
                                         @endif
                                     </td>
                                     <th scope="row">Bản quyền</th>
                                     <td>
                                         <select class="form-select custom-input-text" name="provider" aria-label="Default select example">
-                                            <option selected disabled>Chọn nhà cung cấp</option>
+                                            <option value="{{ old('provider') }}" selected {{ old('provider') ? '' : 'disabled' }}>
+                                                {{ old('provider') ? $copyrights[old('provider')]->ten_nha_cung_cap : 'Chọn nhà cung cấp bản quyền' }}
+                                            </option>
                                             @foreach($copyrights as $copyrightProvider)
                                             <option value="{{$copyrightProvider->id}}">{{$copyrightProvider->ten_nha_cung_cap}}</option>
                                             @endforeach
                                         </select>
+                                        @if($errors->has('statusWork'))
+                                            <div class="text-danger pt-1">
+                                               Chọn nhà cung cấp bản quyền
+                                            </div>
+                                        @endif
                                     </td>
                                 <tr>
                                 <tr class="align-middle">
@@ -171,7 +178,15 @@
                                             <div class="form-check form-check-inline filter">
                                                 <div class="d-flex align-items-center gap-1">
 
-                                                    <input class="form-check-input" type="checkbox" value="{{$category->id}}" id="categoryCheck.{{$category->id}}" name="categoryCheck[]">
+                                                    <input class="form-check-input" type="checkbox" value="{{$category->id}}" id="categoryCheck.{{$category->id}}" name="categoryCheck[]"
+                                                        @if(old('categoryCheck'))
+                                                            @foreach(old('categoryCheck') as $categoryCheck)
+                                                                @if($categoryCheck == $category->id)
+                                                                    checked
+                                                                @endif
+                                                            @endforeach
+                                                        @endif
+                                                    >
                                                     <label class="form-check-label" for="categoryCheck.{{$category->id}}">
                                                         {{$category->ten_the_loai}}
                                                     </label>
@@ -200,11 +215,18 @@
                                     <th scope="row">Trạng thái</th>
                                     <td>
                                         <select class="form-select custom-input-text" name="statusWork" aria-label="Default select example">
-                                            <option selected disabled>Chọn trạng thái tác phẩm</option>
+                                            <option value="{{old('statusWork')}}" selected {{old('statusWork') ? '' : 'disabled' }}>
+                                                {{ old('statusWork') ? $statuses[old('statusWork')]->ten_trang_thai_tp : 'Chọn trạng thái tác phẩm' }}
+                                            </option>
                                             @foreach($statuses as $stt)
                                                 <option value="{{$stt->id}}">{{$stt->ten_trang_thai_tp}}</option>
                                             @endforeach
                                         </select>
+                                        @if($errors->has('statusWork'))
+                                            <div class="text-danger pt-1">
+                                               Chọn trạng thái tác phẩm
+                                            </div>
+                                        @endif
                                     </td>
                                 <tr>
                                 <tr class="align-middle" name="file">

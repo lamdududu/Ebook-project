@@ -5,7 +5,7 @@
 @section('main')
 <main class="container py-5">
     
-    <form method="post" action="{{ route('work.update', ['id' => $work->id])}}" class="row">
+    <form method="post" action="{{ route('work.update', ['id' => $work->id])}}" class="row" enctype="multipart/form-data">
         @csrf
         <section class="col">
             <div class="d-flex justify-content-center">
@@ -156,7 +156,7 @@
                                     </td>
                                     <th scope="row">Ngày cấp QĐXB</th>
                                     <td>
-                                        <input type="date" class="form-control custom-input-text {{ $errors->has('qdxbDate') ? 'is-invalid' : ''}} {{ old('qdxbDate') ? 'is-valid' : '' }}" name="qdxbDate" value="{{ old('qdxbDate') ?: \Carbon\Carbon::parse($work->ngay_cap_qdxb)->format('d-m-Y') }}">
+                                        <input type="date" class="form-control custom-input-text {{ $errors->has('qdxbDate') ? 'is-invalid' : ''}} {{ old('qdxbDate') ? 'is-valid' : '' }}" name="qdxbDate" value="{{ old('qdxbDate') ?: $work->ngay_cap_qdxb }}">
                                         @if($errors->has('qdxbDate'))
                                             <div class="invalid-feedback">
                                                 {{ $errors->first('qdxbDate') }}
@@ -172,7 +172,7 @@
                                                 <div class="d-flex align-items-center gap-1">
 
                                                     <input class="form-check-input" type="checkbox" value="{{$category->id}}" id="categoryCheck.{{$category->id}}" name="categoryCheck[]" 
-                                                        @if(in_array($category->id, $workCate))
+                                                        @if(in_array($category->id, $workCate) || in_array($category->id, old('categoryCheck')))
                                                             checked
                                                         @endif>
                                                     <label class="form-check-label" for="categoryCheck.{{$category->id}}">
