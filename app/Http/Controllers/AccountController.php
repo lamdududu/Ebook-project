@@ -171,7 +171,7 @@ class AccountController extends Controller
         }
     }
     
-    public function getUserInfor($id) {
+    public function getAccInfor($id) {
         $account = Account::find($id);
 
         $accPayment = PaymentAccount::where('tai_khoan', $account->id)->pluck('so_tai_khoan')->first();
@@ -179,7 +179,7 @@ class AccountController extends Controller
         return view('account_views.user-information', compact('account', 'accPayment'));
     }
 
-    public function edit($id) {
+    public function editUser($id) {
         $account = Account::find($id);
 
         $accPayment = PaymentAccount::where('tai_khoan', $account->id)->first();
@@ -187,12 +187,47 @@ class AccountController extends Controller
         return view('account_views.change-info', compact('account', 'accPayment'));
     }
 
+    public function editAdmin($id) {
+        $account = Account::find($id);
+
+        return view('account_views.change-info-admin', compact('account'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function updateAccInfor(Request $request, $id) 
     {
-        //
+        $request->validate(
+            [   
+                'name' => 'required|regex:/^(?=.*[\p{L}])[\p{L}\s]+$/u',
+                'email' => 'required|email',
+                'birthday' => 'required|before_or_equal:' . now()->subYears(16)->format('d-m-Y'),
+                'phone' => 'required||numeric|digits:10',
+            ],
+            [
+                'name.required' => 'Chưa nhập họ và tên',
+                'name.regex' => 'Họ và tên không hợp lệ (không chứa số và ký tự đặc biệt)',
+                'email.required' => 'Chưa nhập địa chỉ email',
+                'email.email' => 'Địa chỉ email không hợp lệ',
+                'birthday.required' => 'Chưa nhập ngày sinh',
+                'birthday.before_or_equal' => 'Chưa đủ 16 tuổi',
+                'birthday.date_format' => 'Định dạng ngày sinh không hợp lệ (dd-mm-yyyy)',
+                'phone.required' => 'Chưa nhập số điện thoại',
+                'phone.digits' => 'Số điện thoại không hợp lệ',
+                'phone.numeric' => 'Số điện thoại chứa ký tự không hợp lệ',
+            ]
+        );
+
+        Account::where('id', $id)->update([
+            'ho_ten_nguoi_dung' => $request->input('name'),
+            'email' => $request->input('email'),
+            'so_dien_thoai' => $request->input('phone'),
+            'ngay_sinh' => Carbon::parse($request->input('birthday'))->format('Y-m-d'),
+        ]);
+
+
+        return redirect()->route('admin.edit', ['id' => $id])->with('success', 'Cập nhật thành công');
     }
 
     /**

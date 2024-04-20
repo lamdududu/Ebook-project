@@ -32,19 +32,25 @@ Route::get('/dangky', function () {
 Route::post('/dangky/dangky', [AccountController::class, 'authenticateRegister'])->middleware('isLogged')->name('register');
 
 // Thông tin tài khoản
-Route::get('/taikhoan/thongtintaikhoan/{id}', [AccountController::class, 'getUserInfor'])->name('account-information');
+Route::get('/taikhoan/thongtintaikhoan/{id}', [AccountController::class, 'getAccInfor'])->name('account-informations');
+
+// Thông tin tài khoản admin
+Route::get('/quantrivien/taikhoan/thongtintaikhoan/capnhat/{id}', [AccountController::class, 'editAdmin'])->middleware('changeInfo')->name('admin.edit');
 
 // Thông tin tài khoản
-Route::get('/taikhoan/thongtintaikhoan/capnhat/{id}', [AccountController::class, 'edit'])->name('account.edit');
+Route::get('/taikhoan/thongtintaikhoan/capnhat/{id}', [AccountController::class, 'editUser'])->name('user.edit');
+
+// Cập nhật ảnh đại diện
+Route::post('/taikhoan/thongtintaikhoan/anhdaidien/capnhat/{id}', [AccountController::class, 'updateAvatar'])->name('avatar.update');
 
 // Cập nhật thông tin cơ bản
-Route::post('/taikhoan/thongtintaikhoan/thongtincoban/capnhat', [AccountController::class, 'updateAccInfor'])->name('info.update');
+Route::post('/taikhoan/thongtintaikhoan/thongtincoban/capnhat/{id}', [AccountController::class, 'updateAccInfor'])->name('info.update');
 
 // Cập nhật thông tin cơ bản
-Route::post('/taikhoan/thongtintaikhoan/matkhau/capnhat', [AccountController::class, 'updateAccPassword'])->name('password.update');
+Route::post('/taikhoan/thongtintaikhoan/matkhau/capnhat/{id}', [AccountController::class, 'updateAccPassword'])->name('password.update');
 
 // Cập nhật thông tin cơ bản
-Route::post('/taikhoan/thongtintaikhoan/taikhoanthanhtoan/capnhat', [AccountController::class, 'updateAccPayment'])->name('payment.update');
+Route::post('/taikhoan/thongtintaikhoan/taikhoanthanhtoan/capnhat/{id}', [AccountController::class, 'updateAccPayment'])->name('payment.update');
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------

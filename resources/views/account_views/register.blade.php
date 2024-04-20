@@ -72,7 +72,7 @@
                     <!-- <span class="input-group-text rounded-start-3" id="basic-addon1">Ngày sinh</span> -->
                     <label for="birthday" class="form-label">Ngày sinh (dd-mm-yyyy) <span class="text-danger">*</span></label>
                     <!-- <div class="d-md-none w-100"></div> -->
-                    <input type="text" name="birthday" class="form-control shadow-none {{ $errors->has('birthday') ? 'is-invalid' : '' }} {{ old('birthday') ? 'is-valid' : '' }}" value="{{ old('birthday') }}" placeholder="Nhập ngày tháng năm sinh..." aria-label="Tài khoản" aria-describedby="basic-addon1">
+                    <input type="date" name="birthday" class="form-control shadow-none {{ $errors->has('birthday') ? 'is-invalid' : '' }} {{ old('birthday') ? 'is-valid' : '' }}" value="{{ old('birthday') }}" aria-label="Tài khoản" aria-describedby="basic-addon1">
                     @if($errors->has('birthday'))
                         <div class="invalid-feedback">
                             {{ $errors->first('birthday') }}

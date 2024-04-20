@@ -49,13 +49,15 @@
                                 <th scope="row">Số điện thoại:</th>
                                 <td>{{$account->so_dien_thoai}}</td>
                             <tr>
-                            <tr class="align-middle">
-                                <th scope="row">Số tài khoản thanh toán:</th>
-                                <td>{{$accPayment ? $accPayment->so_tai_khoan : 'Chưa có tài khoản thanh toán'}}</td>
-                            <tr>
+                            @if(Session::get('user.loai_tai_khoan') == 3)
+                                <tr class="align-middle">
+                                    <th scope="row">Số tài khoản thanh toán:</th>
+                                    <td>{{$accPayment ? $accPayment->so_tai_khoan : 'Chưa có tài khoản thanh toán'}}</td>
+                                <tr>
+                            @endif
                     </table>
                     <div class="py-2 text-center new-work">
-                        <a href="{{ route('account.edit', ['id' => $account->id]) }}" class="btn btn-primary btn-edit-info">
+                        <a href="{{ route('admin.edit', ['id' => $account->id]) }}" class="btn btn-primary btn-edit-info">
                             <i class="bi bi-pencil-fill"></i>
                             <span>Chỉnh sửa thông tin</span>
                         </a>

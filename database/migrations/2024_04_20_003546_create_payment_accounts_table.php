@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamps();
 
             //Khóa ngoại
-            $table->foreign('tai_khoan')->references('id')->on('payment_accounts');
+            $table->foreign('tai_khoan')->references('id')->on('accounts');
         });
     }
 

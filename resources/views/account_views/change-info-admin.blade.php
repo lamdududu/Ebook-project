@@ -1,4 +1,4 @@
-@extends('index-user')
+@extends('index-admin')
 
 @section('title', 'Thông tin tài khoản')
 
@@ -12,74 +12,30 @@
         <article class="row gap-5 justify-content-center align-items-center">
             <section class="col container">
                 <div class="row pb-3">
-                    <form class="d-flex justify-content-center align-items-center flex-column" method="post" action="#" enctype="multipart/form-data">
+                    <form id="ad-avt" class="d-flex justify-content-center align-items-center flex-column" method="post" action="{{ route('avatar.update', ['id' => Session::get('user.id')]) }}" enctype="multipart/form-data">
+                        @csrf        
                         <div class="text-center mt-4 rounded-circle avatar avatar-change" style="opacity: 50%">
-                            <?php $avt = 'https://static.vecteezy.com/system/resources/previews/022/123/337/non_2x/user-icon-profile-icon-account-icon-login-sign-line-vector.jpg'; ?>
-                            <img src="{{$account->anh_dai_dien ?: $avt}}" class="img-fluid" alt="avatar">
-                        </div>
-                        <div class="pt-1 input-avt">
-                            <input type="file" name="avatar" class="form-control custom-input-upload {{ $errors->has('avatar') ? 'is-invalid' : '' }}">
-                                @if($errors->has('avatar'))
-                                    <div class="invalid-feedback">
-                                        {{ $errors->first('avatar') }}
-                                    </div>
-                                @endif
-                        </div>
-                        <div class="col d-flex justify-content-center align-items-center py-2">
-                            <button class="btn-edit-info" type="submit">Lưu thay đổi</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="row py-3">
-                    <form class="need-validations login-form" method="post" action="#">
-                        <section class="table-responsive p-3">
-                            <h4 class="pb-1"><strong>Thông tin tài khoản thanh toán</strong></h4>
-                            <table class="table">
-                                <tbody>
-                                    <tr class="align-middle">
-                                        <th scope="row">Tên tài khoản:</th>
-                                        <td>
-                                            <input type="text" class="form-control custom-input-text {{ $errors->has('username') ? 'is-invalid' : ''}} {{ old('username') ? 'is-valid' : '' }}" name="username" value="{{old('username') ?: $account->ten_tai_khoan}}">
-                                                @if($errors->has('username'))
-                                                    <div class="invalid-feedback">
-                                                        {{ $errors->first('username') }}
-                                                    </div>
-                                                @endif
-                                        </td>
-                                    </tr>
-                                    <tr class="align-middle">
-                                        <th>Nhập mật khẩu mới:</th>
-                                        <td>
-                                            <input type="password" name="pwPayment" class="form-control shadow-none {{ $errors->has('pwPayment') ? 'is-invalid' : '' }}" placeholder="Nhập mật khẩu..." aria-label="Mật khẩu" aria-describedby="basic-addon1">
-                                            @if($errors->has('pwPayment'))
-                                                <div class="invalid-feedback">
-                                                    {{ $errors->first('pwPayment') }}
-                                                </div>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    <tr class="align-middle">
-                                        <th>Nhập mật khẩu mới:</th>
-                                        <td>
-                                            <input type="password" name="pwPayment_confirmation" class="form-control shadow-none {{ $errors->has('pwPayment_confirmation') ? 'is-invalid' : '' }}" placeholder="Nhập lại mật khẩu..." aria-label="Mật khẩu" aria-describedby="basic-addon1">
-                                            @if($errors->has('pwPayment_confirmation') || $errors->has('pwPayment'))
-                                                <div class="invalid-feedback">
-                                                {{ $errors->first('pwPayment_confirmation') }}
-                                                </div>
-                                            @endif
-                                        </td>
-                                    </tr>
-                            </table>
-                            <div class="col d-flex justify-content-center align-items-center py-2">
-                                <button class="btn-edit-info" type="submit">Lưu tài khoản</button>
+                                <?php $avt = 'https://static.vecteezy.com/system/resources/previews/022/123/337/non_2x/user-icon-profile-icon-account-icon-login-sign-line-vector.jpg'; ?>
+                                <img src="{{$account->anh_dai_dien ?: $avt}}" class="img-fluid" alt="avatar">
                             </div>
-                        </section>
+                            <div class="pt-1 input-avt">
+                                <input type="file" name="avatar" class="form-control custom-input-upload {{ $errors->has('avatar') ? 'is-invalid' : '' }}">
+                                    @if($errors->has('avatar'))
+                                        <div class="invalid-feedback">
+                                            {{ $errors->first('avatar') }}
+                                        </div>
+                                    @endif
+                            </div>
+                            <div class="col d-flex justify-content-center align-items-center py-2">
+                                <button class="btn-edit-info" onclick="submitForm('ad-avt')" type="submit">Lưu thay đổi</button>
+                            </div>
                     </form>
                 </div>
                 <div class="row py-3">
-                    <form class="need-validations login-form" method="post" action="#">
+                    <form id="ad-pw" class="need-validation login-form" method="post" action="{{ route('password.update', ['id' => Session::get('user.id')]) }}">
+                        @csrf
                         <section class="table-responsive p-3">
-                            <h4 class="pb-1"><strong>Thông tin bảo mật tài khoản thanh toán</strong></h4>
+                            <h4 class="pb2"><strong>Thông tin bảo mật</strong></h4>
                             <table class="table">
                                 <tbody>
                                     <tr class="align-middle">
@@ -118,15 +74,17 @@
                                 </tbody>
                             </table>
                             <div class="col d-flex justify-content-center align-items-center py-2">
-                                <button class="btn-edit-info" type="submit">Lưu mật khẩu mới</button>
+                                <button class="btn-edit-info" onclick="submitForm('ad-pw')" type="submit">Lưu mật khẩu mới</button>
                             </div>
                         </section>
                     </form>
                 </div>
             </section>
-            <section class="col container custom-padding">
+            </section>
+            <section class="col container" style="padding-top: 8.65rem;">
                 <div class="row py-3">
-                    <form class="need-validations login-form" method="post" action="#">
+                    <form id="ad-info" class="need-validations login-form" method="post" action="{{ route('info.update', ['id', $account->id]) }}">
+                        @csrf
                         <section class="table-responsive p-3">
                             <h4 class="pb-2"><strong>Thông tin cơ bản</strong></h4>
                             <table class="table">
@@ -144,14 +102,7 @@
                                     </tr>
                                     <tr class="align-middle">
                                         <th scope="row">Tên tài khoản:</th>
-                                        <td>
-                                            <input type="text" class="form-control custom-input-text {{ $errors->has('username') ? 'is-invalid' : ''}} {{ old('username') ? 'is-valid' : '' }}" name="username" value="{{old('username') ?: $account->ten_tai_khoan}}">
-                                                @if($errors->has('username'))
-                                                    <div class="invalid-feedback">
-                                                        {{ $errors->first('username') }}
-                                                    </div>
-                                                @endif
-                                        </td>
+                                        <td>{{$account->ten_tai_khoan}}</td>
                                     </tr>
                                     <tr class="align-middle">
                                         <th scope="row">Ngày sinh:</th>
@@ -208,59 +159,11 @@
                                     <tr>
                             </table>
                             <div class="col d-flex justify-content-center align-items-center py-2">
-                                <button class="btn-edit-info" type="submit">Lưu thay đổi</button>
+                                <button class="btn-edit-info" onclick="submitForm('ad-info')" type="submit">Lưu thay đổi</button>
                             </div>
                         </section>
                     </form>
                 </div>
-                <div class="row py-3">
-                    <form class="need-validation login-form" method="post" action="#">
-                        <section class="table-responsive p-3">
-                            <h4 class="pb2"><strong>Thông tin bảo mật</strong></h4>
-                            <table class="table">
-                                <tbody>
-                                    <tr class="align-middle">
-                                        <th>Nhập mật khẩu cũ:</th>
-                                        <td>
-                                            <input type="password" name="oldPassword" class="form-control shadow-none {{ $errors->has('oldPassword') ? 'is-invalid' : '' }}" placeholder="Nhập mật khẩu..." aria-label="Mật khẩu" aria-describedby="basic-addon1">
-                                            @if($errors->has('oldPassword'))
-                                                <div class="invalid-feedback">
-                                                    {{ $errors->first('oldPassword') }}
-                                                </div>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    <tr class="align-middle">
-                                        <th>Nhập mật khẩu mới:</th>
-                                        <td>
-                                            <input type="password" name="password" class="form-control shadow-none {{ $errors->has('password') ? 'is-invalid' : '' }}" placeholder="Nhập mật khẩu..." aria-label="Mật khẩu" aria-describedby="basic-addon1">
-                                            @if($errors->has('password'))
-                                                <div class="invalid-feedback">
-                                                    {{ $errors->first('password') }}
-                                                </div>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    <tr class="align-middle">
-                                        <th>Nhập mật khẩu mới:</th>
-                                        <td>
-                                            <input type="password" name="password_confirmation" class="form-control shadow-none {{ $errors->has('password_confirmation') ? 'is-invalid' : '' }}" placeholder="Nhập lại mật khẩu..." aria-label="Mật khẩu" aria-describedby="basic-addon1">
-                                            @if($errors->has('password_confirmation') || $errors->has('password'))
-                                                <div class="invalid-feedback">
-                                                {{ $errors->first('password_confirmation') }}
-                                                </div>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div class="col d-flex justify-content-center align-items-center py-2">
-                                <button class="btn-edit-info" type="submit">Lưu mật khẩu mới</button>
-                            </div>
-                        </section>
-                    </form>
-                </div>
-            </section>
         </article>
     </main>
     

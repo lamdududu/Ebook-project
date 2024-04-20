@@ -10,6 +10,7 @@ use App\Http\Middleware\isUserMiddleware;
 use App\Http\Middleware\isLoggedMiddleware;
 use App\Http\Middleware\isUnLoggedMiddleware;
 use App\Http\Middleware\workManagementMiddleware;
+use App\Http\Middleware\changeInfoMiddleware;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -26,6 +27,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'home' => homeMiddleware::class,
             'isUnlogged' => isUnloggedMiddleware::class,
             'workManager' => workManagementMiddleware::class,
+            'changeInfo' => changeInfoMiddleware::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

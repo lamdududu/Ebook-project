@@ -11,6 +11,13 @@
     /* object-fit: fill; */
 }
 
+.avatar-change {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    margin: auto;
+}
+
 .btn-edit-info, .btn-edit-info:not(.disabled):active {
     background-color: var(--primary);
     color: white;
@@ -25,4 +32,16 @@
     color: var(--primary);
     border: 2px solid var(--primary);
     transform: scale(1.02);
+}
+
+.table {
+    font-size: 15px;
+}
+
+.custom-padding {
+    padding-top: 8rem;
+}
+
+.input-avt {
+    width: 70%;
 }
