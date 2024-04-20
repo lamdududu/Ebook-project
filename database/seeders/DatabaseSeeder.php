@@ -35,5 +35,6 @@ class DatabaseSeeder extends Seeder
         $this->call(NominationTableSeeder::class);
         $this->call(Work_NominationTableSeeder::class);
         $this->call(CartTableSeeder::class);
+        $this->call(PromotionTableSeeder::class);
     }
 }

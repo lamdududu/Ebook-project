@@ -27,7 +27,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'home' => homeMiddleware::class,
             'isUnlogged' => isUnloggedMiddleware::class,
             'workManager' => workManagementMiddleware::class,
-            'changeInfo' => changeInfoMiddleware::class
+            'changeInfo' => changeInfoMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

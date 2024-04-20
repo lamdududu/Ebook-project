@@ -375,7 +375,7 @@ class WorkManagementController extends Controller
                         ->leftJoin('times as t', 'p.thoi_diem', '=', 't.id')
                         ->leftJoin('accounts as a', 'works.tai_khoan_dang_tai', '=', 'a.id')
                         ->leftJoin('work_statuses as s', 'works.trang_thai', '=', 's.id')
-                        ->select('works.id', 'works.tua_de', 'a.ten_tai_khoan', 's.ten_trang_thai_tp', 'p.gia_thanh', 't.thoi_diem')
+                        ->select('works.id', 'works.tua_de', 'a.ten_tai_khoan', 's.ten_trang_thai_tp', 'p.gia_ban_thuong', 'p.gia_ban_db', 't.thoi_diem')
                         ->get();
 
         return view('work_management_views.prices', compact('works'));

@@ -11,16 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('prices', function (Blueprint $table) {
+        Schema::create('bill_details', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('gia_thanh')->nullable(false);           
             $table->unsignedBigInteger('tac_pham')->nullable(false);
-            $table->unsignedBigInteger('thoi_diem')->nullable(false);
+            $table->unsignedBigInteger('hoa_don')->nullable(false);
+            $table->unsignedInteger('gia_thanh')->nullable(false);
+            $table->char('phien_ban')->nullable(false);
             $table->timestamps();
 
-            //Khoá ngoại
+            //Khóa ngoại
             $table->foreign('tac_pham')->references('id')->on('works');
-            $table->foreign('thoi_diem')->references('id')->on('times');
+            $table->foreign('hoa_don')->references('id')->on('bills');
         });
     }
 
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('prices');
+        Schema::dropIfExists('bill_details');
     }
 };

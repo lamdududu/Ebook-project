@@ -34,8 +34,8 @@ class WorkListController extends Controller
         // $latestTime = Time::where('thoi_diem', '<=', Carbon::now())->first();
 
        $books = DB::select(
-            'select w.*, b.gia_thanh
-            from (SELECT w.id, p.gia_thanh, max(t.thoi_diem)
+            'select w.*, b.gia_ban_thuong, b.gia_ban_db
+            from (SELECT w.id, p.gia_ban_thuong, p.gia_ban_db, max(t.thoi_diem)
             FROM prices p
             JOIN works w ON w.id = p.tac_pham
             JOIN times t ON t.id = p.thoi_diem
@@ -90,8 +90,8 @@ class WorkListController extends Controller
         $nominations = Nomination::All();
 
         $works = DB::select(
-            'select w.*, b.gia_thanh
-            from (SELECT w.id, p.gia_thanh, max(t.thoi_diem)
+            'select w.*, b.gia_ban_thuong, b.gia_ban_db
+            from (SELECT w.id, p.gia_ban_thuong, p.gia_ban_db, max(t.thoi_diem)
             FROM prices p
             JOIN works w ON w.id = p.tac_pham
             JOIN times t ON t.id = p.thoi_diem
@@ -104,8 +104,8 @@ class WorkListController extends Controller
         // $hotWorks = Work::whereIn('id', $workNom->pluck('tac_pham'))->get();
 
         $hotWorks = DB::select(
-            'select w.*, b.gia_thanh
-            from (SELECT w.id, p.gia_thanh, max(t.thoi_diem) as thoi_diem
+            'select w.*, b.gia_ban_thuong, b.gia_ban_db
+            from (SELECT w.id, p.gia_ban_thuong, p.gia_ban_db, max(t.thoi_diem) as thoi_diem
                 FROM prices p
                 JOIN works w ON w.id = p.tac_pham
                 JOIN times t ON t.id = p.thoi_diem
@@ -121,8 +121,8 @@ class WorkListController extends Controller
         // $nomWorks = Work::whereIn('id', $workNom->pluck('tac_pham'))->get();
         
         $nomWorks = DB::select(
-            'select w.*, b.gia_thanh
-            from (SELECT w.id, p.gia_thanh, max(t.thoi_diem) as thoi_diem
+            'select w.*, b.gia_ban_thuong, b.gia_ban_db
+            from (SELECT w.id, p.gia_ban_thuong, p.gia_ban_db, max(t.thoi_diem) as thoi_diem
                 FROM prices p
                 JOIN works w ON w.id = p.tac_pham
                 JOIN times t ON t.id = p.thoi_diem
@@ -136,8 +136,8 @@ class WorkListController extends Controller
         // $awWorks = Work::whereIn('id', $workNom->pluck('tac_pham'))->get();
         
         $awWorks = DB::select(
-            'select w.*, b.gia_thanh
-            from (SELECT w.id, p.gia_thanh, max(t.thoi_diem) as thoi_diem
+            'select w.*, b.gia_ban_thuong, b.gia_ban_db
+            from (SELECT w.id, p.gia_ban_thuong, p.gia_ban_db, max(t.thoi_diem) as thoi_diem
                 FROM prices p
                 JOIN works w ON w.id = p.tac_pham
                 JOIN times t ON t.id = p.thoi_diem

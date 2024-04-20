@@ -19,7 +19,7 @@ return new class extends Migration
             $table->char('so_dien_thoai',10)->nullable(false);
             $table->string('ho_ten_nguoi_dung', 50)->nullable(false);
             $table->date('ngay_sinh')->nullable(false);
-            $table->boolean('gioi_tinh');
+            $table->boolean('gioi_tinh'); //sua gioi tinh
             $table->string('anh_dai_dien');
             $table->unsignedBigInteger('loai_tai_khoan')->nullable(false);
             $table->unsignedBigInteger('trang_thai')->nullable(false);

@@ -15,7 +15,7 @@
 <body class="d-flex flex-column min-vh-100 gap-1 position-relative">
     <header class="header container-fluid  d-flex justify-content-center custom-header">
         <div class="col">
-            <nav class="navbar navbar-expand-md ">
+            <nav class="navbar navbar-expand-lg ">
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>

@@ -31,6 +31,16 @@ Route::get('/dangky', function () {
 // Đăng ký
 Route::post('/dangky/dangky', [AccountController::class, 'authenticateRegister'])->middleware('isLogged')->name('register');
 
+// Tài khoản thanh toán
+Route::get('/taikhoan/taikhoanthanhtoan/', [AccountController::class, 'createPaymentAccount'])->middleware('isUser')->name('payment.account');
+
+// Kết nối tài khoán thanh toán
+Route::post('/taikhoan/taikhoanthanhtoan/ketnoi', [AccountController::class, 'connectionPaymentAccount'])->middleware('isUser')->name('payment.connection');
+
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+
 // Thông tin tài khoản
 Route::get('/taikhoan/thongtintaikhoan/{id}', [AccountController::class, 'getAccInfor'])->name('account-informations');
 
@@ -78,6 +88,15 @@ Route::get('/tacpham/doc/{id}', [WorkReadController::class, 'getContent'])->midd
 
 // Giỏ hàng
 Route::get('/giohang', [CartController::class, 'index'])->middleware('isUnlogged')->name('cart');
+
+// Xử lý các nút trong giao diện giỏ hàng
+Route::post('/giohang/xuly', [CartController::class, 'handleButtonCart'])->middleware('isUser')->name('cart.button');
+
+// Thanh toán
+Route::get('/giohang/thanhtoan', [CartController::class, 'confirmPayment'])->middleware('isUser')->name('cart.payment');
+
+// Thanh toán
+Route::post('/giohang/thanhtoan/thanhtoan', [CartController::class, 'pay'])->middleware('isUser')->name('payment');
 
 //----------------------------------------------------------------
 //----------------------------------------------------------------

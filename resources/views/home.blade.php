@@ -91,14 +91,17 @@
                       <h5 class="card-title" data-bs-toggle="tooltip" data-bs-placement="right" title="{{$work->tua_de}}" style="font-weight: bold;">
                         {{Illuminate\Support\Str::limit($work->tua_de, $limit = 46, $end = '...')}}
                       </h5>
-                    </a>
-                    <p class="card-text prices">Giá: <span>{{$work->gia_thanh}} VND</span></p>
+                    </a>  
                     <p class="card-text">Tác giả: <span>{{$work->tac_gia}}</span></p>
                     <p class="card-text">
                       <!-- {{nl2br(str_replace('\n', "\n",Illuminate\Support\Str::limit($work->mo_ta_noi_dung, $limit = 500, $end = '...')))}} -->
                       {{Illuminate\Support\Str::limit($work->mo_ta_noi_dung, $limit = 300, $end = '...')}}
                       <span><a href="{{ route('read.details', ['id' => $work->id]) }}" style="color: var(--primary)">xem chi tiết</a></span>
                     </p>
+                    <div class="card-text pb-2">
+                      <p class="prices">Giá bản thường: <span>{{$work->gia_ban_thuong}} VNĐ</span></p>
+                      <p class="prices" style="color: var(--primary);">Giá bản đặc biệt: <span>{{$work->gia_ban_db}} VNĐ</span></p>
+                    </div>
                   </div>
                 </div>
                 <div class="d-flex justify-content-end pb-3" style="gap: 1rem;">
@@ -170,13 +173,16 @@
                         {{Illuminate\Support\Str::limit($work->tua_de, $limit = 46, $end = '...')}}
                       </h5>
                     </a>
-                    <p class="card-text prices">Giá: <span>{{$work->gia_thanh}} VND</span></p>
                     <p class="card-text">Tác giả: <span>{{$work->tac_gia}}</span></p>
                     <p class="card-text">
                       <!-- {{nl2br(str_replace('\n', "\n",Illuminate\Support\Str::limit($work->mo_ta_noi_dung, $limit = 500, $end = '...')))}} -->
                       {{Illuminate\Support\Str::limit($work->mo_ta_noi_dung, $limit = 300, $end = '...')}}
                       <span><a href="{{ route('read.details', ['id' => $work->id]) }}" style="color: var(--primary)">xem chi tiết</a></span>
                     </p>
+                    <div class="card-text pb-2">
+                      <p class="prices">Giá bản thường: <span>{{$work->gia_ban_thuong}} VNĐ</span></p>
+                      <p class="prices" style="color: var(--primary);">Giá bản đặc biệt: <span>{{$work->gia_ban_db}} VNĐ</span></p>
+                    </div>
                   </div>
                 </div>
                 <div class="d-flex justify-content-end pb-3" style="gap: 1rem;">
@@ -248,13 +254,15 @@
                         {{Illuminate\Support\Str::limit($work->tua_de, $limit = 46, $end = '...')}}
                       </h5>
                     </a>
-                    <p class="card-text prices">Giá: <span>{{$work->gia_thanh}} VND</span></p>
-                    <p class="card-text">Tác giả: <span>{{$work->tac_gia}}</span></p>
                     <p class="card-text">
                       <!-- {{nl2br(str_replace('\n', "\n",Illuminate\Support\Str::limit($work->mo_ta_noi_dung, $limit = 500, $end = '...')))}} -->
                       {{Illuminate\Support\Str::limit($work->mo_ta_noi_dung, $limit = 300, $end = '...')}}
                       <span><a href="{{ route('read.details', ['id' => $work->id]) }}" style="color: var(--primary)">xem chi tiết</a></span>
                     </p>
+                    <div class="card-text pb-2">
+                      <p class="prices">Giá bản thường: <span>{{$work->gia_ban_thuong}} VNĐ</span></p>
+                      <p class="prices" style="color: var(--primary);">Giá bản đặc biệt: <span>{{$work->gia_ban_db}} VNĐ</span></p>
+                    </div>
                   </div>
                 </div>
                 <div class="d-flex justify-content-end pb-3" style="gap: 1rem;">
@@ -333,14 +341,17 @@
                       <h5 class="card-title" data-bs-toggle="tooltip" data-bs-placement="right" title="{{$work->tua_de}}" style="font-weight: bold;">
                         {{Illuminate\Support\Str::limit($work->tua_de, $limit = 30, $end = '...')}}
                       </h5>
-                    </a>
-                    <p class="card-text prices">Giá: <span>{{$work->gia_thanh}} VND</span></p>
+                    </a> 
                     <p class="card-text">Tác giả: <span>{{$work->tac_gia}}</span></p>
                     <p class="card-text">
                       <!-- {{nl2br(str_replace('\n', "\n",Illuminate\Support\Str::limit($work->mo_ta_noi_dung, $limit = 500, $end = '...')))}} -->
                       {{Illuminate\Support\Str::limit($work->mo_ta_noi_dung, $limit = 250, $end = '...')}}
                       <span><a href="{{ route('read.details', ['id' => $work->id]) }}" style="color: var(--primary)">xem chi tiết</a></span>
                     </p>
+                    <div class="card-text pb-2">
+                      <p class="prices">Giá bản thường: <span>{{$work->gia_ban_thuong}} VNĐ</span></p>
+                      <p class="prices" style="color: var(--primary);">Giá bản đặc biệt: <span>{{$work->gia_ban_db}} VNĐ</span></p>
+                    </div>
                   </div>
                 </div>
                 <div class="d-flex justify-content-end pb-3" style="gap: 1rem;">

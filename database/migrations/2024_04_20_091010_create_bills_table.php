@@ -16,13 +16,11 @@ return new class extends Migration
             $table->dateTime('ngay_lap')->nullable(false);
             $table->unsignedInteger('thanh_tien')->nullable(false);            
             $table->unsignedBigInteger('tai_khoan')->nullable(false);
-            $table->unsignedBigInteger('tac_pham')->nullable(false);
             $table->unsignedBigInteger('khuyen_mai');
             $table->timestamps();
 
             //Khóa ngoại
             $table->foreign('tai_khoan')->references('id')->on('accounts');
-            $table->foreign('tac_pham')->references('id')->on('works');
             $table->foreign('khuyen_mai')->references('id')->on('promotions');
         });
     }

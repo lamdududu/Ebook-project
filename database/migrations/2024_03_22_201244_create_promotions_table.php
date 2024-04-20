@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('ten_chuong_trinh', 250)->nullable(false);
             $table->dateTime('ngay_bat_dau')->nullable(false);
             $table->dateTime('ngay_ket_thuc')->nullable(false);
-            $table->float('ti_le_khuyen_mai')->nullable(false);
+            // $table->float('ti_le_khuyen_mai')->nullable(false);
             $table->string('mo_ta_khuyen_mai', 250);
             $table->unsignedBigInteger('nguoi_tao')->nullable(false);
             $table->timestamps();

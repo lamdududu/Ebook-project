@@ -27,7 +27,7 @@
                 <div class="col input-custom">
                     <!-- input-group -->
                     <!-- <span class="input-group-text rounded-start-3" id="basic-addon1">Tên đăng nhập</span> -->
-                    <label for="userame" class="form-label">Tên đăng nhập <span class="text-danger">*</span></label>
+                    <label for="username" class="form-label">Tên đăng nhập <span class="text-danger">*</span></label>
                     <!-- <div class="d-md-none w-100"></div> -->
                     <input type="text" name="username" class="form-control shadow-none {{ $errors->has('username') ? 'is-invalid' : '' }} {{ old('username') ? 'is-valid' : '' }}" value="{{ old('username') }}" placeholder="Nhập tên đăng nhập..." aria-label="Tài khoản" aria-describedby="basic-addon1">
                     @if($errors->has('username'))

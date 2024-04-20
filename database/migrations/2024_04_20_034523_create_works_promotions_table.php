@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('tac_pham')->nullable(false);
             $table->unsignedBigInteger('khuyen_mai')->nullable(false);
+            $table->float('ti_le_khuyen_mai')->nullable(false);
             $table->timestamps();
 
             //Khóa ngoại
