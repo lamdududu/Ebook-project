@@ -64,3 +64,14 @@ input[type="radio"]:checked {
     background-color: var(--primary);
     box-shadow: 0 0 3px 2px var(--primary);
 }
+
+.title {
+    color: black;
+    text-decoration: none;
+}
+
+.title:hover {
+    color: var(--primary);
+    transform: scale(1.02);
+    transition: all .1s linear;
+}

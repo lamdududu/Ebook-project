@@ -52,7 +52,9 @@ footer a{
     font-size: 18px;
 }
 
-.see-all-works:hover {
+.see-all-works:hover, .see-all-works:active {
+    border: none;
+    box-shadow: none;
     color: var(--primary);
     transform: scale(1.02);
 }

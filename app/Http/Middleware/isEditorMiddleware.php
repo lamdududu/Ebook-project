@@ -17,14 +17,19 @@ class isEditorMiddleware
     public function handle(Request $request, Closure $next): Response
     {
 
-        if(Session::get('user')->loai_tai_khoan == 2) {
-            return $next($request);
+        if(Session::has('user')) {
+            if(Session::get('user')->loai_tai_khoan == 2) {
+                return $next($request);
+            }
+    
+            else if(Session::get('user')->loai_tai_khoan == 3) {
+                return redirect()->route('home');
+            }
+    
+            else return redirect()->route('accounts.management');
         }
-
-        else if(Session::get('user')->loai_tai_khoan == 3) {
-            return redirect()->route('home');
-        }
-
-        else return redirect()->route('accounts.management');
+        
+        else return redirect()->route('login.page');
+       
     }
 }

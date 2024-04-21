@@ -43,6 +43,11 @@ a {
     text-decoration: none;
 }
 
+.nav-link:active, .navbar-brand:active, .navbar-brand:active {
+    border: none;
+    box-shadow: none;
+}
+
 a::after {
     color: rgb(0, 0, 0);
 }

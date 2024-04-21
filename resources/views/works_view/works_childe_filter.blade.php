@@ -28,43 +28,31 @@
                     {{Illuminate\Support\Str::limit($book->mo_ta_noi_dung, $limit = 300, $end = '...')}}
                     <span><a style="color: var(--primary)">... xem chi tiết</a></span>
                     </p>
+                    <div class="card-text pb-2">
+                        <p class="prices">Giá bản thường: <span>{{$book->gia_ban_thuong}} VNĐ</span></p>
+                        <p class="prices" style="color: var(--primary);">Giá bản đặc biệt: <span>{{$book->gia_ban_db}} VNĐ</span></p>
+                    </div>
                 </div>
                 </div>
                 <div class="d-flex justify-content-end pb-3" style="gap: 1rem;">
-                <a href="#" class="px-3 btn btn-primary">
-                    <i class="bi bi-eye-fill"></i>
-                    <span>Đọc</span>
-                </a>
-                <a href="#" class="px-3 btn btn-primary">
-                    <i class="bi bi-download"></i>
-                    <span>Tải xuống</span>
-                </a>
-                <a href="#" class="px-3 btn btn-primary">
-                    <i class="bi bi-bag-plus-fill"></i>
-                    <span>Mua</span>
-                </a>
+                    <a href="{{ route('read.content', ['id' => $book->id]) }}" class="px-3 btn btn-primary">
+                        <i class="bi bi-eye-fill"></i>
+                        <span>Đọc thử</span>
+                    </a>
+                    <a href="{{ route('download', ['id' => $book->id]) }}" class="px-3 btn btn-primary">
+                        <i class="bi bi-download"></i>
+                        <span>Tải xuống</span>
+                    </a>
+                    <a href="{{ route('cart.add', ['id' => $book->id]) }}" class="px-3 btn btn-primary">
+                        <i class="bi bi-bag-plus-fill"></i>
+                        <span>Mua sau</span>
+                    </a>
                 </div>
             </div>
             </div>
         @endforeach
         <article class="row">
-            <nav class="nav-pagination" aria-label="Page navigation example">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+            {!! $books->links() !!}
         </article>
     @endif
 

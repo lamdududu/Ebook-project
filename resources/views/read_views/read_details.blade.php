@@ -4,37 +4,38 @@
     <link rel="stylesheet" href="{{asset('css/work_management.css')}}">
 @endsection
 
-@section('title', '{{$work->ten_tac_pham}}')
+@section('title', 'Chi tiết tác phẩm')
 
 @section('main')
-    <main class="container py-3">
-        <article class="row gap-3 align-items-center">
-            <section class="col-3">
+    <main class="container p-3">
+        <article class="row gap-3">
+            <section class="col-lg-3">
                 <div class="d-flex justify-content-center">
                     <div class="work-cover">
                         <img src="{{ asset($coverStoragePath . '/' . $work->anh_bia) }}" alt="{{$work->anh_bia}}" class="img-fluid rounded" style="opacity: 100%">
                     </div>
                 </div>
-                <div class="d-flex py-4 align-items-center new-work gap-2">
-                    <!-- <div> -->
+                <!-- <div class="d-flex py-4 align-items-center new-work gap-2">
                         <a href="{{ route('read.content', ['id' => $work->id]) }}" class="btn btn-primary">
                             <i class="bi bi-eye-fill"></i>
                             <span>Đọc</span>
                         </a>
                         <a href="#" class="px-3 btn btn-primary">
-                        <i class="bi bi-download"></i>
-                        <span>Tải xuống</span>
-                    </a>
+                            <i class="bi bi-download"></i>
+                            <span>Tải xuống</span>
+                        </a>
                         <a href="#" class="px-3 btn btn-primary">
                             <i class="bi bi-bag-plus-fill"></i>
-                            <span>Mua</span>
+                            <span>Mua sau</span>
                         </a>
-                    <!-- </div>                  -->
-                    
-                </div>
+                        <a href="#" class="px-3 btn btn-primary">
+                            <i class="bi bi-bag-plus-fill"></i>
+                            <span>Mua ngay</span>
+                        </a>                  
+                </div> -->
             </section>
             <section class="col">
-                <section class="d-flex flex-column gap-3">
+                <section class="d-flex flex-column">
                     <div>
                         <h2 style="font-weight: bold;">{{$work->tua_de}}</h2>
                     </div>
@@ -102,7 +103,28 @@
 
                         </section>
                     </div>
-                    <div>
+                    <div class="d-flex py-2 justify-content-end align-items-center new-work gap-2">
+                    <!-- <div> -->
+                        <a href="{{ route('read.content', ['id' => $work->id]) }}" class="btn btn-primary">
+                            <i class="bi bi-eye-fill"></i>
+                            <span>Đọc thử</span>
+                        </a>
+                        <a href="{{ route('download', ['id' => $work->id]) }}" class="px-3 btn btn-primary">
+                            <i class="bi bi-download"></i>
+                            <span>Tải xuống</span>
+                        </a>
+                        <a href="{{ route('cart.add', ['id' => $work->id]) }}" class="px-3 btn btn-primary">
+                            <i class="bi bi-bag-plus-fill"></i>
+                            <span>Mua sau</span>
+                        </a>
+                        <a href="#" class="px-3 btn btn-primary">
+                            <i class="bi bi-credit-card-fill"></i>
+                            <span>Mua ngay</span>
+                        </a>
+                    <!-- </div>                  -->
+                    
+                </div>
+                    <div class="py-5">
                         <h5 style="font-weight: bold;">Mô tả nội dung</h5>
                         <div>
                             {!! nl2br($work->mo_ta_noi_dung) !!}

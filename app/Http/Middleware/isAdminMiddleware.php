@@ -17,15 +17,18 @@ class isAdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         
+        if(Session::has('user')) {
+            if(Session::get('user')->loai_tai_khoan == 1) {
+                return $next($request);
+            }
+    
+            else if(Session::get('user')->loai_tai_khoan == 2) {
+                return redirect()->route('works.management');
+            }
+    
+            else return redirect()->route('home');
+        }
         
-        if(Session::get('user')->loai_tai_khoan == 1) {
-            return $next($request);
-        }
-
-        else if(Session::get('user')->loai_tai_khoan == 2) {
-            return redirect()->route('works.management');
-        }
-
-        else return redirect()->route('home');
+        else return redirect()->route('login.page');
     }
 }

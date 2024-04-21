@@ -51,13 +51,17 @@
                     </div>
                     <div class="d-flex py-4 align-items-end new-work gap-2">
                         <!-- <div> -->
-                            <a href="#" class="btn btn-primary">
-                            <i class="bi bi-download"></i>
-                            <span>Tải xuống</span>
-                        </a>
-                            <a href="#" class="btn btn-primary">
+                            <a href="{{ route('download', ['id' => $work->id]) }}" class="btn btn-primary">
+                                <i class="bi bi-download"></i>
+                                <span>Tải xuống</span>
+                            </a>
+                            <a href="{{ route('cart.add', ['id' => $work->id]) }}" class="btn btn-primary">
                                 <i class="bi bi-bag-plus-fill"></i>
-                                <span>Mua</span>
+                                <span>Mua sau</span>
+                            </a>
+                            <a href="#" class="btn btn-primary">
+                                <i class="bi bi-credit-card-fill"></i>
+                                <span>Mua ngay</span>
                             </a>
                         <!-- </div>                  -->
                         

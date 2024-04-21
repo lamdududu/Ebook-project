@@ -21,32 +21,10 @@ class WorkListController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * 
      */
-    public function index()
-    {
-        // lấy đường dẫn đến thư mục chứa ảnh bìa
-        $coverStoragePath = Storage::url('covers');
 
-        // lấy thông tin tác phẩm
-        // $books = Work::all();
-
-        // lấy thể loại
-        $categories = Category::all();
-        
-        //lấy thời điểm gần nhất và không trễ hơn thời điểm hiện tại
-        // $latestTime = Time::where('thoi_diem', '<=', Carbon::now())->first();
-
-       $works = DB::select(
-            'select w.*, b.gia_ban_thuong, b.gia_ban_db
-            from (SELECT w.id, p.gia_ban_thuong, p.gia_ban_db, max(t.thoi_diem)
-            FROM prices p
-            JOIN works w ON w.id = p.tac_pham
-            JOIN times t ON t.id = p.thoi_diem
-            where t.thoi_diem <= Now()
-            GROUP BY w.id) b join works w on b.id = w.id;'
-       );
-
-       $perPage = 5;
+    public function paginate($works, $perPage) {
 
         // Số trang hiện tại, mặc định là 1
         $page = LengthAwarePaginator::resolveCurrentPage();
@@ -65,7 +43,54 @@ class WorkListController extends Controller
 
         // Dữ liệu phân trang đã hoàn thành
         return $books;
+    }
+
+
+    public function index()
+    {
+        // lấy đường dẫn đến thư mục chứa ảnh bìa
+        $coverStoragePath = Storage::url('covers');
+
+        // lấy thông tin tác phẩm
+        // $books = Work::all();
+
+        // lấy thể loại
+        $categories = Category::all();
         
+        //lấy thời điểm gần nhất và không trễ hơn thời điểm hiện tại
+        // $latestTime = Time::where('thoi_diem', '<=', Carbon::now())->first();
+
+       $books = DB::select(
+            'select w.*, b.gia_ban_thuong, b.gia_ban_db
+            from (SELECT w.id, p.gia_ban_thuong, p.gia_ban_db, max(t.thoi_diem)
+            FROM prices p
+            JOIN works w ON w.id = p.tac_pham
+            JOIN times t ON t.id = p.thoi_diem
+            where t.thoi_diem <= Now()
+            GROUP BY w.id) b join works w on b.id = w.id;'
+       );
+
+    //    $perPage = 6;
+
+    //     // Số trang hiện tại, mặc định là 1
+    //     $page = LengthAwarePaginator::resolveCurrentPage();
+
+    //     // Tạo một Collection từ kết quả của truy vấn
+    //     $collection = collect($works);
+
+    //     // Phân trang dữ liệu
+    //     $worksPaginated = $collection->slice(($page - 1) * $perPage, $perPage)->all();
+
+    //     // Tạo một Paginator từ dữ liệu đã được phân trang
+    //     $books = new LengthAwarePaginator($worksPaginated, count($collection), $perPage, $page);
+
+    //     // Đặt URL cho các trang
+    //     $books->setPath(request()->url());
+
+        // Dữ liệu phân trang đã hoàn thành
+        // return $books;
+        
+        $books = $this->paginate($books, 6);
 
         return view('works_view.works_childe', compact('categories', 'books', 'coverStoragePath'));
         // $categories = Category::all();
@@ -113,13 +138,16 @@ class WorkListController extends Controller
         $nominations = Nomination::All();
 
         $works = DB::select(
-            'select w.*, b.gia_ban_thuong, b.gia_ban_db
+            'SELECT w.*, b.gia_ban_thuong, b.gia_ban_db
             from (SELECT w.id, p.gia_ban_thuong, p.gia_ban_db, max(t.thoi_diem)
-            FROM prices p
-            JOIN works w ON w.id = p.tac_pham
-            JOIN times t ON t.id = p.thoi_diem
-            where t.thoi_diem <= Now()
-            GROUP BY w.id) b join works w on b.id = w.id;'
+                FROM prices p
+                JOIN works w ON w.id = p.tac_pham
+                JOIN times t ON t.id = p.thoi_diem
+                where t.thoi_diem <= Now()
+                GROUP BY w.id) b 
+                JOIN works w ON b.id = w.id
+            ORDER BY w.id DESC
+            LIMIT 10;'
        );
         
         // lấy danh sách tác phẩm nổi bật
@@ -179,15 +207,16 @@ class WorkListController extends Controller
      */
     public function getLibrary()
     {
+        $categories = Category::all();
+
+        $coverStoragePath = Storage::url('covers');
         // $bills = BillDetails::where('tai_khoan', session::get('user')->id)->get();
         $works = Work::join('bill_details', 'works.id', '=', 'bill_details.tac_pham')
                     ->join('bills', 'bills.id', '=', 'bill_details.hoa_don')
                     ->where('bills.tai_khoan', session::get('user')->id)
                     ->get();
 
-        $categories = Category::all();
-
-        $coverStoragePath = Storage::url('covers');
+        $works = $this->paginate($works, 2);
 
         return view('works_view.libary', compact('works', 'categories', 'coverStoragePath'));
     }

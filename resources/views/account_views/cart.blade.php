@@ -74,7 +74,9 @@
                                                     <img src="{{$coverStoragePath . '/' . $work->anh_bia}}" class="rounded-3" alt="Product 1" style="max-width: 100px;">
                                                 </div>
                                                 <div class="d-flex flex-column flex-grow-1">
-                                                    <h5><strong>{{$work->tua_de}}</strong></h5>
+                                                    <a href="{{ route('read.details', ['id' => $work->id]) }}" class="title">
+                                                        <h5><strong>{{$work->tua_de}}</strong></h5>
+                                                    </a>
                                                     <div class="desc pt-1 pb-4">
                                                         <p>Tác giả: <span>{{$work->tac_gia}}</span></p>
                                                         <p>Nhà xuất bản: <span>{{$work->nha_xuat_ban}}</span></p>
@@ -116,7 +118,7 @@
                     <div class="col">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title"><strong>Thông tin khuyến mãi</strong></h5>
+                                <h5 class="card-title"><strong>Thông tin khuyến mãi <i class="bi bi-gift-fill" style="color: var(--primary);"></i></strong></h5>
                                 <ul class="list-group">
                                     @foreach($promotions as $promotion)
                                         <li class="list-group-item">

@@ -28,44 +28,6 @@
   @endif
 
   <main class="container pb-3">
-  @if(Session()->has('warning-add-paid'))
-        <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
-            <div class="pb-3"><strong>Bạn đã mua tác phẩm {{Session('warning-add-paid')}}.</strong></div>
-            <div>Hãy kiểm tra lại thư viện.</div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        <?php session()->forget('warning-add-paid'); ?>
-    @endif
-  @if(Session()->has('warning-download'))
-        <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
-            <div class="pb-3 text-danger"><strong>Bạn chưa có phiên bản đặc biệt của tác phẩm {{Session('warning-download')}}.</strong></div>
-            <div>Bạn có muốn thanh toán ngay để có thể tiếp tục tải xuống tác phẩm không?</div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            <div class="pt-1">
-                <a href="{{ route('payment.account') }}" class="btn px-2" style="color: rgb(102, 77, 3);"><strong>Có</strong></a>
-                <button type="button" class="btn btn-alert text-danger px-2" data-bs-dismiss="alert" aria-label="Close"><strong>Không</strong></button>
-            </div>
-        </div>
-        <?php session()->forget('warning-add'); ?>
-    @endif
-
-    @if(Session()->has('warning-add'))
-        <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
-            <div class="pb-3"><strong>Bạn đã có tác phẩm {{Session('warning-add')}} trong giỏ hàng.</strong></div>
-            <div>Đừng quên thanh toán để có thể thưởng thức trọn vẹn tác phẩm nhé!</div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        <?php session()->forget('warning-add'); ?>
-    @endif
-
-    @if(Session()->has('success-add'))
-        <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
-            <div class="pb-3"><strong>Thêm tác phẩm {{Session('success-add')}} thành công.</strong></div>
-            <div>Đừng quên thanh toán để có thể thưởng thức trọn vẹn tác phẩm nhé!</div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        <?php session()->forget('success-add'); ?>
-    @endif
     
     <article class="row container">
       <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -360,8 +322,8 @@
         <section class="row">
           <div class="col pt-2 pb-3 d-flex align-items-center ">
               <h3 style="font-weight: bold;">
-                <i class="icon bi bi-book-half"></i>
-                <span>Danh sách tác phẩm</span> 
+                <i class="icon bi bi-hourglass-top"></i>
+                <span>Tác phẩm mới</span> 
               </h3>
           </div>
         </section>
@@ -413,6 +375,7 @@
         </section>
         <div class="text-center pt-3">
           <a href="{{ route('works') }}" class="see-all-works">Xem tất cả...</a>
+        </div>
         </section>
       </section>
     </article>
