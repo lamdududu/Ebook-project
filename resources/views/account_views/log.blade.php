@@ -5,7 +5,7 @@
 @endsection
 
 @section('main')
-    <main class="pt-5 pb-5 container justify-content-center align-items-center">
+    <main class="p-5 container justify-content-center align-items-center">
         <!-- position-absolute top-50 start-50 translate-middle -->
         <article class="row d-flex justify-content-center align-items-center gap-5">
             <div class="col-10 col-xl-6 d-flex justify-content-center">

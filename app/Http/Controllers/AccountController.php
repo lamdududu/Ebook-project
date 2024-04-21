@@ -231,9 +231,9 @@ class AccountController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Tạo tài khoản thanh toán
      */
-    public function createPaymentAccount(Request $request)
+    public function connectionPaymentAccount(Request $request)
     {
         $request->validate(
             [
@@ -242,8 +242,8 @@ class AccountController extends Controller
                 'password_confirmation' => 'required',
             ],
             [
-                'phone.required' => 'Chưa nhập số tài khoản',
-                'phone.numeric' => 'Số tài khoản chứa ký tự không hợp lệ',
+                'payAcc.required' => 'Chưa nhập số tài khoản',
+                'payAcc.numeric' => 'Số tài khoản chứa ký tự không hợp lệ',
                 'password.required' => 'Chưa nhập mật khẩu',
                 'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự',
                 'password.max' => 'Mật khẩu quá dài (tối đa 50 ký tự)',
@@ -259,15 +259,21 @@ class AccountController extends Controller
                 ->withInput($request->only('accPay'));
         }
 
-        $user = new PaymentAccount();
+        // $user = new PaymentAccount();
 
-        $user->so_tai_khoan = $request->input('username');
-        $user->mat_khau = Hash::make($request->input('password'));
+        // $user->so_tai_khoan = $request->input('payAcc');
+        // $user->mat_khau = Hash::make($request->input('password'));
 
-        $user->save();
+        // $user->save();
+
+        PaymentAccount::create([
+            'so_tai_khoan' => $request->input('payAcc'),
+            'mat_khau' => Hash::make($request->input('password')),
+            'tai_khoan' => Session::get('user')->id,
+        ]);
 
         return redirect()->route('cart')
-                        ->with('success', 'Kết nối tài khoản thành công');
+                        ->with('success-connection', 'Kết nối tài khoản thành công');
     }
 
     /**

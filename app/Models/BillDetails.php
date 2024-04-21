@@ -13,5 +13,6 @@ class BillDetails extends Model
         'tac_pham',
         'hoa_don',
         'gia_thanh',
+        'phien_ban',
     ];
 }

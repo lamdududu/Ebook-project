@@ -6,6 +6,8 @@ use App\Models\Promotion;
 use App\Models\Cart;
 use App\Models\PaymentAccount;
 use App\Models\Bill;
+use App\Models\BillDetails;
+use App\Models\Work;
 use stdClass;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -88,22 +90,24 @@ class CartController extends Controller
                 ]
             );
             
-            $versions = [];
+            // $versions = [];
 
-            foreach ($request->input('version') as $work => $version) {
-                $versions[] = $version;
-            }
+            // foreach ($request->input('version') as $work => $version) {
+            //     $versions[] = $version;
+            // }
 
 
-            if( count($request->input('workCheck', [])) != count($versions)) {
+            if( count($request->input('workCheck', [])) != count($request->input('version'))) {
                 return redirect()->back()->withErrors('version', 'Chọn một phiên bản cho mỗi tác phẩm muốn mua');
             }
             else {
                 if (!PaymentAccount::where('tai_khoan', Session::get('user')->id)->first()) {
-                    return redirect()->route('payment.account')->with('warning', 'Chưa có tài khoản thanh toán');
+                    return redirect()->back()->with('warning', 'Chưa có tài khoản thanh toán');
+                    // return redirect()->route('payment.account')->with('warning', 'Chưa có tài khoản thanh toán');
+
                 } else {
                     session()->put('data', $request->input('workCheck', []));
-                    session()->put('version', $versions);
+                    session()->put('versions', $request->input('version'));
                     return redirect()->route('cart.payment');
                 }
             }
@@ -118,7 +122,7 @@ class CartController extends Controller
 
         foreach (session('data') as $work) {
             $work = DB::select(
-                'SELECT w.id, w.tua_de, w.anh_bia, p.gia_thanh, max(t.thoi_diem) as thoi_diem
+                'SELECT w.id, w.tua_de, w.anh_bia, p.gia_ban_thuong, p.gia_ban_db, max(t.thoi_diem) as thoi_diem
                 FROM prices p
                     JOIN works w ON w.id = p.tac_pham
                     JOIN times t ON t.id = p.thoi_diem
@@ -132,9 +136,16 @@ class CartController extends Controller
                 $workObject->tua_de = $row->tua_de;
                 $workObject->anh_bia = $row->anh_bia;
 
-                if(session('versions')[$count] == 1)
-                    $workObject->gia_thanh = $row->gia_ban_thuong; // Giá phiên bản thường
-                else $workObject->gia_thanh = $row->gia_ban_db; // Giá phiên bản đặc biệt
+                // Nếu người dùng chọn mua phiên bản thường
+                if(session('versions')[$row->id] == 1) {
+                    $workObject->gia_thanh = $row->gia_ban_thuong;
+                    $workObject->phien_ban = session('versions')[$row->id];
+                }
+                // Nếu người dùng chọn mua phiên bản thường
+                else {
+                    $workObject->gia_thanh = $row->gia_ban_db;
+                    $workObject->phien_ban = session('versions')[$row->id];
+                }
                 
                 $totalBill += $workObject->gia_thanh;
                 $count++; // Đếm số lượng hàng
@@ -142,8 +153,8 @@ class CartController extends Controller
             }            
         }
 
-        session()->put('total', $totalBill);
-        session()->put('works', $works);
+        session()->put('totalPayment', $totalBill);
+        session()->put('payForWorks', $works);
 
         return view('account_views.payment', compact('works', 'totalBill', 'count', 'coverStoragePath'));
     }
@@ -154,7 +165,6 @@ class CartController extends Controller
             [
                 'payAcc' => 'required',
                 'password' => 'required',
-                'typeBill' => 'required',
             ],
             [
                 'payAcc.required' => 'Chưa nhập tài khoản thanh toán',
@@ -163,41 +173,85 @@ class CartController extends Controller
         );
 
         // Lấy tài khoản thanh toán
-        $account = PaymentAccount::where('so_tai_khoan', $request->payAcc)->first();
+        $account = PaymentAccount::where('so_tai_khoan', $request->input('payAcc'))->first();
 
         // Kiểm tra số tài khoản
         if (!$account) {
-            return redirect()->route('account_views.payment')
+            return redirect()->back()
                 ->withErrors(['payAcc' => 'Không tìm thấy số tài khoản'])
                 ->withInput($request->only('payAcc'));
         }
         else {
             //  Kiểm tra mật khẩu
-            if (!Hash::check($request->password, $account->password)) {
-                return redirect()->route('account_views.payment')
+            if (!Hash::check($request->input('password'), $account->mat_khau)) {
+                return redirect()->back()
                                 ->withErrors(['password' => 'Sai mật khẩu'])
                                 ->withInput($request->only('payAcc'));
             } else {
+                // Hiện tại chưa có phương thức cho khuyến mãi
+                    // Bổ sung khuyến mãi sau
                 $bill = Bill::create([
                     'ngay_lap' => Carbon::now()->format('Y-m-d'),
-                    'thanh_tien' => session::get('total'),
+                    'thanh_tien' => session::get('totalPayment'),
                     'tai_khoan' => session::get('user')->id,
-                    'loai_hoa_don' => $request('')
+                    
                 ]);
+
+                foreach(session('payForWorks') as $work) {
+                    BillDetails::create([
+                        'tac_pham' => $work->id,
+                        'hoa_don' => $bill->id,
+                        'gia_thanh' => $work->gia_thanh,
+                        'phien_ban' => $work->phien_ban,
+                    ]);
+                    Cart::where('tai_khoan', session::get('user')->id)
+                        ->where('tac_pham', $work->id)
+                        ->delete();
+                }
 
                 session()->forget('data');
                 session()->forget('version');
-                return redirect()->route('cart')->with('success', 'Thanh toán thành công');
+                session()->forget('totalPayment');
+                session()->forget('payForWorks');
+
+                return redirect()->route('cart')->with('success-payment', 'Thanh toán thành công');
             }
         }
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Thêm vào giỏ hàng
      */
-    public function create()
+    public function add($id)
     {
-        //
+        $workAdd = Work::where('id', $id)->first();
+        $user = session::get('user')->id;
+
+        // Kiểm tra tác phẩm đã có tồn tại trong giỏ hàng chưa
+        if(Cart::where('tai_khoan', session::get('user')->id)->where('tac_pham', $id)->first()) 
+        {
+            return redirect()->back()->with('warning-add', $workAdd->tua_de);
+        }
+
+        
+
+        else if(
+            BillDetails::join('bills', 'bills.id', '=', 'bill_details.hoa_don')
+                        ->where('bills.tai_khoan', $user)
+                        ->where('bill_details.tac_pham', $id)->first()
+        ) {
+            return redirect()->back()->with('warning-add-paid', $workAdd->tua_de);
+        }
+
+        else {
+            
+            Cart::create([
+                'tai_khoan' => $user,
+                'tac_pham' => $id,
+            ]);
+
+            return redirect()->back()->with('success-add', $workAdd->tua_de);
+        }
     }
 
     /**

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -44,5 +45,7 @@ class AppServiceProvider extends ServiceProvider
         //     // Thay thế thông báo lỗi tương ứng
         //     return str_replace(':attribute', $attribute, 'Sai mật khẩu');
         // });
+            
+        Paginator::useBootstrapFive();
     }
 }

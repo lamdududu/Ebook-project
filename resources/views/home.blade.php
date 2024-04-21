@@ -24,9 +24,48 @@
         <div>Chúc bạn có những trải nghiệm tuyệt vời tại E-read!</div>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
+    <?php session()->forget('success'); ?>
   @endif
 
   <main class="container pb-3">
+  @if(Session()->has('warning-add-paid'))
+        <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+            <div class="pb-3"><strong>Bạn đã mua tác phẩm {{Session('warning-add-paid')}}.</strong></div>
+            <div>Hãy kiểm tra lại thư viện.</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <?php session()->forget('warning-add-paid'); ?>
+    @endif
+  @if(Session()->has('warning-download'))
+        <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+            <div class="pb-3 text-danger"><strong>Bạn chưa có phiên bản đặc biệt của tác phẩm {{Session('warning-download')}}.</strong></div>
+            <div>Bạn có muốn thanh toán ngay để có thể tiếp tục tải xuống tác phẩm không?</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <div class="pt-1">
+                <a href="{{ route('payment.account') }}" class="btn px-2" style="color: rgb(102, 77, 3);"><strong>Có</strong></a>
+                <button type="button" class="btn btn-alert text-danger px-2" data-bs-dismiss="alert" aria-label="Close"><strong>Không</strong></button>
+            </div>
+        </div>
+        <?php session()->forget('warning-add'); ?>
+    @endif
+
+    @if(Session()->has('warning-add'))
+        <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+            <div class="pb-3"><strong>Bạn đã có tác phẩm {{Session('warning-add')}} trong giỏ hàng.</strong></div>
+            <div>Đừng quên thanh toán để có thể thưởng thức trọn vẹn tác phẩm nhé!</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <?php session()->forget('warning-add'); ?>
+    @endif
+
+    @if(Session()->has('success-add'))
+        <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+            <div class="pb-3"><strong>Thêm tác phẩm {{Session('success-add')}} thành công.</strong></div>
+            <div>Đừng quên thanh toán để có thể thưởng thức trọn vẹn tác phẩm nhé!</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <?php session()->forget('success-add'); ?>
+    @endif
     
     <article class="row container">
       <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -109,13 +148,13 @@
                     <i class="bi bi-eye-fill"></i>
                     <span>Đọc</span>
                   </a>
-                  <a href="#" class="px-3 btn btn-primary">
+                  <a href="{{ route('download', ['id' => $work->id]) }}" class="px-3 btn btn-primary">
                     <i class="bi bi-download"></i>
                     <span>Tải xuống</span>
                   </a>
-                  <a href="#" class="px-3 btn btn-primary">
+                  <a href="{{ route('cart.add', ['id' => $work->id]) }}" class="px-3 btn btn-primary">
                     <i class="bi bi-bag-plus-fill"></i>
-                    <span>Mua</span>
+                    <span>Mua sau</span>
                   </a>
                   </div>
                 </div>
@@ -190,13 +229,13 @@
                     <i class="bi bi-eye-fill"></i>
                     <span>Đọc</span>
                   </a>
-                  <a href="#" class="px-3 btn btn-primary">
+                  <a href="{{ route('download', ['id' => $work->id]) }}" class="px-3 btn btn-primary">
                     <i class="bi bi-download"></i>
                     <span>Tải xuống</span>
                   </a>
-                  <a href="#" class="px-3 btn btn-primary">
+                  <a href="{{ route('cart.add', ['id' => $work->id]) }}" class="px-3 btn btn-primary">
                     <i class="bi bi-bag-plus-fill"></i>
-                    <span>Mua</span>
+                    <span>Mua sau</span>
                   </a>
                   </div>
                 </div>
@@ -270,13 +309,13 @@
                     <i class="bi bi-eye-fill"></i>
                     <span>Đọc</span>
                   </a>
-                  <a href="#" class="px-3 btn btn-primary">
+                  <a href="{{ route('download', ['id' => $work->id]) }}" class="px-3 btn btn-primary">
                     <i class="bi bi-download"></i>
                     <span>Tải xuống</span>
                   </a>
-                  <a href="#" class="px-3 btn btn-primary">
+                  <a href="{{ route('cart.add', ['id' => $work->id]) }}" class="px-3 btn btn-primary">
                     <i class="bi bi-bag-plus-fill"></i>
-                    <span>Mua</span>
+                    <span>Mua sau</span>
                   </a>
                   </div>
                 </div>
@@ -359,13 +398,13 @@
                     <i class="bi bi-eye-fill"></i>
                     <span>Đọc</span>
                   </a>
-                  <a href="#" class="px-3 btn btn-primary">
+                  <a href="{{ route('download', ['id' => $work->id]) }}" class="px-3 btn btn-primary">
                     <i class="bi bi-download"></i>
                     <span>Tải xuống</span>
                   </a>
-                  <a href="#" class="px-3 btn btn-primary">
+                  <a href="{{ route('cart.add', ['id' => $work->id]) }}" class="px-3 btn btn-primary">
                     <i class="bi bi-bag-plus-fill"></i>
-                    <span>Mua</span>
+                    <span>Mua sau</span>
                   </a>
                 </div>
               </div>

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BillDetails;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Work;
 use App\Models\WorksCategories;
@@ -13,6 +15,7 @@ use App\Models\Time;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class WorkListController extends Controller
 {
@@ -33,7 +36,7 @@ class WorkListController extends Controller
         //lấy thời điểm gần nhất và không trễ hơn thời điểm hiện tại
         // $latestTime = Time::where('thoi_diem', '<=', Carbon::now())->first();
 
-       $books = DB::select(
+       $works = DB::select(
             'select w.*, b.gia_ban_thuong, b.gia_ban_db
             from (SELECT w.id, p.gia_ban_thuong, p.gia_ban_db, max(t.thoi_diem)
             FROM prices p
@@ -42,6 +45,26 @@ class WorkListController extends Controller
             where t.thoi_diem <= Now()
             GROUP BY w.id) b join works w on b.id = w.id;'
        );
+
+       $perPage = 5;
+
+        // Số trang hiện tại, mặc định là 1
+        $page = LengthAwarePaginator::resolveCurrentPage();
+
+        // Tạo một Collection từ kết quả của truy vấn
+        $collection = collect($works);
+
+        // Phân trang dữ liệu
+        $worksPaginated = $collection->slice(($page - 1) * $perPage, $perPage)->all();
+
+        // Tạo một Paginator từ dữ liệu đã được phân trang
+        $books = new LengthAwarePaginator($worksPaginated, count($collection), $perPage, $page);
+
+        // Đặt URL cho các trang
+        $books->setPath(request()->url());
+
+        // Dữ liệu phân trang đã hoàn thành
+        return $books;
         
 
         return view('works_view.works_childe', compact('categories', 'books', 'coverStoragePath'));
@@ -152,11 +175,21 @@ class WorkListController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Lấy danh sách tác phẩm đã mua
      */
-    public function create()
+    public function getLibrary()
     {
-        //
+        // $bills = BillDetails::where('tai_khoan', session::get('user')->id)->get();
+        $works = Work::join('bill_details', 'works.id', '=', 'bill_details.tac_pham')
+                    ->join('bills', 'bills.id', '=', 'bill_details.hoa_don')
+                    ->where('bills.tai_khoan', session::get('user')->id)
+                    ->get();
+
+        $categories = Category::all();
+
+        $coverStoragePath = Storage::url('covers');
+
+        return view('works_view.libary', compact('works', 'categories', 'coverStoragePath'));
     }
 
     /**

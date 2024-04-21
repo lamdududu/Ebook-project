@@ -37,14 +37,14 @@
             <i class="bi bi-eye-fill"></i>
             <span>Đọc thử</span>
           </a>
-          <a href="#" class="px-3 btn btn-primary">
+          <a href="{{ route('download', ['id' => $book->id]) }}" class="px-3 btn btn-primary">
             <i class="bi bi-download"></i>
             <span>Tải xuống</span>
           </a>
-          <!-- <a href="#" class="px-3 btn btn-primary">
+          <a href="{{ route('cart.add', ['id' => $book->id]) }}" class="px-3 btn btn-primary">
             <i class="bi bi-bag-plus-fill"></i>
-            <span>Thêm vào giỏ hàng</span>
-          </a> -->
+            <span>Mua sau</span>
+          </a>
         </div>
       </div>
     </div>
@@ -57,6 +57,7 @@
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
+                    {!! $books->links('Paginator::useBootstrapFive') !!}
                     <li class="page-item"><a class="page-link" href="#">1</a></li>
                     <li class="page-item"><a class="page-link" href="#">2</a></li>
                     <li class="page-item"><a class="page-link" href="#">3</a></li>
@@ -67,6 +68,7 @@
                     </li>
                 </ul>
             </nav>
-        </article>
+    </article>
+
 
 @endsection

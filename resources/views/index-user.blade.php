@@ -45,7 +45,7 @@
                             <input class="form-control me-1 search-custom" type="search" placeholder="Tìm kiếm..." aria-label="Search">
                             <button class="btn me-3 search-btn" type="submit"><i class='bi bi-search'></i></button>
                         </form>
-                        <a class="nav-link py-lg-0 py-2 px-lg-4" href="#">
+                        <a class="nav-link py-lg-0 py-2 px-lg-4" href="{{ route('library') }}">
                             <i class="bi bi-collection"></i>
                             <strong>Thư viện</strong>
                         </a>
@@ -60,6 +60,10 @@
                                     <strong>{{Session::get('user.ten_tai_khoan')}}</strong>
                                 </a>
                                 <ul class="dropdown-menu custom-dropdown-account" aria-labelledby="navbarScrollingDropdown">
+                                    <li><a class="dropdown-item" href="#">Lịch sử thanh toán</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
                                     <li><a class="dropdown-item" href="{{ route('account-informations', ['id' => Session::get('user.id')]) }}">Thông tin tài khoản</a></li>
                                     <li><a class="dropdown-item" href="#">Cài đặt</a></li>
                                     <li>

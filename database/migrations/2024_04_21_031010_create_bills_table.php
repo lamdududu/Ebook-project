@@ -16,7 +16,7 @@ return new class extends Migration
             $table->dateTime('ngay_lap')->nullable(false);
             $table->unsignedInteger('thanh_tien')->nullable(false);            
             $table->unsignedBigInteger('tai_khoan')->nullable(false);
-            $table->unsignedBigInteger('khuyen_mai');
+            $table->unsignedBigInteger('khuyen_mai')->nullable(true);
             $table->timestamps();
 
             //Khóa ngoại

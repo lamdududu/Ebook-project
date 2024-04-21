@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bill;
+use App\Models\BillDetails;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Work;
 use App\Models\WorksCategories;
@@ -67,5 +70,24 @@ class WorkReadController extends Controller
             // return redirect()->route('read.details', ['id' => $id]);
             return response()->json(['error' => $file], 404);
         }
+    }
+
+    // Download tác phẩm
+    public function download($id) {
+        
+        $work = Work::find($id);
+
+        $bill = BillDetails::join('bills', 'bills.id', '=', 'bill_details.hoa_don')
+                            ->where('bills.tai_khoan', Session::get('user')->id)
+                            ->where('tac_pham', $id)->first();
+        
+        if($bill && $bill->phien_ban == 2) {
+
+            return response()->download(storage_path('app/public/works/') . $work->value('tep_tin'));
+
+            return redirect()->back()->with('success-download', $work->tua_de);
+        }
+        
+        return redirect()->back()->with('warning-download', $work->tua_de);
     }
 }

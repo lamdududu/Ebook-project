@@ -8,11 +8,11 @@
 @endsection
 
 @section('main')
-    <main class="container py-4">
+    <main class="container py-4 px-5">
         <article class="row">
             <div class="col-md-2 col-lg-3"></div>
             <section class="col login-form">
-            <form class="needs-validation p-3" action="{{ route('payment') }}" method="post" novalidate>
+            <form class="needs-validation p-3" action="{{ route('payment') }}" method="post">
                     @csrf
                     <legend class="p-2 text-center">Hoá đơn thanh toán</legend>
                     <div class="row justify-content-center pb-2">
@@ -30,7 +30,7 @@
                                             <div class="d-flex flex-column flex-grow-1 justify-content-center">
                                                 <p><strong>{{$work->tua_de}}</strong></p>
                                                 <p class="desc">Phiên bản:
-                                                    @if($work->phien_ban)
+                                                    @if($work->phien_ban == 1)
                                                         Bản thường
                                                     @else Bản đặc biệt
                                                     @endif
@@ -43,9 +43,9 @@
                                 </div>
                             @endforeach
                     </div>
-                    <div class="row justify-content-center p">
+                    <div class="row p text-end px-2" style="font-size: 14px;">
                         <div><strong>Số lượng: </strong><span>{{$count}}</span></div>
-                        <div><strong>Thành tiền: </strong><span>{{$totalBill}} VNĐ</span></div>
+                        <div><strong>Thành tiền: <span style="color: var(--primary);">{{$totalBill}} VNĐ</span></strong></div>
                     </div>
                     <hr class="hr">
                     <div class="row justify-content-center pb-2">

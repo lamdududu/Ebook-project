@@ -8,7 +8,7 @@
 @endsection
 
 @section('main')
-<main class="container py-3">
+<main class="container py-3 px-5">
     <article class="row gap-5">
         <section class="col-lg-3">
         </section>

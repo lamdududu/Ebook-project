@@ -13,7 +13,6 @@ class Bill extends Model
         'ngay_lap',
         'thanh_tien',
         'tai_khoan',
-        'loai_hoa_don',
         'khuyen_mai',
     ];
 }

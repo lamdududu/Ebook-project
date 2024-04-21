@@ -32,10 +32,37 @@ Route::get('/dangky', function () {
 Route::post('/dangky/dangky', [AccountController::class, 'authenticateRegister'])->middleware('isLogged')->name('register');
 
 // Tài khoản thanh toán
-Route::get('/taikhoan/taikhoanthanhtoan/', [AccountController::class, 'createPaymentAccount'])->middleware('isUser')->name('payment.account');
+Route::get('/taikhoan/taikhoanthanhtoan/', function(){
+    return view('account_views.payment-account');
+})->middleware('isUser')->name('payment.account');
 
 // Kết nối tài khoán thanh toán
 Route::post('/taikhoan/taikhoanthanhtoan/ketnoi', [AccountController::class, 'connectionPaymentAccount'])->middleware('isUser')->name('payment.connection');
+
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+// ----------------------------------------------------------------
+
+// Thêm vào giỏ hàng
+Route::get('/giohang/them/{id}', [CartController::class, 'add'])->middleware('isUser')->name('cart.add');
+
+// Giỏ hàng
+Route::get('/giohang', [CartController::class, 'index'])->middleware('isUnlogged')->name('cart');
+
+// Xử lý các nút trong giao diện giỏ hàng
+Route::post('/giohang/xuly', [CartController::class, 'handleButtonCart'])->middleware('isUser')->name('cart.button');
+
+// Thanh toán
+Route::get('/giohang/thanhtoan', [CartController::class, 'confirmPayment'])->middleware('isUser')->name('cart.payment');
+
+// Thanh toán
+Route::post('/giohang/thanhtoan/thanhtoan', [CartController::class, 'pay'])->middleware('isUser')->name('payment');
+
+// Thanh toán ngay phiên bản đặc biệt
+Route::get('/giohang/thanhtoanngay/bandacbiet/{id}', [CartController::class, 'payNowSversion'])->middleware('isUser')->name('payment.special');
+
+// Thanh toán ngay
+Route::post('/giohang/thanhtoanngay/{id}', [CartController::class, 'payNow'])->middleware('isUser')->name('payment.now');
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
@@ -82,21 +109,11 @@ Route::get('/tacpham/thongtintacpham/{id}', [WorkReadController::class, 'index']
 // Xem nội dung tác phẩm
 Route::get('/tacpham/doc/{id}', [WorkReadController::class, 'getContent'])->middleware('isUser')->name('read.content');
 
-// ----------------------------------------------------------------
-// ----------------------------------------------------------------
-// ----------------------------------------------------------------
+// Tải xuống tác phẩm
+Route::get('/tacpham/taixuong/{id}', [WorkReadController::class, 'download'])->middleware('isUser')->name('download');
 
-// Giỏ hàng
-Route::get('/giohang', [CartController::class, 'index'])->middleware('isUnlogged')->name('cart');
-
-// Xử lý các nút trong giao diện giỏ hàng
-Route::post('/giohang/xuly', [CartController::class, 'handleButtonCart'])->middleware('isUser')->name('cart.button');
-
-// Thanh toán
-Route::get('/giohang/thanhtoan', [CartController::class, 'confirmPayment'])->middleware('isUser')->name('cart.payment');
-
-// Thanh toán
-Route::post('/giohang/thanhtoan/thanhtoan', [CartController::class, 'pay'])->middleware('isUser')->name('payment');
+// Thư viện
+Route::get('/taikhoan/thuvien', [WorkListController::class, 'getLibrary'])->middleware('isUser')->name('library');
 
 //----------------------------------------------------------------
 //----------------------------------------------------------------
