@@ -45,7 +45,7 @@
                         <table class="table">
                             <tbody>
                                 <tr class="align-middle">
-                                    <th scope="row">Tác giả</th>
+                                    <th scope="row">Tác giả:</th>
                                     <td>
                                         <input type="text" class="form-control custom-input-text {{ $errors->has('author') ? 'is-invalid' : ''}} {{ old('author') ? 'is-valid' : '' }}" name="author" value="{{old('author')}}">
                                         @if($errors->has('author'))
@@ -54,7 +54,7 @@
                                             </div>
                                         @endif
                                     </td>
-                                    <th scope="row">Dịch giả</th>
+                                    <th scope="row">Dịch giả:</th>
                                     <td>
                                         <input type="text" class="form-control custom-input-text {{ $errors->has('translator') ? 'is-invalid' : ''}} {{ old('translator') ? 'is-valid' : '' }}" name="translator" value="{{old('translator')}}">
                                         @if($errors->has('translator'))
@@ -65,7 +65,7 @@
                                     </td>
                                 <tr>
                                 <tr class="align-middle">
-                                    <th scope="row">Ngôn ngữ</th>
+                                    <th scope="row">Ngôn ngữ:</th>
                                     <td>
                                         <input type="text" class="form-control custom-input-text {{ $errors->has('language') ? 'is-invalid' : ''}} {{ old('language') ? 'is-valid' : '' }}" name="language" value="{{old('language')}}">
                                         @if($errors->has('language'))
@@ -74,7 +74,7 @@
                                             </div>
                                         @endif
                                     </td>
-                                    <th scope="row">Năm xuất bản</th>
+                                    <th scope="row">Năm xuất bản:</th>
                                     <td>
                                         <input type="text" class="form-control custom-input-text {{ $errors->has('publishYear') ? 'is-invalid' : ''}} {{ old('publishYear') ? 'is-valid' : '' }}" name="publishYear" value="{{old('publishYear')}}">
                                         @if($errors->has('publishYear'))
@@ -85,7 +85,7 @@
                                     </td>
                                 <tr>
                                 <tr class="align-middle">
-                                    <th scope="row">Tổng biên tập</th>
+                                    <th scope="row">Tổng biên tập:</th>
                                     <td>
                                         <input type="text" class="form-control custom-input-text {{ $errors->has('dirEditor') ? 'is-invalid' : ''}} {{ old('dirEditor') ? 'is-valid' : '' }}" name="dirEditor" value="{{old('dirEditor')}}">
                                         @if($errors->has('dirEditor'))
@@ -94,7 +94,7 @@
                                             </div>
                                         @endif
                                     </td>
-                                    <th scope="row">Biên tập</th>
+                                    <th scope="row">Biên tập:</th>
                                     <td>
                                         <input type="text" class="form-control custom-input-text {{ $errors->has('editor') ? 'is-invalid' : ''}} {{ old('editor') ? 'is-valid' : '' }}" name="editor" value="{{old('editor')}}">
                                         @if($errors->has('editor'))
@@ -105,34 +105,72 @@
                                     </td>
                                 <tr>
                                 <tr class="align-middle">
-                                    <th scope="row">Nhà xuất bản</th>
-                                    <td>
-                                        <input type="text" class="form-control custom-input-text {{ $errors->has('publisher') ? 'is-invalid' : ''}} {{ old('publisher') ? 'is-valid' : '' }}" name="publisher" value="{{old('publisher')}}">
-                                        @if($errors->has('publisher'))
-                                            <div class="invalid-feedback">
-                                                {{ $errors->first('publisher') }}
+                                    <th scope="row">Nhà xuất bản:</th>
+                                    <td colspan="2">
+                                        <!-- <div class="d-flex justify-content-center align-items-start"> -->
+                                            <div class="form-check form-check-inline d-flex justify-content-start align-items-center gap-2">
+                                                <input class="form-check-input" type="radio" name="chosenPublisher" id="publisherRadio1" value="1" style="margin: 0;" @if(!old('chosenPublisher') || old('chosenPublisher') == 1) checked @endif>
+                                                <select class="form-select custom-input-text" name="publisher" aria-label="Default select example" style="max-width: 400px;">
+                                                    <option value="{{ old('publisher') }}" selected {{ old('publisher') ? '' : 'disabled' }}>
+                                                        {{ old('publisher') ? $publishers[old('publisher')]->nha_xuat_ban : 'Chọn nhà xuất bản' }}
+                                                    </option>
+                                                    @foreach($publishers as $pbl)
+                                                        <option value="{{$pbl->id}}">{{$pbl->nha_xuat_ban}}</option>
+                                                    @endforeach
+                                                </select>
+                                                @if($errors->has('publisher'))
+                                                    <div class="text-danger">
+                                                        {{ $errors->first('publisher') }}
+                                                    </div>
+                                                @endif
                                             </div>
-                                        @endif
-                                    </td>
-                                    <th scope="row">Bản quyền</th>
-                                    <td>
-                                        <select class="form-select custom-input-text" name="provider" aria-label="Default select example">
-                                            <option value="{{ old('provider') }}" selected {{ old('provider') ? '' : 'disabled' }}>
-                                                {{ old('provider') ? $copyrights[old('provider')]->ten_nha_cung_cap : 'Chọn nhà cung cấp bản quyền' }}
-                                            </option>
-                                            @foreach($copyrights as $copyrightProvider)
-                                            <option value="{{$copyrightProvider->id}}">{{$copyrightProvider->ten_nha_cung_cap}}</option>
-                                            @endforeach
-                                        </select>
-                                        @if($errors->has('statusWork'))
-                                            <div class="text-danger pt-1">
-                                               Chọn nhà cung cấp bản quyền
+                                            <div class="form-check form-check-inline d-flex justify-content-start align-items-center gap-2 pt-2" style="color:var(--primary)">
+                                                <input class="form-check-input" type="radio" name="chosenPublisher" id="publisherRadio2" value="2" style="margin: 0;" @if(old('chosenPublisher') && old('chosenPublisher') == 2) checked @endif>
+                                                <input type="text" class="form-control custom-input-text {{ $errors->has('otherPublisher') ? 'is-invalid' : ''}} {{ old('otherPublisher') ? 'is-valid' : '' }}" value="{{ old('otherPublisher') }}" name="otherPublisher" style="max-width: 400px;" placeholder="Nhập nhà xuất bản khác...">
+                                                @if($errors->has('otherPublisher'))
+                                                    <div class="invalid-feedback">
+                                                        {{ $errors->first('otherPublisher') }}
+                                                    </div>
+                                                @endif
                                             </div>
-                                        @endif
+                                        <!-- </div> -->
                                     </td>
+                                    <td></td>
                                 <tr>
                                 <tr class="align-middle">
-                                    <th scope="row">Số ĐKXB</th>
+                                    <th scope="row">Bản quyền:</th>
+                                    <td colspan="2">
+                                        <div class="form-check form-check-inline d-flex justify-content-start align-items-center gap-2">
+                                            <input class="form-check-input" type="radio" name="chosenProvider" id="providerRadio1" value="1" style="margin: 0;"
+                                                @if(!old('chosenProvider') || old('chosenProvider') == 1) checked @endif>
+                                            <select class="form-select custom-input-text" name="provider" aria-label="Default select example" style="max-width: 400px;">
+                                                <option value="{{ old('provider') }}" selected {{ old('provider') ? '' : 'disabled' }}>
+                                                    {{ old('provider') ? $copyrights[old('provider')]->ten_nha_cung_cap : 'Chọn đơn vị cung cấp bản quyền' }}
+                                                </option>
+                                                @foreach($copyrights as $copyrightProvider)
+                                                    <option value="{{$copyrightProvider->id}}">{{$copyrightProvider->ten_nha_cung_cap}}</option>
+                                                @endforeach
+                                            </select>
+                                            @if($errors->has('provider'))
+                                                <div class="text-danger">
+                                                    {{ $errors->first('provider') }}
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div class="form-check form-check-inline d-flex justify-content-start align-items-center gap-2 pt-2" style="color:var(--primary)">
+                                            <input class="form-check-input" type="radio" name="chosenProvider" id="providerRadio2" value="2" style="margin: 0;" @if(old('chosenProvider') && old('chosenProvider') == 2) checked @endif>
+                                            <input type="text" name="otherProvider" class="form-control custom-input-text {{ $errors->has('otherProvider') ? 'is-invalid' : ''}} {{ old('otherProvider') ? 'is-valid' : '' }}" placeholder="Nhập đơn vị cung cấp bản quyền khác..." style="max-width: 400px;">
+                                            @if($errors->has('otherProvider'))
+                                                <div class="invalid-feedback">
+                                                    {{ $errors->first('otherProvider') }}
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr class="align-middle">
+                                    <th scope="row">Số ĐKXB:</th>
                                     <td>
                                         <input type="text" class="form-control custom-input-text {{ $errors->has('dkxb') ? 'is-invalid' : ''}} {{ old('dkxb') ? 'is-valid' : '' }}" name="dkxb" value="{{ old('dkxb')}}">
                                         @if($errors->has('dkxb'))
@@ -141,7 +179,7 @@
                                             </div>
                                         @endif
                                     </td>
-                                    <th scope="row">Mã số ISBN</th>
+                                    <th scope="row">Mã số ISBN:</th>
                                     <td>
                                         <input type="text" class="form-control custom-input-text {{ $errors->has('isbn') ? 'is-invalid' : ''}} {{ old('isbn') ? 'is-valid' : '' }}" name="isbn" value="{{ old('isbn')}}">
                                         @if($errors->has('isbn'))
@@ -152,7 +190,7 @@
                                     </td>
                                 <tr>
                                 <tr class="align-middle">
-                                    <th scope="row">Số QĐXB</th>
+                                    <th scope="row">Số QĐXB:</th>
                                     <td>
                                         <input type="text" class="form-control custom-input-text {{ $errors->has('qdxb') ? 'is-invalid' : ''}} {{ old('qdxb') ? 'is-valid' : '' }}" name="qdxb" value="{{ old('qdxb')}}">
                                         @if($errors->has('qdxb'))
@@ -161,7 +199,7 @@
                                             </div>
                                         @endif
                                     </td>
-                                    <th scope="row">Ngày cấp QĐXB</th>
+                                    <th scope="row">Ngày cấp QĐXB:</th>
                                     <td>
                                         <input type="date" class="form-control custom-input-text {{ $errors->has('qdxbDate') ? 'is-invalid' : ''}} {{ old('qdxbDate') ? 'is-valid' : '' }}" name="qdxbDate" value="{{old('qdxbDate')}}">
                                         @if($errors->has('qdxbDate'))
@@ -171,66 +209,71 @@
                                         @endif
                                     </td>
                                 <tr>
-                                <tr class="align-middle">
-                                    <th scope="row">Thể loại</th>
-                                    <td>
-                                        @foreach($categories as $category)
-                                            <div class="form-check form-check-inline filter">
-                                                <div class="d-flex align-items-center gap-1">
-
-                                                    <input class="form-check-input" type="checkbox" value="{{$category->id}}" id="categoryCheck.{{$category->id}}" name="categoryCheck[]"
-                                                        @if(old('categoryCheck'))
-                                                            @foreach(old('categoryCheck') as $categoryCheck)
-                                                                @if($categoryCheck == $category->id)
-                                                                    checked
-                                                                @endif
-                                                            @endforeach
-                                                        @endif
-                                                    >
-                                                    <label class="form-check-label" for="categoryCheck.{{$category->id}}">
-                                                        {{$category->ten_the_loai}}
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                        @if($errors->has('categoryCheck'))
-                                            <div class="text-danger">
-                                               Chọn ít nhất một thể loại
-                                            </div>
-                                        @endif
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
+                        <div class="d-flex flex-column gap-2 px-2" style="font-size: 13px;">
+                            <div><strong>Thể loại:</strong></div>
+                            <div class="d-flex justify-content-start align-items-center flex-wrap ps-lg-4 ps-3 pe-2">
+                                @foreach($categories as $category)
+                                    <div class="form-check form-check-inline filter">
+                                        <div class="d-flex align-items-center gap-1 flex-nowrap">
+
+                                            <input class="form-check-input" type="checkbox" value="{{$category->id}}" id="categoryCheck.{{$category->id}}" name="categoryCheck[]"
+                                                @if(old('categoryCheck'))
+                                                    @foreach(old('categoryCheck') as $categoryCheck)
+                                                        @if($categoryCheck == $category->id)
+                                                            checked
+                                                        @endif
+                                                    @endforeach
+                                                @endif
+                                            >
+                                            <label class="form-check-label" for="categoryCheck.{{$category->id}}">
+                                                {{$category->ten_the_loai}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div>
+                                <div class="form-check form-check-inline d-flex justify-content-start align-items-center gap-2 ps-lg-5 ps-4 pe-2" style="color:var(--primary)">
+                                    <input class="form-check-input" type="checkbox" value="-1" id="categoryCheckNew" name="categoryCheck[]" @if(old('otherCategories')) checked @endif>                           
+                                    <label class="form-check-label" for="categoryCheckNew" style="color: black;">Thêm thể loại khác: </label>
+                                    <div>
+                                        <input type="text" class="form-control custom-input-text {{ $errors->has('otherCategories') ? 'is-invalid' : ''}} {{ old('otherCategories') ? 'is-valid' : '' }}" name="otherCategories" value="{{old('otherCategories')}}" style="max-width: 400px;" placeholder="Nhập (các) thể loại mới...">
+                                        @if($errors->has('otherCategories'))
+                                            <div class="invalid-feedback">
+                                                {{ $errors->first('otherCategories') }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div><i>
+                                        <span class="text-danger">* </span>
+                                        <span style="color: black;">Nhiều thể loại cách nhau bằng dấu phẩy (,)</span>
+                                    </i></div>
+                                </div>
+                            </div>
+                            @if($errors->has('categoryCheck'))
+                                <div class="text-danger">
+                                    Tác phẩm phải có ít nhất một thể loại
+                                </div>
+                            @endif
+                        </div>
+                        <hr>
                     </section>
                     <section class="table-responsive" style="max-width: 450px;">
                         <h5 class="pb-2" style="font-weight: bold;">Thông tin đăng tải</h5>
                         <table class="table">
                             <tbody>
                                 <tr class="align-middle">
-                                    <th scope="row">Tài khoản đăng tải</th>
-                                    <td><input type="text" class="form-control custom-input-text" name="username" value="{{Session::get('user.ten_tai_khoan')}}" readonly></td>
+                                    <th scope="row">Tài khoản đăng tải:</th>
+                                    <td>{{Session::get('user.ten_tai_khoan')}}</td>
                                 <tr>
                                 <tr class="align-middle">
-                                    <th scope="row">Trạng thái</th>
-                                    <td>
-                                        <select class="form-select custom-input-text" name="statusWork" aria-label="Default select example">
-                                            <option value="{{old('statusWork')}}" selected {{old('statusWork') ? '' : 'disabled' }}>
-                                                {{ old('statusWork') ? $statuses[old('statusWork')]->ten_trang_thai_tp : 'Chọn trạng thái tác phẩm' }}
-                                            </option>
-                                            @foreach($statuses as $stt)
-                                                <option value="{{$stt->id}}">{{$stt->ten_trang_thai_tp}}</option>
-                                            @endforeach
-                                        </select>
-                                        @if($errors->has('statusWork'))
-                                            <div class="text-danger pt-1">
-                                               Chọn trạng thái tác phẩm
-                                            </div>
-                                        @endif
-                                    </td>
+                                    <th scope="row">Trạng thái:</th>
+                                    <td>Đang chờ phê duyệt</td>
                                 <tr>
                                 <tr class="align-middle" name="file">
-                                    <th scope="row">Tệp tin tác phẩm</th>
+                                    <th scope="row">Tệp tin tác phẩm:</th>
                                     <td>
                                         <input type="file" name="fileWork" class="form-control custom-input-upload {{ $errors->has('fileWork') ? 'is-invalid' : ''}}">
                                         @if($errors->has('fileWork'))

@@ -3,9 +3,9 @@
 @section('title', 'Chi tiết tác phẩm')
 
 @section('main')
-    <main class="container py-5">
+    <main class="container px-3 py-5">
         <article class="row">
-            <section class="col">
+            <section class="col-lg-3">
                 <div class="d-flex justify-content-center">
                     <div class="work-cover">
                         <img src="{{ asset($coverStoragePath . '/' . $work->anh_bia) }}" alt="{{$work->anh_bia}}" class="img-fluid rounded" style="opacity: 100%">
@@ -18,7 +18,7 @@
                     </a>
                 </div>
             </section>
-            <section class="col-9">
+            <section class="col">
                 <div class="d-flex flex-column gap-5">
                     <div>
                         <h2 style="font-weight: bold;">{{$work->tua_de}}</h2>
@@ -52,7 +52,7 @@
                                     <tr>
                                     <tr class="align-middle">
                                         <th scope="row">Nhà xuất bản</th>
-                                        <td>{{$work->nha_xuat_ban}}</td>
+                                        <td>{{$publisher->nha_xuat_ban}}</td>
                                         <th scope="row">Bản quyền</th>
                                         <td>{{$copyright->ten_nha_cung_cap}}</td>
                                     <tr>
@@ -74,7 +74,7 @@
                                             @foreach($categories as $category)
                                                 <span>{{$category->ten_the_loai}}</span>
                                                 @if (!$loop->last)
-                                                    <span>/ </span> <!-- Hiển thị dấu phẩy nếu không phải là phần tử cuối cùng -->
+                                                    <span>/ </span> <!-- Hiển thị dấu / nếu không phải là phần tử cuối cùng -->
                                                 @endif
                                             @endforeach
                                         </td>

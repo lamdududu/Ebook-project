@@ -2,3 +2,11 @@
 admin_view.admin_work
 
 @section('route', '{{ route('work.edit', ['id' => $work->id])}}')
+
+
+<select class="form-select custom-input-text" name="statusWork" aria-label="Default select example">
+                                            <option value="$status->id" selected>{{$status->ten_trang_thai_tp}}</option>
+                                            @foreach($statuses as $stt)
+                                                <option value="{{$stt->id}}">{{$stt->ten_trang_thai_tp}}</option>
+                                            @endforeach
+                                        </select>

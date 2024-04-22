@@ -15,14 +15,14 @@ class AccountManagementController extends Controller
     public function index()
     {
         // $accounts = Account::where('loai_tai_khoan', 3)->get();
-        // $statuses = AccountStatus::whereIn('id', $accounts->pluck('trang_thai'));
+        $statuses = AccountStatus::All();
 
         $data = Account::join('account_statuses', 'accounts.trang_thai', '=', 'account_statuses.id')
                         ->select('accounts.*', 'account_statuses.ten_trang_thai')
                         ->where('accounts.loai_tai_khoan', 3)
                         ->get();
 
-        return view('account_management_views.accounts_management_list', compact('data'));
+        return view('account_management_views.user', compact('data', 'statuses'));
     }
 
     /**
@@ -30,12 +30,14 @@ class AccountManagementController extends Controller
      */
     public function getAdminAccounts()
     {
+        $statuses = AccountStatus::All();
+
         $data = Account::join('account_statuses', 'accounts.trang_thai', '=', 'account_statuses.id')
                         ->select('accounts.*', 'account_statuses.ten_trang_thai')
                         ->where('accounts.loai_tai_khoan', '1')
                         ->get();
 
-        return view('account_management_views.accounts_management_list', compact('data'));
+        return view('account_management_views.user', compact('data', 'statuses'));
     }
 
     /**
@@ -43,43 +45,75 @@ class AccountManagementController extends Controller
      */
     public function getEditorAccounts()
     {
+        $statuses = AccountStatus::All();
+
         $data = Account::join('account_statuses', 'accounts.trang_thai', '=', 'account_statuses.id')
                         ->select('accounts.*', 'account_statuses.ten_trang_thai')
                         ->where('accounts.loai_tai_khoan', 2)
                         ->get();
 
-        return view('account_management_views.accounts_management_list', compact('data'));
+        return view('account_management_views.user', compact('data', 'statuses'));
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function getNormalAccount()
     {
-        //
+        $statuses = AccountStatus::All();
+
+        $data = Account::join('account_statuses', 'accounts.trang_thai', '=', 'account_statuses.id')
+                        ->select('accounts.*', 'account_statuses.ten_trang_thai')
+                        ->where('accounts.trang_thai', 1)
+                        ->get();
+
+        return view('account_management_views.user', compact('data', 'statuses'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function getBlockedAccount()
     {
-        //
+        $statuses = AccountStatus::All();
+
+        $data = Account::join('account_statuses', 'accounts.trang_thai', '=', 'account_statuses.id')
+                        ->select('accounts.*', 'account_statuses.ten_trang_thai')
+                        ->where('accounts.trang_thai', 2)
+                        ->get();
+
+        return view('account_management_views.user', compact('data', 'statuses'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function updateAccountStatus(Request $request)
     {
-        //
-    }
+        $request->validate(
+            [
+                'accountCheck' => 'required|array|min:1',
+            ],
+            [
+                'accountCheck' => 'Chọn ít nhất 1 tài khoản để thực hiện thao tác',
+            ]
+        );
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        // Kiểm tra thao tác được chọn (edit, block, unblock)
+        if($request->has('edit')) {
+    
+            foreach($request->input('accountCheck', []) as $check) {
+                Account::where('id', $check)->update(['trang_thai' => $request->input('status')[$check]]);
+            }
+            
+            return redirect()->back()->with('success', 'Cập nhật trạng thái thành công');
+        }
+
+        else {
+            if($request->has('block')) {
+                $status = 2;
+            }
+            else {
+                $status = 1;
+            }
+    
+            foreach($request->input('accountCheck', []) as $check) {
+                Account::where('id', $check)->update(['trang_thai' => $status]);
+            }
+    
+            return redirect()->back()->with('success', 'Cập nhật trạng thái thành công');
+        }
+
     }
 }

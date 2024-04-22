@@ -2,11 +2,6 @@ p {
     margin: 0;
 }
 
-.desc {
-    font-size: 13px;
-    color: rgba(38, 37, 37, 0.826);
-}
-
 .form-check-input {
     border-color: var(--primary);
 }

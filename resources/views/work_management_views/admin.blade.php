@@ -8,22 +8,22 @@
             <article class="col-lg-2">
                 <nav class="nav flex-column nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{{ route('works.management') }}">Danh sách tác phẩm</a>
+                        <a class="nav-link" aria-current="page" href="{{ route('works.admin') }}">Danh sách tác phẩm</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('works.public') }}">Tác phẩm đã đăng tải</a>
+                        <a class="nav-link" href="{{ route('works.public.admin') }}">Tác phẩm đã đăng tải</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('works.approve') }}">Tác phẩm chờ duyệt</a>
+                        <a class="nav-link" href="{{ route('works.approve.admin') }}">Tác phẩm chờ duyệt</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('works.hidden') }}">Tác phẩm đã ẩn</a>
+                        <a class="nav-link" href="{{ route('works.hidden.admin') }}">Tác phẩm đã ẩn</a>
                     </li>
                 </nav>
                 @yield('editButton')
             </article>
             <article class="col">
-                @yield('content')
+                
             </article>
         </div>
     </main>

@@ -25,7 +25,9 @@ class DatabaseSeeder extends Seeder
         $this->call(AccountTypeTableSeeder::class);
         $this->call(AccountStatusTableSeeder::class);
         $this->call(AccountTableSeeder::class);
+        $this->call(PaymentAccountTableSeeder::class);
         $this->call(CopyrightProviderTableSeeder::class);
+        $this->call(PublisherTableSeeder::class);
         $this->call(CategoryTableSeeder::class);
         $this->call(WorkStatusTableSeeder::class);
         $this->call(WorkTableSeeder::class);

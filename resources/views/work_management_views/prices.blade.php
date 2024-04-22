@@ -1,4 +1,4 @@
-@extends('work_management_views.works_management')
+@extends('work_management_views.admin')
 
 @section('title', 'Quản lý tác phẩm')
 

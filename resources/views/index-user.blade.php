@@ -60,7 +60,7 @@
                                     <strong>{{Session::get('user.ten_tai_khoan')}}</strong>
                                 </a>
                                 <ul class="dropdown-menu custom-dropdown-account" aria-labelledby="navbarScrollingDropdown">
-                                    <li><a class="dropdown-item" href="#">Lịch sử thanh toán</a></li>
+                                    <li><a class="dropdown-item" href="{{route('bill')}}">Lịch sử thanh toán</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>

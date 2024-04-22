@@ -23,8 +23,8 @@ class PromotionTableSeeder extends Seeder
             ],
             [
                 'ten_chuong_trinh' => 'Tuần Lễ Sách Khoa Học',
-                'ngay_bat_dau' => '2024-04-15',
-                'ngay_ket_thuc' => '2024-04-21',
+                'ngay_bat_dau' => '2024-04-22',
+                'ngay_ket_thuc' => '2024-04-29',
                 'mo_ta_khuyen_mai' => 'Giảm đến 60% toàn bộ sách điện tử thể loại khoa học trong thời gian diễn ra tuần lễ sách khoa học.',
                 'nguoi_tao' => '1',
             ],

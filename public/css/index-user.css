@@ -145,3 +145,49 @@ footer .disc {
     padding: 5rem 2rem;
     font-size: 16px;
 }
+
+option:hover {
+    background-color: var(--primary);
+    color: white;
+}
+
+.btn-custom-mng {
+    font-size: 14px;
+}
+
+.desc {
+    font-size: 13px;
+    color: rgba(38, 37, 37, 0.826);
+}
+
+.nav-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    color: black;
+}
+
+.page-item a {
+    color: rgba(46, 44, 44, 0.597);
+}
+
+.page-item a:hover {
+    border: 1px solid var(--primary);
+    color: var(--primary);
+}
+
+.page-item a:focus, a:active {
+    background-color: white;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    border-radius: 2px;
+    box-shadow: 0 0 1px 1px rgb(249, 207, 166);
+    /* opacity: 0.5; */
+}
+
+.page-item.active .page-link {
+    border: 1px solid var(--primary);
+    background-color: var(--primary);
+    color: white;
+}

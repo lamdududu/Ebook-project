@@ -61,13 +61,13 @@ class WorkListController extends Controller
         // $latestTime = Time::where('thoi_diem', '<=', Carbon::now())->first();
 
        $books = DB::select(
-            'select w.*, b.gia_ban_thuong, b.gia_ban_db
-            from (SELECT w.id, p.gia_ban_thuong, p.gia_ban_db, max(t.thoi_diem)
-            FROM prices p
-            JOIN works w ON w.id = p.tac_pham
-            JOIN times t ON t.id = p.thoi_diem
-            where t.thoi_diem <= Now()
-            GROUP BY w.id) b join works w on b.id = w.id;'
+            'SELECT w.*, b.gia_ban_thuong, b.gia_ban_db
+            FROM (SELECT w.id, p.gia_ban_thuong, p.gia_ban_db, max(t.thoi_diem)
+                FROM prices p
+                JOIN works w ON w.id = p.tac_pham
+                JOIN times t ON t.id = p.thoi_diem
+                WHERE t.thoi_diem <= NOW() AND w.trang_thai = 1
+                GROUP BY w.id) b JOIN works w ON b.id = w.id;'
        );
 
     //    $perPage = 6;
@@ -143,7 +143,7 @@ class WorkListController extends Controller
                 FROM prices p
                 JOIN works w ON w.id = p.tac_pham
                 JOIN times t ON t.id = p.thoi_diem
-                where t.thoi_diem <= Now()
+                WHERE t.thoi_diem <= NOW() AND w.trang_thai = 1
                 GROUP BY w.id) b 
                 JOIN works w ON b.id = w.id
             ORDER BY w.id DESC
@@ -155,16 +155,16 @@ class WorkListController extends Controller
         // $hotWorks = Work::whereIn('id', $workNom->pluck('tac_pham'))->get();
 
         $hotWorks = DB::select(
-            'select w.*, b.gia_ban_thuong, b.gia_ban_db
-            from (SELECT w.id, p.gia_ban_thuong, p.gia_ban_db, max(t.thoi_diem) as thoi_diem
+            'SELECT w.*, b.gia_ban_thuong, b.gia_ban_db
+            FROM (SELECT w.id, p.gia_ban_thuong, p.gia_ban_db, max(t.thoi_diem) AS thoi_diem
                 FROM prices p
                 JOIN works w ON w.id = p.tac_pham
                 JOIN times t ON t.id = p.thoi_diem
-                where t.thoi_diem <= Now()
-                GROUP BY w.id) b join works w on b.id = w.id
-                                join works_nominations n on b.id = n.id
-            where n.de_cu = 1
-            limit 8;');
+                where t.thoi_diem <= NOW() AND w.trang_thai = 1
+                GROUP BY w.id) b JOIN works w ON b.id = w.id
+                                JOIN works_nominations n ON b.id = n.id
+            WHERE n.de_cu = 1
+            LIMIT 8;');
 
 
         // lấy danh sách tác phẩm được biên tập viên đề cử
@@ -172,30 +172,30 @@ class WorkListController extends Controller
         // $nomWorks = Work::whereIn('id', $workNom->pluck('tac_pham'))->get();
         
         $nomWorks = DB::select(
-            'select w.*, b.gia_ban_thuong, b.gia_ban_db
-            from (SELECT w.id, p.gia_ban_thuong, p.gia_ban_db, max(t.thoi_diem) as thoi_diem
+            'SELECT w.*, b.gia_ban_thuong, b.gia_ban_db
+            FROM (SELECT w.id, p.gia_ban_thuong, p.gia_ban_db, max(t.thoi_diem) AS thoi_diem
                 FROM prices p
                 JOIN works w ON w.id = p.tac_pham
                 JOIN times t ON t.id = p.thoi_diem
-                where t.thoi_diem <= Now()
-                GROUP BY w.id) b join works w on b.id = w.id
-                                join works_nominations n on b.id = n.id
-            where n.de_cu = 2;');
+                WHERE t.thoi_diem <= NOW() AND w.trang_thai = 1
+                GROUP BY w.id) b JOIN works w ON b.id = w.id
+                                JOIN works_nominations n ON b.id = n.id
+            WHERE n.de_cu = 2;');
 
         // lấy danh sách tác phẩm đã đạt giải
         // $workNom = WorksNominations::where('de_cu', '3')->get();
         // $awWorks = Work::whereIn('id', $workNom->pluck('tac_pham'))->get();
         
         $awWorks = DB::select(
-            'select w.*, b.gia_ban_thuong, b.gia_ban_db
-            from (SELECT w.id, p.gia_ban_thuong, p.gia_ban_db, max(t.thoi_diem) as thoi_diem
+            'SELECT w.*, b.gia_ban_thuong, b.gia_ban_db
+            FROM (SELECT w.id, p.gia_ban_thuong, p.gia_ban_db, max(t.thoi_diem) AS thoi_diem
                 FROM prices p
                 JOIN works w ON w.id = p.tac_pham
                 JOIN times t ON t.id = p.thoi_diem
-                where t.thoi_diem <= Now()
-                GROUP BY w.id) b join works w on b.id = w.id
-                                join works_nominations n on b.id = n.id
-            where n.de_cu = 3;');
+                WHERE t.thoi_diem <= NOW() AND w.trang_thai = 1
+                GROUP BY w.id) b JOIN works w ON b.id = w.id
+                                JOIN works_nominations n ON b.id = n.id
+            WHERE n.de_cu = 3;');
 
         $coverStoragePath = Storage::url('covers');
 
@@ -213,6 +213,7 @@ class WorkListController extends Controller
         // $bills = BillDetails::where('tai_khoan', session::get('user')->id)->get();
         $works = Work::join('bill_details', 'works.id', '=', 'bill_details.tac_pham')
                     ->join('bills', 'bills.id', '=', 'bill_details.hoa_don')
+                    ->join('publishers', 'publishers.id', '=', 'works.nha_xuat_ban')
                     ->where('bills.tai_khoan', session::get('user')->id)
                     ->get();
 

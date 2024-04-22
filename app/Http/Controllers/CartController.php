@@ -26,14 +26,15 @@ class CartController extends Controller
         $coverStoragePath = Storage::url('covers');
 
         $works = DB::select(
-            'select w.id, w.tua_de, w.tac_gia, w.ngon_ngu, w.nha_xuat_ban, w.anh_bia, b.gia_ban_thuong, b.gia_ban_db
-            from (SELECT w.id, p.gia_ban_thuong, p.gia_ban_db, max(t.thoi_diem)
+            'SELECT w.id, w.tua_de, w.tac_gia, w.ngon_ngu, pb.nha_xuat_ban, w.anh_bia, w.trang_thai, b.gia_ban_thuong, b.gia_ban_db
+            FROM (SELECT w.id, p.gia_ban_thuong, p.gia_ban_db, max(t.thoi_diem)
                 FROM prices p
                 JOIN works w ON w.id = p.tac_pham
                 JOIN times t ON t.id = p.thoi_diem
-                where t.thoi_diem <= Now()
+                where t.thoi_diem <= NOW()
                 GROUP BY w.id) b JOIN works w ON b.id = w.id
                             JOIN carts c ON c.tac_pham = w.id
+                            JOIN publishers pb ON w.nha_xuat_ban = pb.id
             WHERE c.tai_khoan = ' . Session::get('user.id') . ';'
         );
 
@@ -255,42 +256,20 @@ class CartController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Xem lịch sử thanh toán
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    public function getBill()
+    {   
+        $coverStoragePath = Storage::url('covers');
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        $bills = Bill::paginate(2);
+        
+        $bill_details = Bill::join('bill_details', 'bill_details.hoa_don', '=', 'bills.id')
+                            ->join('works', 'works.id', '=', 'bill_details.tac_pham')
+                            ->where('tai_khoan', session::get('user')->id)
+                            ->select('bill_details.hoa_don', 'bill_details.gia_thanh', 'bill_details.phien_ban', 'works.tua_de', 'works.anh_bia')
+                            ->get();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return view('account_views.bill',compact('bills', 'bill_details', 'coverStoragePath'));
     }
 }

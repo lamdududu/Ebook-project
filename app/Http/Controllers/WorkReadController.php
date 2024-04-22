@@ -11,6 +11,7 @@ use App\Models\Work;
 use App\Models\WorksCategories;
 use App\Models\CopyrightProvider;
 use App\Models\Category;
+use App\Models\Publisher;
 use PhpOffice\PhpWord\IOFactory;
 use Illuminate\Http\Request;
 
@@ -22,12 +23,14 @@ class WorkReadController extends Controller
 
         $work = Work::find($id);
 
+        $publisher = Publisher::where('id', $work->nha_xuat_ban)->first();
+
         $workCate = WorksCategories::where('tac_pham', $id)->get();
         $categories = Category::whereIn('id', $workCate->pluck('the_loai'))->get();
 
         $copyright = CopyrightProvider::find($work->ban_quyen);
 
-        return view('read_views.read_details', compact('work', 'coverStoragePath', 'categories', 'copyright'));
+        return view('read_views.read_details', compact('work', 'coverStoragePath', 'categories', 'copyright', 'publisher'));
     }
 
     public function getContent($id)

@@ -134,3 +134,9 @@ input[type="checkbox"]:checked {
     display: flex;
     align-items: center;
 }
+
+input[type="radio"]:checked {
+    border-color: var(--primary);
+    background-color: var(--primary);
+    box-shadow: 0 0 3px 2px var(--primary);
+}

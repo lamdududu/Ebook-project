@@ -1,0 +1,15 @@
+/* input[type="radio"]:checked {
+    border-color: var(--primary);
+    background-color: var(--primary);
+    box-shadow: 0 0 3px 2px var(--primary);
+} */
+
+.bill {
+    border: 1px solid var(--primary);
+    box-shadow: 0px 0px 1px var(--primary);
+    max-width: 550px;
+}
+
+.list-group-custom {
+    box-shadow: 0px 0px 1px var(--primary);
+}

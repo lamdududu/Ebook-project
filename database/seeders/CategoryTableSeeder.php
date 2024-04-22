@@ -23,6 +23,7 @@ class CategoryTableSeeder extends Seeder
             ['ten_the_loai' => 'Truyện ngắn'],
             ['ten_the_loai' => 'Văn học nước ngoài'],
             ['ten_the_loai' => 'Sức khỏe'],
+            ['ten_the_loai' => 'Thiếu nhi'],
         ];
 
         DB::table('categories')->insert($data);

@@ -16,12 +16,17 @@ class workManagementMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Session::get('user')->loai_tai_khoan == 1) {
-            return redirect()->route('work.prices');
+        if(Session::has('user')) {
+            if(Session::get('user')->loai_tai_khoan == 1) {
+                return redirect()->route('work.admin');
+            }
+    
+            else if(Session::get('user')->loai_tai_khoan == 2) {
+                return redirect()->route('works.editor');
+            }
+    
+            else return redirect()->route('home');
         }
-
-        else if(Session::get('user')->loai_tai_khoan == 2) {
-            return redirect()->route('works.management');
-        }
+        else return redirect()->route('login.page');
     }
 }

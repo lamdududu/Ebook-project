@@ -34,7 +34,7 @@
                             </a>
                         </li>
                         <li class="nav-item px-lg-3">
-                            <a class="nav-link fs-5" href="{{ route('works.management') }}">
+                            <a class="nav-link fs-5" href="{{ route('works.editor') }}">
                                 <i class='bi bi-journal-bookmark-fill'></i>
                                 <strong>Quản Lý Tác Phẩm</strong>
                             </a>

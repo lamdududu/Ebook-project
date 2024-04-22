@@ -68,13 +68,18 @@
                                 @endif
                                 <div class="list-group">
                                     @foreach($works as $work)
-                                        <div class="list-group-item list-group-item-action list-group-custom">
+                                        <div class="list-group-item list-group-item-action list-group-custom" @if($work->trang_thai != 1) style="background-color; opacity: 70%;" @endif>
                                             <div class="d-flex w-100 gap-5 p-2 justify-content-between">
                                                 <div class="flex-grow-1" style="max-width: 100px;">
                                                     <img src="{{$coverStoragePath . '/' . $work->anh_bia}}" class="rounded-3" alt="Product 1" style="max-width: 100px;">
                                                 </div>
                                                 <div class="d-flex flex-column flex-grow-1">
-                                                    <a href="{{ route('read.details', ['id' => $work->id]) }}" class="title">
+                                                    @if($work->trang_thai != 1) 
+                                                        <div class="text-danger">
+                                                            <i><strong>Ngừng kinh doanh</strong></i>
+                                                        </div>
+                                                    @endif
+                                                    <a href="{{ route('read.details', ['id' => $work->id]) }}" class="title" @if($work->trang_thai != 1) style="pointer-events: none;" @endif>
                                                         <h5><strong>{{$work->tua_de}}</strong></h5>
                                                     </a>
                                                     <div class="desc pt-1 pb-4">
@@ -86,11 +91,11 @@
                                                         <p>Phiên bản</p>
                                                         <div class="d-flex justify-content-start align-items-center">
                                                             <div class="form-check form-check-inline d-flex justify-content-start align-items-center gap-2">
-                                                                <input class="form-check-input" type="radio" name="version[{{$work->id}}]" id="inlineRadio1.{{$work->id}}" value="1" style="margin: 0;">
+                                                                <input class="form-check-input" type="radio" name="version[{{$work->id}}]" id="inlineRadio1.{{$work->id}}" value="1" style="margin: 0;" @if($work->trang_thai != 1) disabled @endif>
                                                                 <label class="form-check-label" for="inlineRadio1">Bản thường: {{$work->gia_ban_thuong}} VNĐ</label>
                                                             </div>
                                                             <div class="form-check form-check-inline d-flex justify-content-start align-items-center gap-2" style="color:var(--primary)">
-                                                                <input class="form-check-input" type="radio" name="version[{{$work->id}}]" id="inlineRadio2.{{$work->id}}" value="2" style="margin: 0;">
+                                                                <input class="form-check-input" type="radio" name="version[{{$work->id}}]" id="inlineRadio2.{{$work->id}}" value="2" style="margin: 0;" @if($work->trang_thai != 1) disabled @endif>
                                                                 <label class="form-check-label" for="inlineRadio2">Bản đặc biệt: {{$work->gia_ban_db}} VNĐ</label>
                                                             </div>
                                                         </div>
@@ -98,7 +103,7 @@
                                                 </div>
                                                 <div class="d-flex justify-content-end gap-3 flex-grow-1">
                                                     <div class="d-flex align-items-center">
-                                                        <input type="checkbox" id="workCheck.{{$work->id}}" value="{{$work->id}}" name="workCheck[]" class="form-check-input" checked>
+                                                        <input type="checkbox" id="workCheck.{{$work->id}}" value="{{$work->id}}" name="workCheck[]" class="form-check-input" @if($work->trang_thai != 1) disabled @else checked @endif>
                                                     </div>
                                                     <div>
                                                         <button type="submit" name="deleteWork" value="{{$work->id}}" class="btn-delete">

@@ -14,7 +14,12 @@ class TimeTableSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            'thoi_diem' => '2024/04/17'
+            [
+                'thoi_diem' => '2024/04/17',
+            ],
+            [
+                'thoi_diem' => '2024/04/22',
+            ]
         ];
 
         DB::table('times')->insert($data);

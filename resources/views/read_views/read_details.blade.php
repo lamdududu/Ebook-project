@@ -69,7 +69,7 @@
                                     <tr>
                                     <tr class="align-middle">
                                         <th scope="row">Nhà xuất bản:</th>
-                                        <td>{{$work->nha_xuat_ban}}</td>
+                                        <td>{{$publisher->nha_xuat_ban}}</td>
                                         <th scope="row">Bản quyền:</th>
                                         <td>{{$copyright->ten_nha_cung_cap}}</td>
                                     <tr>
