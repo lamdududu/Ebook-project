@@ -160,7 +160,7 @@ class AccountController extends Controller
                     }
             
                     else if($user->isEditor()) {
-                        return redirect()->route('works.management');
+                        return redirect()->route('works.editor');
                     }
             
                     else {

@@ -20,6 +20,7 @@ class Price extends Model
     protected $fillable = [
         'thoi_diem',
         'tac_pham',
-        'gia_thanh'
+        'gia_ban_thuong',
+        'gia_ban_db'
     ];
 }

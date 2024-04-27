@@ -125,7 +125,7 @@ Route::get('/taikhoan/thuvien', [WorkListController::class, 'getLibrary'])->midd
 // Quản lý tác phẩm
 
 // Hiển thị danh sách tác phẩm
-Route::get('/bientapvien/tacpham', [WorkManagementController::class, 'index'])->middleware('isEditor')->name('works.editor');
+Route::get('/bientapvien/tacpham', [WorkManagementController::class, 'index'])->middleware('workManager')->name('works.editor');
 
 // Hiển thị danh sách tác phẩm đã đăng tải
 Route::get('/bientapvien/tacpham/dadangtai', [WorkManagementController::class, 'getPublicWork'])->middleware('isEditor')->name('works.public');
@@ -137,7 +137,7 @@ Route::get('/bientapvien/tacpham/dangchoduyet', [WorkManagementController::class
 Route::get('/bientapvien/tacpham/daan', [WorkManagementController::class, 'getHiddenWork'])->middleware('isEditor')->name('works.hidden');
 
 // Hiển thị chi tiết thông tin tác phẩm
-Route::get('/bientapvien/tacpham/chitiettacpham/{id}', [WorkManagementController::class, 'getWork'])->middleware('isEditor')->name('work.details');
+Route::get('/bientapvien/tacpham/chitiettacpham/{id}', [WorkManagementController::class, 'getWork'])->middleware('isStaff')->name('work.details');
 
 // Chỉnh sửa thông tin tác phẩm
 Route::get('/bientapvien/tacpham/chitiettacpham/chinhsua/{id}', [WorkManagementController::class, 'edit'])->middleware('isEditor')->name('work.edit');
@@ -157,10 +157,28 @@ Route::post('/bientapvien/tacpham/tacphammoi/luutacpham', [WorkManagementControl
 //----------------------------------------------------------------
 
 // Hiển thị danh sách tác phẩm với giá
-Route::get('/quantrivien/tacpham/giaban', [WorkManagementController::class, 'getWorksWithPrices'])->name('work.admin');
+Route::get('/quantrivien/tacpham/giaban', [WorkManagementController::class, 'getWorksWithPrices'])->name('works.admin');
 
-// Danh sách tác phẩm cần duyệt
-Route::get('/quantrivien/tacpham/choduyet', [WorkManagementController::class, 'approveWork'])->middleware('isAdmin')->name('admin.approve');
+// Danh sách tác phẩm chờ duyệt
+Route::get('/quantrivien/tacpham/dangchoduyet', [WorkManagementController::class, 'getApproveWorkAdmin'])->middleware('isAdmin')->name('works.approve.admin');
+
+// Xem chi tiết tác phẩm chờ duyệt
+Route::get('/quantrivien/tacpham/chitiettacpham/choduyet{id}', [WorkManagementController::class, 'getDetailsApproveWork'])->middleware('isAdmin')->name('admin.details');
+
+// Duyệt tác phẩm
+Route::post('/quantrivien/tacpham/chitiettacpham/duyet/{id}', [WorkManagementController::class, 'approve'])->middleware('isAdmin')->name('admin.approve');
+
+// Danh sách tác phẩm đã đăng tải
+Route::get('/quantrivien/tacpham/dadangtai', [WorkManagementController::class, 'getPublicWorkAdmin'])->middleware('isAdmin')->name('works.public.admin');
+
+// Danh sách tác phẩm đã ẩn
+Route::get('/quantrivien/tacpham/daan', [WorkManagementController::class, 'getHiddenWorkAdmin'])->middleware('isAdmin')->name('works.hidden.admin');
+
+// Ẩn tác phẩm
+Route::post('/quantrivien/tacpham/antacpham', [WorkManagementController::class, 'hide'])->middleware('isAdmin')->name('admin.hide');
+
+// Bỏ ẩn tác phẩm
+Route::post('/quantrivien/tacpham/dangtai', [WorkManagementController::class, 'post'])->middleware('isAdmin')->name('admin.post');
 
 // Tạo giá bán
 Route::get('/quantrivien/tacpham/giabanmoi', [PriceManagementController::class, 'createNewPrices'])->middleware('isAdmin')->name('prices.new');

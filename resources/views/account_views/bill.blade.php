@@ -9,7 +9,8 @@
 @section('main')
     <main class="container p-3">
         <article class="row">
-            <section class="col d-flex flex-column gap-2 justify-content-center align-items-center pb-5">
+            <section class="col d-flex flex-column gap-2 justify-content-center align-items-center py-5">
+                <h3><strong>Lịch sử thanh toán</strong></h3>
                 @foreach($bills as $bill)
                     <div class="d-flex flex-column gap-2 bill p-3">
                         <div><h5><strong>Hoá đơn #00{{$bill->id}}</strong></h5></div>

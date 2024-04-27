@@ -48,8 +48,27 @@
                                 @endif
                             @endforeach
                         </div>
+                        <div>
+                            <span class="title-info">Phiên bản:</span>
+                            <form action="" style="font-size: 14px;">
+                                <div class="form-check form-check-inline d-flex justify-content-start align-items-center gap-2">
+                                    <input class="form-check-input" type="radio" name="version[{{$work->id}}]" id="inlineRadio1.{{$work->id}}" value="1" style="margin: 0;" checked>
+                                    <label class="form-check-label d-flex gap-3" for="inlineRadio2">
+                                        <strong>Bản thường:</strong>
+                                        <strong>{{ number_format($prices->gia_ban_thuong, 0, ',', '.') }} VNĐ</strong>
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline d-flex justify-content-start align-items-center gap-2" style="color:var(--primary)">
+                                    <input class="form-check-input" type="radio" name="version[{{$work->id}}]" id="inlineRadio2.{{$work->id}}" value="2" style="margin: 0;">
+                                    <label class="form-check-label d-flex gap-3" for="inlineRadio2">
+                                        <strong>Bản đặc biệt:</strong>
+                                        <strong>{{ number_format($prices->gia_ban_db, 0, ',', '.') }} VNĐ</strong>
+                                    </label>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                    <div class="d-flex py-4 align-items-end new-work gap-2">
+                    <div class="d-flex py-3 align-items-end new-work gap-2">
                         <!-- <div> -->
                             <a href="{{ route('download', ['id' => $work->id]) }}" class="btn btn-primary">
                                 <i class="bi bi-download"></i>

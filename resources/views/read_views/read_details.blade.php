@@ -35,7 +35,8 @@
                 </div> -->
             </section>
             <section class="col">
-                <section class="d-flex flex-column">
+                <form class="d-flex flex-column" action="{{ route('payment.now', ['id' => $work->id]) }}" method="post">
+                    @csrf
                     <div>
                         <h2 style="font-weight: bold;">{{$work->tua_de}}</h2>
                     </div>
@@ -98,13 +99,36 @@
                                         <th></th>
                                         <td></td>
                                     </tr>
+                                    <tr class="align-middle">
+                                        <th>Phiên bản:</th>
+                                        <td colspan="2" style="font-size: 14px;">
+                                            <div>
+                                                <input type="hidden" name="normalPrice" value="{{$prices->gia_ban_thuong}}">
+                                                <input type="hidden" name="specialPrice" value="{{$prices->gia_ban_db}}">
+                                                <div class="form-check form-check-inline d-flex justify-content-start align-items-center gap-2">
+                                                    <input class="form-check-input" type="radio" name="payNow" id="inlineRadio1.{{$work->id}}" value="1" style="margin: 0;" checked>
+                                                    <label class="form-check-label d-flex gap-3" for="inlineRadio2">
+                                                        <strong>Bản thường:</strong>
+                                                        <strong>{{ number_format($prices->gia_ban_thuong, 0, ',', '.') }} VNĐ</strong>
+                                                    </label>
+                                                </div>
+                                                <div class="form-check form-check-inline d-flex justify-content-start align-items-center gap-2" style="color:var(--primary)">
+                                                    <input class="form-check-input" type="radio" name="payNow" id="inlineRadio2.{{$work->id}}" value="2" style="margin: 0;">
+                                                    <label class="form-check-label d-flex gap-3" for="inlineRadio2">
+                                                        <strong>Bản đặc biệt:</strong>
+                                                        <strong>{{ number_format($prices->gia_ban_db, 0, ',', '.') }} VNĐ</strong>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td></td>
+                                    <tr>
                                 </tbody>
                             </table>
 
                         </section>
                     </div>
-                    <div class="d-flex py-2 justify-content-end align-items-center new-work gap-2">
-                    <!-- <div> -->
+                    <div class="d-flex pt-3 pb-2 justify-content-end align-items-center new-work gap-2">
                         <a href="{{ route('read.content', ['id' => $work->id]) }}" class="btn btn-primary">
                             <i class="bi bi-eye-fill"></i>
                             <span>Đọc thử</span>
@@ -117,21 +141,21 @@
                             <i class="bi bi-bag-plus-fill"></i>
                             <span>Mua sau</span>
                         </a>
-                        <a href="#" class="px-3 btn btn-primary">
-                            <i class="bi bi-credit-card-fill"></i>
-                            <span>Mua ngay</span>
-                        </a>
-                    <!-- </div>                  -->
-                    
-                </div>
+                        <div class="text-center new-work">
+                            <button type="submit" name="block" class="btn btn-primary">
+                                <i class="bi bi-credit-card-fill"></i>
+                                <span class="btn-custom-mng">Mua ngay</span>
+                            </button>
+                        </div>               
+                    </div>
                     <div class="py-5">
                         <h5 style="font-weight: bold;">Mô tả nội dung</h5>
                         <div>
                             {!! nl2br($work->mo_ta_noi_dung) !!}
                         </div>
                     </div>
-                    </div>
-                </section>
+                </form>
+            </section>
         </article>
     </main>
 @endsection

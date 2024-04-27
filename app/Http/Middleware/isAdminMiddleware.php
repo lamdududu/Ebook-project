@@ -23,7 +23,7 @@ class isAdminMiddleware
             }
     
             else if(Session::get('user')->loai_tai_khoan == 2) {
-                return redirect()->route('works.management');
+                return redirect()->route('works.editor');
             }
     
             else return redirect()->route('home');

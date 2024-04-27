@@ -210,14 +210,77 @@ class CartController extends Controller
                         ->delete();
                 }
 
-                session()->forget('data');
-                session()->forget('version');
+                if(session::has('data'))
+                    session()->forget('data');
+
+                if(session::has('version'))
+                    session()->forget('version');
+
                 session()->forget('totalPayment');
                 session()->forget('payForWorks');
 
+                if(session::has('previous_url')) {
+                    $previous_url = session::get('previous_url');
+                    session()->forget('previous_url');
+                    return redirect()->to($previous_url);
+                }
                 return redirect()->route('cart')->with('success-payment', 'Thanh toán thành công');
             }
         }
+    }
+
+    /**
+     * Thanh toán ngay
+     */
+
+    public function payNow(Request $request, $id) 
+    {   
+        $coverStoragePath = Storage::url('covers');
+        $count = 1;
+
+        $work = Work::find($id);
+        
+        $workObject = new stdClass(); // Tạo một đối tượng mới
+        $workObject->id = $work->id;
+        $workObject->tua_de = $work->tua_de;
+        $workObject->anh_bia = $work->anh_bia;
+
+        // Nếu người dùng chọn mua phiên bản thường
+        if($request->input('payNow') == 1) {
+            $workObject->gia_thanh = $totalBill = $request->input('normalPrice');
+            $workObject->phien_ban = 1;
+        }
+        // Nếu người dùng chọn mua phiên bản thường
+        else {
+            $workObject->gia_thanh = $totalBill = $request->input('specialPrice');
+            $workObject->phien_ban = 2;        
+        }
+        
+        $works[] = $workObject; // Thêm đối tượng vào mảng
+
+        session()->put('totalPayment', $totalBill);
+        session()->put('payForWorks', $works);
+
+        // Kiểm tra có giá trị nào trong previous_url hay chưa, nếu có thì xóa
+        if(Session::has('previous_url')) {
+            session()->forget('previous_url');
+        }
+        
+        session(['previous_url' => url()->previous()]);
+
+        if(Session::has('workPayNow')) {
+            Session()->forget('workPayNow');
+        }
+
+        // Kiểm tra tác phẩm đã có trong giỏ hàng hay chưa
+        // Nếu đã có thì lưu id lại để sau khi thanh toán thành công sẽ xóa tác phẩm ra khỏi giỏ hàng
+        if(Cart::where('tai_khoan', session::get('user')->id)->where('tac_pham', $id)->first()) 
+        {
+            Session()->put('workPayNow', $id);
+        }
+
+
+        return view('account_views.payment', compact('works', 'totalBill', 'count', 'coverStoragePath'));
     }
 
     /**

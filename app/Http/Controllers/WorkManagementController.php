@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\CopyrightProvider;
 use App\Models\Account;
 use App\Models\Category;
+use App\Models\Price;
 use App\Models\Publisher;
 use App\Models\WorksCategories;
 use App\Models\Work;
@@ -611,10 +612,76 @@ class WorkManagementController extends Controller
         $works = Work::leftJoin('prices as p', 'p.tac_pham', '=', 'works.id')
                         ->leftJoin('times as t', 'p.thoi_diem', '=', 't.id')
                         ->leftJoin('accounts as a', 'works.tai_khoan_dang_tai', '=', 'a.id')
-                        ->leftJoin('work_statuses as s', 'works.trang_thai', '=', 's.id')
+                        ->join('work_statuses as s', 'works.trang_thai', '=', 's.id')
                         ->select('works.id', 'works.tua_de', 'a.ten_tai_khoan', 's.ten_trang_thai_tp', 'p.gia_ban_thuong', 'p.gia_ban_db', 't.thoi_diem')
+                        ->orderByDesc('id')
                         ->get();
 
         return view('work_management_views.prices', compact('works'));
+    }
+
+    public function getHiddenWorkAdmin()
+    {
+        $works = Work::leftJoin('prices as p', 'p.tac_pham', '=', 'works.id')
+                        ->leftJoin('times as t', 'p.thoi_diem', '=', 't.id')
+                        ->leftJoin('accounts as a', 'works.tai_khoan_dang_tai', '=', 'a.id')
+                        ->where('works.trang_thai', '2')
+                        ->select('works.id', 'works.tua_de', 'a.ten_tai_khoan',  'p.gia_ban_thuong', 'p.gia_ban_db', 't.thoi_diem')
+                        ->orderByDesc('id')
+                        ->get();
+
+        return view('work_management_views.prices', compact('works'));
+    }
+
+    public function getApproveWorkAdmin()
+    {
+       $works = Work::leftJoin('prices as p', 'p.tac_pham', '=', 'works.id')
+                        ->leftJoin('times as t', 'p.thoi_diem', '=', 't.id')
+                        ->leftJoin('accounts as a', 'works.tai_khoan_dang_tai', '=', 'a.id')
+                        ->where('works.trang_thai', '3')
+                        ->select('works.id', 'works.tua_de', 'a.ten_tai_khoan', 'p.gia_ban_thuong', 'p.gia_ban_db', 't.thoi_diem')
+                        ->orderByDesc('id')
+                        ->get();
+
+        return view('work_management_views.approve', compact('works'));
+    }
+
+    public function getPublicWorkAdmin()
+    {
+        $works = Work::leftJoin('prices as p', 'p.tac_pham', '=', 'works.id')
+                        ->leftJoin('times as t', 'p.thoi_diem', '=', 't.id')
+                        ->leftJoin('accounts as a', 'works.tai_khoan_dang_tai', '=', 'a.id')
+                        ->where('works.trang_thai', '=', '1')
+                        ->select('works.id', 'works.tua_de', 'a.ten_tai_khoan', 'p.gia_ban_thuong', 'p.gia_ban_db', 't.thoi_diem')
+                        ->orderByDesc('id')
+                        ->get();
+
+        return view('work_management_views.prices', compact('works'));
+    }
+
+    public function getDetailsApproveWork($id)
+    {
+        $coverStoragePath = Storage::url('covers');
+
+        $work = Work::find($id);
+
+        $prices = Price::join('times', 'times.id', '=', 'prices.thoi_diem')
+                        ->where('times.thoi_diem', '<=', now())
+                        ->where('prices.id', $id)
+                        ->groupBy('prices.id')
+                        ->orderBy('times.thoi_diem', 'desc')
+                        ->limit(1)
+                        ->first();
+
+        $workCate = WorksCategories::where('tac_pham', $id)->get();
+        $categories = Category::whereIn('id', $workCate->pluck('the_loai'))->get();
+
+        $account = Account::find($work->tai_khoan_dang_tai);
+
+        $copyright = CopyrightProvider::find($work->ban_quyen);
+
+        $publisher = Publisher::find($work->nha_xuat_ban);
+
+        return view('work_management_views.approve-details', compact('prices', 'publisher', 'work', 'coverStoragePath', 'categories', 'copyright', 'account'));
     }
 }

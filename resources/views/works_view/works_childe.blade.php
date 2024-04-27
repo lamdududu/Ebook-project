@@ -27,8 +27,8 @@
               <span><a href="{{ route('read.details', ['id' => $book->id]) }}" style="color: var(--primary)">xem chi tiết</a></span>
             </p>
             <div class="card-text pb-2">
-              <p class="prices">Giá bản thường: <span>{{$book->gia_ban_thuong}} VNĐ</span></p>
-              <p class="prices" style="color: var(--primary);">Giá bản đặc biệt: <span>{{$book->gia_ban_db}} VNĐ</span></p>
+              <p class="prices">Giá bản thường: <span>{{ number_format($book->gia_ban_thuong, 0, ',', '.') }} VNĐ</span></p>
+              <p class="prices" style="color: var(--primary);">Giá bản đặc biệt: <span>{{ number_format($book->gia_ban_db, 0, ',', '.') }} VNĐ</span></p>
             </div>
           </div>
         </div>

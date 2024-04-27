@@ -27,7 +27,8 @@
                                 <th scope="col" class="text-center">Nguời đăng tải</th>
                                 <th scope="col" class="text-center">Trạng thái</th>
                                 <th scope="col" class="text-center">Thời điểm</th>
-                                <th scope="col" class="text-center">Giá bán</th>
+                                <th scope="col" class="text-center">Giá bản thường</th>
+                                <th scope="col" class="text-center">Giá bản đặc biệt</th>
                                 <th scope="col" class="text-center">Chọn tác phẩm</th>
                             </tr>
                         </thead>
@@ -39,7 +40,8 @@
                                 <td class="text-center">{{$work->ten_tai_khoan}}</td>
                                 <td class="text-center">{{$work->ten_trang_thai_tp}}</td>
                                 <td class="text-center">{{$work->thoi_diem}}</td>
-                                <td class="text-center">{{$work->gia_thanh}} VND</td>
+                                <td class="text-center">{{$work->gia_ban_thuong}} VND</td>
+                                <td class="text-center">{{$work->gia_ban_db}} VND</td>
                                 <td class="text-center">
                                     <div class="form-check d-flex justify-content-center align-items-center filter">
                                         <input class="form-check-input" type="checkbox" value="{{$work->id}}" id="workCheck.{{$work->id}}" name="workCheck[]" 
@@ -60,12 +62,25 @@
                         <div class="row justify-content-center pb-3">
                             <div class="col input-custom">
                                 <!-- input-group -->
-                                <label class="label-form" for="price" id="basic-addon1">Giá bán:</label>
+                                <label class="label-form" for="normalPrice" id="basic-addon1">Giá bản thường:</label>
                                 <!-- <label for="name" class="form-label">Tài khoản</label> -->
-                                <input type="text" name="price" class="form-control shadow-none rounded-end-3 {{ $errors->has('price') ? 'is-invalid' : '' }} {{ old('price') ? 'is-valid' : '' }}" value="{{ old('price') }}" placeholder="Nhập giá bán..." aria-label="Giá bán" aria-describedby="basic-addon1">
-                                    @if($errors->has('price'))
+                                <input type="text" name="normalPrice" class="form-control shadow-none rounded-end-3 {{ $errors->has('normalPrice') ? 'is-invalid' : '' }} {{ old('normalPrice') ? 'is-valid' : '' }}" value="{{ old('normalPrice') }}" placeholder="Nhập giá bán bản thường..." aria-label="Giá bán" aria-describedby="basic-addon1">
+                                    @if($errors->has('normalPrice'))
                                         <div class="invalid-feedback">
-                                            {{ $errors->first('price') }}
+                                            {{ $errors->first('normalPrice') }}
+                                        </div>
+                                    @endif
+                            </div>
+                        </div>
+                        <div class="row justify-content-center pb-3">
+                            <div class="col input-custom">
+                                <!-- input-group -->
+                                <label class="label-form" for="specialPrice" id="basic-addon1">Giá bản đặc biệt:</label>
+                                <!-- <label for="name" class="form-label">Tài khoản</label> -->
+                                <input type="text" name="specialPrice" class="form-control shadow-none rounded-end-3 {{ $errors->has('specialPrice') ? 'is-invalid' : '' }} {{ old('specialPrice') ? 'is-valid' : '' }}" value="{{ old('specialPrice') }}" placeholder="Nhập giá bán bản đặc biệt..." aria-label="Giá bán" aria-describedby="basic-addon1">
+                                    @if($errors->has('specialPrice'))
+                                        <div class="invalid-feedback">
+                                            {{ $errors->first('specialPrice') }}
                                         </div>
                                     @endif
                             </div>

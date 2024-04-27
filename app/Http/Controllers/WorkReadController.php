@@ -12,6 +12,7 @@ use App\Models\WorksCategories;
 use App\Models\CopyrightProvider;
 use App\Models\Category;
 use App\Models\Publisher;
+use App\Models\Price;
 use PhpOffice\PhpWord\IOFactory;
 use Illuminate\Http\Request;
 
@@ -23,6 +24,14 @@ class WorkReadController extends Controller
 
         $work = Work::find($id);
 
+        $prices = Price::join('times', 'times.id', '=', 'prices.thoi_diem')
+                        ->where('times.thoi_diem', '<=', now())
+                        ->where('prices.id', $id)
+                        ->groupBy('prices.id')
+                        ->orderBy('times.thoi_diem', 'desc')
+                        ->limit(1)
+                        ->first();
+
         $publisher = Publisher::where('id', $work->nha_xuat_ban)->first();
 
         $workCate = WorksCategories::where('tac_pham', $id)->get();
@@ -30,13 +39,21 @@ class WorkReadController extends Controller
 
         $copyright = CopyrightProvider::find($work->ban_quyen);
 
-        return view('read_views.read_details', compact('work', 'coverStoragePath', 'categories', 'copyright', 'publisher'));
+        return view('read_views.read_details', compact('prices', 'work', 'coverStoragePath', 'categories', 'copyright', 'publisher'));
     }
 
     public function getContent($id)
     {
 
         $work = Work::find($id);
+
+        $prices = Price::join('times', 'times.id', '=', 'prices.thoi_diem')
+                        ->where('times.thoi_diem', '<=', now())
+                        ->where('prices.id', $id)
+                        ->groupBy('prices.id')
+                        ->orderBy('times.thoi_diem', 'desc')
+                        ->limit(1)
+                        ->first();
 
         $file = storage_path('app/public/works/') . $work->value('tep_tin');
 
@@ -67,7 +84,7 @@ class WorkReadController extends Controller
 
             $coverStoragePath = Storage::url('covers');
             
-            return view('read_views.read_content', compact('workContent', 'work', 'coverStoragePath', 'categories'));
+            return view('read_views.read_content', compact('prices', 'workContent', 'work', 'coverStoragePath', 'categories'));
 
         } else {
             // return redirect()->route('read.details', ['id' => $id]);

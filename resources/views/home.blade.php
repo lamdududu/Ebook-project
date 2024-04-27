@@ -100,8 +100,8 @@
                       <span><a href="{{ route('read.details', ['id' => $work->id]) }}" style="color: var(--primary)">xem chi tiết</a></span>
                     </p>
                     <div class="card-text pb-2">
-                      <p class="prices">Giá bản thường: <span>{{$work->gia_ban_thuong}} VNĐ</span></p>
-                      <p class="prices" style="color: var(--primary);">Giá bản đặc biệt: <span>{{$work->gia_ban_db}} VNĐ</span></p>
+                      <p class="prices">Giá bản thường: <span>{{ number_format($work->gia_ban_thuong, 0, ',', '.') }} VNĐ</span></p>
+                      <p class="prices" style="color: var(--primary);">Giá bản đặc biệt: <span>{{ number_format($work->gia_ban_db, 0, ',', '.') }} VNĐ</span></p>
                     </div>
                   </div>
                 </div>
@@ -181,8 +181,8 @@
                       <span><a href="{{ route('read.details', ['id' => $work->id]) }}" style="color: var(--primary)">xem chi tiết</a></span>
                     </p>
                     <div class="card-text pb-2">
-                      <p class="prices">Giá bản thường: <span>{{$work->gia_ban_thuong}} VNĐ</span></p>
-                      <p class="prices" style="color: var(--primary);">Giá bản đặc biệt: <span>{{$work->gia_ban_db}} VNĐ</span></p>
+                      <p class="prices">Giá bản thường: <span>{{ number_format($work->gia_ban_thuong, 0, ',', '.') }} VNĐ</span></p>
+                      <p class="prices" style="color: var(--primary);">Giá bản đặc biệt: <span>{{ number_format($work->gia_ban_db, 0, ',', '.') }} VNĐ</span></p>
                     </div>
                   </div>
                 </div>
@@ -255,14 +255,15 @@
                         {{Illuminate\Support\Str::limit($work->tua_de, $limit = 46, $end = '...')}}
                       </h5>
                     </a>
+                    <p class="card-text">Tác giả: <span>{{$work->tac_gia}}</span></p>
                     <p class="card-text">
                       <!-- {{nl2br(str_replace('\n', "\n",Illuminate\Support\Str::limit($work->mo_ta_noi_dung, $limit = 500, $end = '...')))}} -->
                       {{Illuminate\Support\Str::limit($work->mo_ta_noi_dung, $limit = 300, $end = '...')}}
                       <span><a href="{{ route('read.details', ['id' => $work->id]) }}" style="color: var(--primary)">xem chi tiết</a></span>
                     </p>
                     <div class="card-text pb-2">
-                      <p class="prices">Giá bản thường: <span>{{$work->gia_ban_thuong}} VNĐ</span></p>
-                      <p class="prices" style="color: var(--primary);">Giá bản đặc biệt: <span>{{$work->gia_ban_db}} VNĐ</span></p>
+                      <p class="prices">Giá bản thường: <span>{{ number_format($work->gia_ban_thuong, 0, ',', '.') }} VNĐ</span></p>
+                      <p class="prices" style="color: var(--primary);">Giá bản đặc biệt: <span>{{ number_format($work->gia_ban_db, 0, ',', '.') }} VNĐ</span></p>
                     </div>
                   </div>
                 </div>
@@ -350,8 +351,8 @@
                       <span><a href="{{ route('read.details', ['id' => $work->id]) }}" style="color: var(--primary)">xem chi tiết</a></span>
                     </p>
                     <div class="card-text pb-2">
-                      <p class="prices">Giá bản thường: <span>{{$work->gia_ban_thuong}} VNĐ</span></p>
-                      <p class="prices" style="color: var(--primary);">Giá bản đặc biệt: <span>{{$work->gia_ban_db}} VNĐ</span></p>
+                      <p class="prices">Giá bản thường: <span>{{ number_format($work->gia_ban_thuong, 0, ',', '.') }} VNĐ</span></p>
+                      <p class="prices" style="color: var(--primary);">Giá bản đặc biệt: <span>{{ number_format($work->gia_ban_db, 0, ',', '.') }} VNĐ</span></p>
                     </div>
                   </div>
                 </div>

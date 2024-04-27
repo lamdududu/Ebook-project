@@ -18,11 +18,11 @@ class workManagementMiddleware
     {
         if(Session::has('user')) {
             if(Session::get('user')->loai_tai_khoan == 1) {
-                return redirect()->route('work.admin');
+                return redirect()->route('works.admin');
             }
     
             else if(Session::get('user')->loai_tai_khoan == 2) {
-                return redirect()->route('works.editor');
+                return $next($request);
             }
     
             else return redirect()->route('home');

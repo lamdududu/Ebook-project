@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Session;
 
-class isLoggedMiddleware
+class isStaffMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,16 +17,11 @@ class isLoggedMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if(Session::has('user')) {
-            if(Session::get('user')->loai_tai_khoan == 2) {
-                return redirect()->route('works.editor');
+            if(Session::get('user')->id != 3) {
+                return $next($request);
             }
-
-            else if(Session::get('user')->loai_tai_khoan == 3) {
-                return redirect()->route('home');
-            }
-            
-            else return redirect()->route('accounts.management');
+            else return redirect()->route('home');
         }
-        return $next($request);
+        else return redirect()->route('login.page');
     }
 }
