@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\PaymentAccount;
 use App\Models\Bill;
 use App\Models\BillDetails;
+use App\Models\Price;
 use App\Models\Work;
 use stdClass;
 use Illuminate\Http\Request;
@@ -222,7 +223,7 @@ class CartController extends Controller
                 if(session::has('previous_url')) {
                     $previous_url = session::get('previous_url');
                     session()->forget('previous_url');
-                    return redirect()->to($previous_url);
+                    return redirect()->to($previous_url)->with('success-payment', 'Thanh toán thành công');
                 }
                 return redirect()->route('cart')->with('success-payment', 'Thanh toán thành công');
             }
@@ -235,10 +236,18 @@ class CartController extends Controller
 
     public function payNow(Request $request, $id) 
     {   
+        $work = Work::find($id);
+
+        if(
+            BillDetails::join('bills', 'bills.id', '=', 'bill_details.hoa_don')
+                        ->where('bills.tai_khoan', Session::get('user')->id)
+                        ->where('bill_details.tac_pham', $id)->first()
+        ) {
+            return redirect()->back()->with('warning-add-paid', $work->tua_de);
+        }
+
         $coverStoragePath = Storage::url('covers');
         $count = 1;
-
-        $work = Work::find($id);
         
         $workObject = new stdClass(); // Tạo một đối tượng mới
         $workObject->id = $work->id;
@@ -284,6 +293,45 @@ class CartController extends Controller
     }
 
     /**
+     * Thanh toán thêm cho bản đặc biệt
+     */
+
+    public function paySpecial(Request $request)
+    {
+        $work = Work::where('id', $request->input('work'))->first();
+
+        $coverStoragePath = Storage::url('covers');
+        $count = 1;
+        
+        $workObject = new stdClass(); // Tạo một đối tượng mới
+        $workObject->id = $work->id;
+        $workObject->tua_de = $work->tua_de;
+        $workObject->anh_bia = $work->anh_bia;
+
+        $workObject->gia_thanh = $totalBill =  $request->input('price');
+          
+        $workObject->phien_ban = 2;
+        
+        $works[] = $workObject; // Thêm đối tượng vào mảng
+
+        session()->put('totalPayment', $totalBill);
+        session()->put('payForWorks', $works);
+
+        // Kiểm tra có giá trị nào trong previous_url hay chưa, nếu có thì xóa
+        if(Session::has('previous_url')) {
+            session()->forget('previous_url');
+        }
+        
+        session(['previous_url' => url()->previous()]);
+
+        if(Session::has('workPayNow')) {
+            Session()->forget('workPayNow');
+        }
+
+        return view('account_views.payment', compact('works', 'totalBill', 'count', 'coverStoragePath'));
+    }
+
+    /**
      * Thêm vào giỏ hàng
      */
     public function add($id)
@@ -298,7 +346,7 @@ class CartController extends Controller
         }
 
         
-
+        //Kiểm tra tác phẩm đã mua chưa
         else if(
             BillDetails::join('bills', 'bills.id', '=', 'bill_details.hoa_don')
                         ->where('bills.tai_khoan', $user)
@@ -325,11 +373,11 @@ class CartController extends Controller
     {   
         $coverStoragePath = Storage::url('covers');
 
-        $bills = Bill::paginate(2);
+        $bills = Bill::where('bills.tai_khoan', '=', session::get('user')->id)->paginate(5);
         
         $bill_details = Bill::join('bill_details', 'bill_details.hoa_don', '=', 'bills.id')
                             ->join('works', 'works.id', '=', 'bill_details.tac_pham')
-                            ->where('tai_khoan', session::get('user')->id)
+                            ->where('bills.tai_khoan', '=', session::get('user')->id)
                             ->select('bill_details.hoa_don', 'bill_details.gia_thanh', 'bill_details.phien_ban', 'works.tua_de', 'works.anh_bia')
                             ->get();
 

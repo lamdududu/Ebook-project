@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('publishers', function (Blueprint $table) {
             $table->id();
             $table->string('nha_xuat_ban', 256)->nullable(false)->unique();
+            $table->char('so_dien_thoai', 10)->nullable(false);
+            $table->string('email', 50)->nullable(false);
+            $table->string('dia_chi', 100)->nullable(false);
             $table->timestamps();
         });
     }

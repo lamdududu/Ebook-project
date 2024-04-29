@@ -140,3 +140,18 @@ input[type="radio"]:checked {
     background-color: var(--primary);
     box-shadow: 0 0 3px 2px var(--primary);
 }
+
+/* .new-work .btn-custom-2 {
+    background-color: white;
+    border: 2px solid var(--primary);
+    border-radius: 1rem;
+    font-size: 15px;
+    padding-inline: 1rem;
+    color: var(--primary);
+}
+
+.new-work .btn-custom-2:hover {
+    background-color: var(--primary);
+    border: 2px solid var(--primary);
+    color: white;
+} */

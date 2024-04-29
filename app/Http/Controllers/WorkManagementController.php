@@ -6,8 +6,10 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\CopyrightProvider;
 use App\Models\Account;
 use App\Models\Category;
+use App\Models\Feedback;
 use App\Models\Price;
 use App\Models\Publisher;
+use App\Models\Time;
 use App\Models\WorksCategories;
 use App\Models\Work;
 use App\Models\WorkStatus;
@@ -683,5 +685,95 @@ class WorkManagementController extends Controller
         $publisher = Publisher::find($work->nha_xuat_ban);
 
         return view('work_management_views.approve-details', compact('prices', 'publisher', 'work', 'coverStoragePath', 'categories', 'copyright', 'account'));
+    }
+
+    /**
+     * Duyệt tác phẩm
+     */
+    public function approve(Request $request, $id)
+    {
+        if($request->has('approve')) {
+            $request->validate(
+                [
+                    'normal' => 'required|integer|min:1000',
+                    'special' => 'required|integer|min:1000',
+                ],
+                [
+                    'normal.required' => 'Chưa nhập giá bán',
+                    'normal.integer' => 'Sai định dạng giá',
+                    'normal.min' => 'Giá bán ít nhất là 1000 VND',
+                    'special.required' => 'Chưa nhập giá bán',
+                    'special.integer' => 'Sai định dạng giá',
+                    'special.min' => 'Giá bán ít nhất là 1000 VND',
+                ]
+            );
+    
+            $time = Time::create(['thoi_diem' => Now()]);
+    
+            Price::create(
+                [
+                    'tac_pham' => $id,
+                    'gia_ban_thuong' => $request->input('normal'),
+                    'gia_ban_db' => $request->input('special'),
+                    'thoi_diem' => $time->id,
+                ]
+            );
+    
+            Work::where('id', $id)->update(['trang_thai' => 1]);
+    
+            return redirect()->route('works.approve.admin');
+        }
+        else
+        {
+            $request->validate(
+                [
+                    'feedback' => 'required|string',
+                ],
+                [
+                    'feedback.required' => 'Chưa nhập phản hồi',
+                    'feedback.required' => 'Phản hồi không đúng định dạng',
+                ]
+            );
+
+            $feedback = Feedback::where('tac_pham', $id)->first();
+
+            if($feedback) 
+            {
+                Feedback::where('id', $feedback->id)->update(
+                    [
+                        'tai_khoan' => Session::get('user')->id,
+                        'noi_dung_phan_hoi' => $request->input('feedback'),
+                    ]
+                );
+            }
+            else 
+            {
+                Feedback::create(
+                    [
+                        'tac_pham' => $id,
+                        'tai_khoan' => Session::get('user')->id,
+                        'noi_dung_phan_hoi' => $request->input('feedback'),
+                    ]
+                );
+            }
+
+            Work::where('id', $id)->update(['trang_thai' => 4]);
+
+            return redirect()->route('works.approve.admin');
+        }
+    }
+
+    /**
+     * Lấy tác phẩm bị phản hồi
+     */
+    public function getFeedback()
+    {
+        $works = Work::leftJoin('feedback', 'feedback.tac_pham', '=', 'works.id')
+                    ->leftJoin('accounts as a', 'feedback.tai_khoan', '=', 'a.id')
+                    ->where('works.trang_thai', '4')
+                    ->select('works.*', 'feedback.*', 'a.ten_tai_khoan')
+                    ->get();
+
+        return view('work_management_views.feedback', compact('works'));
     }
 }

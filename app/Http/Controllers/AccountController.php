@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Redirect;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
+use function Laravel\Prompts\password;
+
 class AccountController extends Controller
 {
     /**
@@ -174,7 +176,7 @@ class AccountController extends Controller
     public function getAccInfor($id) {
         $account = Account::find($id);
 
-        $accPayment = PaymentAccount::where('tai_khoan', $account->id)->pluck('so_tai_khoan')->first();
+        $accPayment = PaymentAccount::where('tai_khoan', $account->id)->select('so_tai_khoan')->first();
 
         return view('account_views.user-information', compact('account', 'accPayment'));
     }
@@ -194,7 +196,44 @@ class AccountController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Xử lý thao tác thay đổi thông tin tài khoản
+     */
+    public function handleBtnChange(Request $request, $id)
+    {
+        if ($request->has('chg-avt'))
+        {
+            $this->updateAvatar($request, $id);
+        }
+        
+        else if ($request->has('chg-pass'))
+        {
+            if($this->changePassword($request, $id) == 1) {
+                return redirect()->route('admin.edit')->withErrors(['old-password' => 'Sai mật khẩu']);
+            }
+
+            else if($this->changePassword($request, $id) == 2) {
+                return redirect()->route('admin.edit')->withErrors(['password' => 'Mật khẩu mới không được trùng với mật khẩu cũ']);
+            }
+
+            else {
+                return redirect()->route('admin.edit')->with('success', 'Đổi mật khẩu thành công');
+            }
+        }
+
+        else if ($request->has('chg-info'))
+        {
+            $this->updateAccInfor($request, $id);
+            return redirect()->route('admin.edit', ['id' => $id])->with('success', 'Cập nhật thành công');
+        }
+
+        else if ($request->has('chg-payment'))
+        {
+            $this->changePasswordPayment($request, $id);
+        }
+    }
+
+    /**
+     * Cập nhật thông tin cơ bản của tài khoản
      */
     public function updateAccInfor(Request $request, $id) 
     {
@@ -219,15 +258,80 @@ class AccountController extends Controller
             ]
         );
 
+        if($request->has('gender')) {
+            $gender = $request->input('gender');
+        }
+
+        else $gender = '2';
+
         Account::where('id', $id)->update([
             'ho_ten_nguoi_dung' => $request->input('name'),
             'email' => $request->input('email'),
             'so_dien_thoai' => $request->input('phone'),
             'ngay_sinh' => Carbon::parse($request->input('birthday'))->format('Y-m-d'),
+            'gioi_tinh' => $gender
         ]);
+    }
 
+    /**
+     * Cập nhật ảnh đại diện
+     */
+    public function updateAvatar(Request $request, $id)
+    {
 
-        return redirect()->route('admin.edit', ['id' => $id])->with('success', 'Cập nhật thành công');
+    }
+
+    /**
+     * Thay đổi mật khẩu
+     */
+
+    public function changePassword(Request $request, $id)
+    {
+        $request->validate(
+            [
+                'old-password' => 'required',
+                'password' => 'required|min:6|max:50|regex:/^\S+$/|confirmed',
+                'password_confirmation' => 'required',
+            ],
+            [
+                'old-pass.required' => 'Chưa nhập mật khẩu cũ',
+                'password.required' => 'Chưa nhập mật khẩu mới',
+                'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự',
+                'password.max' => 'Mật khẩu quá dài (tối đa 50 ký tự)',
+                'password.regex' => 'Mật khẩu không hợp lệ (chỉ được chứa ký tự chữ cái, số và các ký tự đặc biệt)',
+                'password_confirmation.required' => 'Chưa nhập xác nhận mật khẩu',
+                'password.confirmed' => 'Xác nhận mật khẩu không đúng',
+            ]
+        );
+
+        $user = Account::find(Session::get('user')->id);
+
+        if (!Hash::check($request->input('old-password'), $user->mat_khau))
+        {
+            return 1;
+        }
+        
+        else if (!Hash::check($request->input('password'), $user->mat_khau))
+        {
+            return 2;
+        }
+        
+        else {
+            $user->update(
+                [
+                    'mat_khau' => Hash::make($request->input('password')),
+                ]
+            );
+        }
+    }
+
+    /**
+     * Thay đổi mật khẩu thanh toán
+     */
+
+    public function changePasswordPayment(Request $request, $id)
+    {
+        
     }
 
     /**

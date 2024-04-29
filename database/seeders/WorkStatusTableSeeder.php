@@ -17,6 +17,7 @@ class WorkStatusTableSeeder extends Seeder
             ['ten_trang_thai_tp' => 'Đã đăng tải'],
             ['ten_trang_thai_tp' => 'Đã ẩn'],
             ['ten_trang_thai_tp' => 'Đang chờ phê duyệt'],
+            ['ten_trang_thai_tp' => 'Cần chỉnh sửa'],
         ];
 
         DB::table('work_statuses')->insert($data);

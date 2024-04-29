@@ -199,11 +199,14 @@ class WorkListController extends Controller
 
         $coverStoragePath = Storage::url('covers');
         // $bills = BillDetails::where('tai_khoan', session::get('user')->id)->get();
-        $works = Work::join('bill_details', 'works.id', '=', 'bill_details.tac_pham')
-                    ->join('bills', 'bills.id', '=', 'bill_details.hoa_don')
-                    ->join('publishers', 'publishers.id', '=', 'works.nha_xuat_ban')
-                    ->where('bills.tai_khoan', session::get('user')->id)
-                    ->get();
+        $works = DB::select(
+            'SELECT `works`.*, MAX(`bill_details`.phien_ban) AS phien_ban
+            FROM `works` INNER JOIN `bill_details` ON `works`.`id` = `bill_details`.`tac_pham`
+                        INNER JOIN `bills` ON `bills`.`id` = `bill_details`.`hoa_don`
+                        INNER JOIN `publishers` ON `publishers`.`id` = `works`.`nha_xuat_ban`
+            WHERE `bills`.`tai_khoan` = 3
+            GROUP BY `works`.`id`'
+        );
 
         $works = $this->paginate($works, 2);
 
@@ -211,42 +214,29 @@ class WorkListController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Tìm kiếm tác phẩm
      */
-    public function store(Request $request)
+    public function search(Request $request)
     {
-        //
-    }
+        $coverStoragePath = Storage::url('covers');
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        $categories = Category::all();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+        $books = DB::select(
+            'SELECT w.*, p.gia_ban_thuong, p.gia_ban_db
+            FROM times AS t JOIN prices AS p ON t.id = p.thoi_diem
+                            JOIN works AS w ON w.id = p.tac_pham
+            WHERE w.trang_thai = 1 AND w.tua_de like "%'.$request->input('search').'%"
+                    AND (p.tac_pham, t.thoi_diem) IN (
+                        SELECT p.tac_pham, MAX(t.thoi_diem)
+                        FROM times AS t JOIN prices AS p ON t.id = p.thoi_diem
+                        WHERE t.thoi_diem <= NOW()
+                        GROUP BY p.tac_pham)'
+        );
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $books = $this->paginate($books, 6);
+
+        return view('works_view.works_childe_filter', compact('books', 'coverStoragePath', 'categories'));
     }
 }

@@ -57,34 +57,93 @@ class WorkReadController extends Controller
 
         $file = storage_path('app/public/works/') . $work->value('tep_tin');
 
+        // Kiểm tra người dùng đã mua tác phẩm chưa
+        if(
+            BillDetails::join('bills', 'bills.id', '=', 'bill_details.hoa_don')
+                        ->where('bills.tai_khoan', Session::get('user')->id)
+                        ->where('bill_details.tac_pham', $id)->first()
+        ) {
+            $paid = True;
+        }
+
+        else {
+            $paid = False;
+        }
+
         // $file =  storage_path('app/public/works/test.txt');
         if (File::exists($file)) {
-            // $phpWord = IOFactory::load($file);
-            // $workContent = $phpWord->getSections()[0]->getElements();
-            // $workContent = file_get_contents($file);
-            // return view('read_views.read_content', compact('workContent', 'work'));
+
+            // Tải file
             $phpWord = IOFactory::load($file);
+            
+            // Đếm số lượng đoạn
+            $count = 0;
 
             // Lấy nội dung văn bản từ các phần
             $workContent = '';
+
+            // Khởi tạo mảng dùng để phân trang nội dung
+            $workContents = [];
+
             foreach ($phpWord->getSections() as $section) {
+                
                 foreach ($section->getElements() as $element) {
+                    
                     if ($element instanceof \PhpOffice\PhpWord\Element\TextRun) {
+                        
                         foreach ($element->getElements() as $textElement) {
+                            
                             if ($textElement instanceof \PhpOffice\PhpWord\Element\Text) {
                                 $workContent .= $textElement->getText() . "\n";
+                                $count += 1;
+
+                                // Ngắt trang ở đoạn 30
+                                if($count == 30) {
+                                    $workContents[] = $workContent;
+                                    $workContent = '';
+                                    $count = 0;
+                                }
+
+                                // Nếu người dùng chưa mua tác phẩm, chỉ có phép đọc thử
+                                if(!$paid && count($workContents) == 1) {
+                                    break;
+                                }
                             }
                         }
+
+                        if(!$paid && count($workContents) == 1) {
+                            break;
+                        }
+
+                    }
+
+                    if(!$paid && count($workContents) == 1) {
+                        break;
                     }
                 }
+
+                if(!$paid && count($workContents) == 1) {
+                    break;
+                }
             }
+
+            $workContentPagination = new WorkListController();
+
+            $workContents = $workContentPagination->paginate($workContents, 1);
 
             $workCate = WorksCategories::where('tac_pham', $id)->get();
             $categories = Category::whereIn('id', $workCate->pluck('the_loai'))->get();
 
             $coverStoragePath = Storage::url('covers');
             
-            return view('read_views.read_content', compact('prices', 'workContent', 'work', 'coverStoragePath', 'categories'));
+            if($paid)
+            {
+                return view('read_views.read_content', compact('prices', 'workContents', 'work', 'coverStoragePath', 'categories'));
+            }
+            else {
+                $notiPayment = 'Chưa thanh toán';
+                return view('read_views.read_content', compact('prices', 'workContents', 'work', 'coverStoragePath', 'categories', 'notiPayment'));
+            }
 
         } else {
             // return redirect()->route('read.details', ['id' => $id]);
@@ -99,7 +158,7 @@ class WorkReadController extends Controller
 
         $bill = BillDetails::join('bills', 'bills.id', '=', 'bill_details.hoa_don')
                             ->where('bills.tai_khoan', Session::get('user')->id)
-                            ->where('tac_pham', $id)->first();
+                            ->where('tac_pham', $id)->orderBy('phien_ban', 'desc')->first();
         
         if($bill && $bill->phien_ban == 2) {
 
@@ -107,7 +166,27 @@ class WorkReadController extends Controller
 
             return redirect()->back()->with('success-download', $work->tua_de);
         }
+
+        $specialPrice = Price::join('times', 'times.id', '=', 'prices.thoi_diem')
+                        ->where('times.thoi_diem', '<=', now())
+                        ->where('prices.id', $work->id)
+                        ->groupBy('prices.id')
+                        ->orderBy('times.thoi_diem', 'desc')
+                        ->select('gia_ban_db')->limit(1)->first();
         
-        return redirect()->back()->with('warning-download', $work->tua_de);
+        if($bill && $bill->phien_ban != 2) {
+            $paid = BillDetails::join('bills', 'bills.id', '=', 'bill_details.hoa_don')
+                        ->where('bills.tai_khoan', Session::get('user')->id)
+                        ->where('bill_details.tac_pham', $work->id)
+                        ->select('gia_thanh')->first();
+            
+            $price = $specialPrice->gia_ban_db - $paid->gia_thanh;
+        }
+
+        else {
+            $price = $specialPrice->gia_ban_db;
+        }
+
+        return redirect()->back()->with(['warning-download' => $work->tua_de, 'work-download' => $work->id, 'price-download' => $price]);
     }
 }

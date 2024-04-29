@@ -19,6 +19,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('works.hidden') }}">Tác phẩm đã ẩn</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('works.feedback') }}">Tác phẩm cần sửa</a>
+                    </li>
                 </nav>
                 @yield('editButton')
             </article>

@@ -40,9 +40,9 @@
                         </li>
                     </ul>
                     <!-- <div class="d-flex justify-content-end pe-3 flex-lg-row align-items-center gap-lg-3" style="padding: 15px; "> -->
-                        <form class="d-flex justity-content-start" role="search">
-                            
-                            <input class="form-control me-1 search-custom" type="search" placeholder="Tìm kiếm..." aria-label="Search">
+                        <form class="d-flex justity-content-start" action="{{ route('search') }}" method="post" role="search">
+                            @csrf
+                            <input class="form-control me-1 search-custom" name="search" type="search" placeholder="Tìm kiếm..." aria-label="Search">
                             <button class="btn me-3 search-btn" type="submit"><i class='bi bi-search'></i></button>
                         </form>
                         <a class="nav-link py-lg-0 py-2 px-lg-4" href="{{ route('library') }}">
@@ -109,17 +109,27 @@
         </div>
         <?php session()->forget('warning-add-paid'); ?>
     @endif
-  @if(Session()->has('warning-download'))
+
+    @if(Session()->has('warning-download'))
         <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
             <div class="pb-3 text-danger"><strong>Bạn chưa có phiên bản đặc biệt của tác phẩm {{Session('warning-download')}}.</strong></div>
-            <div>Bạn có muốn thanh toán ngay để có thể tiếp tục tải xuống tác phẩm không?</div>
+            <div>Bạn có muốn thanh toán ngay <span style="color: var(--primary);">{{ number_format(Session('price-download'), 0, ',', '.')}} VNĐ</span> để có thể tiếp tục tải xuống tác phẩm không?</div>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             <div class="pt-1">
-                <a href="{{ route('payment.account') }}" class="btn px-2" style="color: rgb(102, 77, 3);"><strong>Có</strong></a>
-                <button type="button" class="btn btn-alert text-danger px-2" data-bs-dismiss="alert" aria-label="Close"><strong>Không</strong></button>
+                <form action="{{ route('payment.special') }}" method="post">
+                    @csrf
+                    <input type="hidden" name="work" value="{{Session('work-download')}}">
+                    <input type="hidden" name="price" value="{{Session('price-download')}}">
+                    <button type="submit" class="btn px-2" style="color: rgb(102, 77, 3);"><strong>Có</strong></button>
+                    <button type="button" class="btn btn-alert text-danger px-2" data-bs-dismiss="alert" aria-label="Close"><strong>Không</strong></button>
+                </form>
             </div>
         </div>
-        <?php session()->forget('warning-add'); ?>
+        <?php
+            session()->forget('warning-download');
+            session()->forget('work-download');
+            session()->forget('price-download');
+         ?>
     @endif
 
     @if(Session()->has('warning-add'))
@@ -139,6 +149,38 @@
         </div>
         <?php session()->forget('success-add'); ?>
     @endif
+
+    @if(Session()->has('warning'))
+        <div class="alert alert-warning alert-dismissible fade show text-center" role="alert" style="max-width: 480px;">
+            <div class="text-danger pb-3"><strong>Bạn chưa kết nối tài khoản thanh toán!</strong></div>
+            <div><strong>Bạn có muốn kết nối để thanh toán đơn hàng của bạn ngay bây giờ không?</strong></div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <div class="pt-1">
+                <a href="{{ route('payment.account') }}" class="btn px-2" style="color: rgb(102, 77, 3);"><strong>Có</strong></a>
+                <button type="button" class="btn btn-alert text-danger px-2" data-bs-dismiss="alert" aria-label="Close"><strong>Không</strong></button>
+            </div>
+        </div>
+        <?php session()->forget('warning'); ?>
+    @endif
+
+    @if(Session()->has('success-connection'))
+        <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+            <div><strong>Kết nối tài khoản thanh toán thành công.</strong></div>
+            <div><strong>Bây giờ bạn đã có thể thanh toán đơn hàng của mình.</strong></div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <?php session()->forget('success-connection'); ?>
+    @endif
+
+    @if(Session()->has('success-payment'))
+        <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+            <div><strong>Thanh toán thành công.</strong></div>
+            <div><strong>Hy vọng bạn sẽ tiếp tục đọc và sưu tầm những quyển sách hay cùng E-read.</strong></div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <?php session()->forget('success-payment'); ?>
+    @endif
+
     @yield('main')
 
     <footer class="container p-1 mt-auto">

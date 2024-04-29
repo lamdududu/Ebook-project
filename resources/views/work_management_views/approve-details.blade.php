@@ -4,18 +4,18 @@
 
 @section('main')
     <main class="container px-3 py-5">
-        <form class="row" method="post" action="">
+        <form class="row" method="post" action="{{ route('admin.approve', ['id' => $work->id]) }}">
             @csrf
             <section class="col-lg-3">
-                <div class="d-flex justify-content-center">
+                <div class="d-flex justify-content-center pt-3">
                     <div class="work-cover">
                         <img src="{{ asset($coverStoragePath . '/' . $work->anh_bia) }}" alt="{{$work->anh_bia}}" class="img-fluid rounded" style="opacity: 100%">
                     </div>
                 </div>
                 <div class="py-4 text-center new-work">
-                    <button type="submit" name="block" class="btn btn-primary">
-                        <i class="bi bi-eye-slash-fill"></i>
-                        <span class="btn-custom-mng">Duyệt tác phẩm</span>
+                    <button type="submit" name="block" class="btn btn-primary px-4">
+                        <i class="bi bi-eye-fill"></i>
+                        <span class="btn-custom-mng">Đọc</span>
                     </button>
                 </div>
             </section>
@@ -85,7 +85,7 @@
                                     <tr class="align-middle">
                                         <th scope="row">Giá bản thường:</th>
                                         <td>
-                                            <input type="text" class="form-control custom-input-text {{ $errors->has('normal') ? 'is-invalid' : ''}} {{ old('normal') ? 'is-valid' : '' }}" name="normal" value="{{ old('normal')}}">
+                                            <input type="text" class="form-control custom-input-text {{ $errors->has('normal') ? 'is-invalid' : ''}} {{ old('normal') ? 'is-valid' : '' }}" name="normal" value="{{ old('normal')}}" placeholder="Nhập giá bán bản thường...">
                                             @if($errors->has('normal'))
                                                 <div class="invalid-feedback">
                                                     {{ $errors->first('normal') }}
@@ -94,7 +94,7 @@
                                         </td>
                                         <th scope="row">Giá bản đặc biệt:</th>
                                         <td>
-                                            <input type="text" class="form-control custom-input-text {{ $errors->has('special') ? 'is-invalid' : ''}} {{ old('special') ? 'is-valid' : '' }}" name="special" value="{{ old('special')}}">
+                                            <input type="text" class="form-control custom-input-text {{ $errors->has('special') ? 'is-invalid' : ''}} {{ old('special') ? 'is-valid' : '' }}" name="special" value="{{ old('special')}}" placeholder="Nhập giá bán bản đặc biệt...">
                                             @if($errors->has('special'))
                                                 <div class="invalid-feedback">
                                                     {{ $errors->first('special') }}
@@ -138,6 +138,31 @@
                         <h5 class="pb-2" style="font-weight: bold;">Mô tả nội dung</h5>
                         <div>
                             {!! nl2br($work->mo_ta_noi_dung) !!}
+                        </div>
+                    </div>
+                    <div>
+                        <h5 class="pb-2" style="font-weight: bold;">Phản hồi</h5>
+                        <div>
+                            <textarea type="text" class="form-control custom-input-text summary {{ $errors->has('feedback') ? 'is-invalid' : ''}} {{ old('feedback') ? 'is-valid' : '' }}" name="feedback" value="{{ old('feedback')}}" placeholder="Nhập phản hồi cho biên tập viên..."></textarea>
+                            @if($errors->has('feedback'))
+                                <div class="invalid-feedback">
+                                    {{ $erros->first('feedback') }}
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="d-flex flex-row gap-4 align-items-center justify-content-end">
+                        <div class="py-4 text-center new-work">
+                            <button type="submit" name="approve" class="btn btn-primary">
+                                <i class="bi bi-clipboard2-check-fill"></i>
+                                <span class="btn-custom-mng">Duyệt tác phẩm</span>
+                            </button>
+                        </div>
+                        <div class="py-4 text-center new-work">
+                            <button type="submit" name="reject" class="btn btn-primary btn-custom-2">
+                                <i class="bi bi-clipboard2-x"></i>
+                                <span class="btn-custom-mng">Gửi phản hồi</span>
+                            </button>
                         </div>
                     </div>
                 </div>

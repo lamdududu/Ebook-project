@@ -7,35 +7,6 @@
 @endsection
 
 @section('main')
-
-    @if(Session()->has('warning'))
-        <div class="alert alert-warning alert-dismissible fade show text-center" role="alert" style="max-width: 480px;">
-            <div class="text-danger pb-3"><strong>Bạn chưa kết nối tài khoản thanh toán!</strong></div>
-            <div><strong>Bạn có muốn kết nối để thanh toán đơn hàng của bạn ngay bây giờ không?</strong></div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            <div class="pt-1">
-                <a href="{{ route('payment.account') }}" class="btn px-2" style="color: rgb(102, 77, 3);"><strong>Có</strong></a>
-                <button type="button" class="btn btn-alert text-danger px-2" data-bs-dismiss="alert" aria-label="Close"><strong>Không</strong></button>
-            </div>
-        </div>
-        <?php session()->forget('warning'); ?>
-    @endif
-    @if(Session()->has('success-connection'))
-        <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
-            <div><strong>Kết nối tài khoản thanh toán thành công.</strong></div>
-            <div><strong>Bây giờ bạn đã có thể thanh toán đơn hàng của mình.</strong></div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        <?php session()->forget('success-connection'); ?>
-    @endif
-    @if(Session()->has('success-payment'))
-        <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
-            <div><strong>Thanh toán thành công.</strong></div>
-            <div><strong>Hy vọng bạn sẽ tiếp tục đọc và sưu tầm những quyển sách hay cùng E-read.</strong></div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        <?php session()->forget('success-payment'); ?>
-    @endif
     <main class="container py-3">
         <!-- <div class="text-center mb-4">
             <img src="tth4/giohang.png" alt="Giỏ Hàng" style="max-width: 150px;">

@@ -58,11 +58,11 @@ Route::get('/giohang/thanhtoan', [CartController::class, 'confirmPayment'])->mid
 // Thanh toán
 Route::post('/giohang/thanhtoan/thanhtoan', [CartController::class, 'pay'])->middleware('isUser')->name('payment');
 
-// Thanh toán ngay phiên bản đặc biệt
-Route::get('/giohang/thanhtoanngay/bandacbiet/{id}', [CartController::class, 'payNowSversion'])->middleware('isUser')->name('payment.special');
-
 // Thanh toán ngay
 Route::post('/giohang/thanhtoanngay/{id}', [CartController::class, 'payNow'])->middleware('isUser')->name('payment.now');
+
+// Thanh toán thêm cho bản đặc biệt
+Route::post('/giohang/thanhtoan/bandacbiet', [CartController::class, 'paySpecial'])->middleware('isUser')->name('payment.special');
 
 // Lịch sử thanh toán
 Route::get('/taikhoan/lichsuthanhtoan', [CartController::class, 'getBill'])->middleware('isUser')->name('bill');
@@ -80,17 +80,8 @@ Route::get('/quantrivien/taikhoan/thongtintaikhoan/capnhat/{id}', [AccountContro
 // Thông tin tài khoản
 Route::get('/taikhoan/thongtintaikhoan/capnhat/{id}', [AccountController::class, 'editUser'])->name('user.edit');
 
-// Cập nhật ảnh đại diện
-Route::post('/taikhoan/thongtintaikhoan/anhdaidien/capnhat/{id}', [AccountController::class, 'updateAvatar'])->name('avatar.update');
-
-// Cập nhật thông tin cơ bản
-Route::post('/taikhoan/thongtintaikhoan/thongtincoban/capnhat/{id}', [AccountController::class, 'updateAccInfor'])->name('info.update');
-
-// Cập nhật thông tin cơ bản
-Route::post('/taikhoan/thongtintaikhoan/matkhau/capnhat/{id}', [AccountController::class, 'updateAccPassword'])->name('password.update');
-
-// Cập nhật thông tin cơ bản
-Route::post('/taikhoan/thongtintaikhoan/taikhoanthanhtoan/capnhat/{id}', [AccountController::class, 'updateAccPayment'])->name('payment.update');
+// Cập nhật thong tin
+Route::post('/taikhoan/thongtintaikhoan/capnhat/{id}', [AccountController::class, 'handleBtnChange'])->name('account.update');
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
@@ -104,6 +95,9 @@ Route::get('/tacpham', [WorkListController::class, 'index'])->middleware('home')
 
 // Lọc tác phẩm theo thể loại
 Route::post('/tacpham/loc-theloai', [WorkListController::class, 'handleFilter'])->middleware('home')->name('filter');
+
+// Tìm kiếm tác phẩm
+Route::post('/tacpham/timkiem', [WorkListController::class, 'search'])->middleware('home')->name('search');
 
 // Đọc
 // Xem chi tiết thông tin tác phẩm
@@ -135,6 +129,9 @@ Route::get('/bientapvien/tacpham/dangchoduyet', [WorkManagementController::class
 
 // Hiển thị danh sách tác phẩm đã ẩn
 Route::get('/bientapvien/tacpham/daan', [WorkManagementController::class, 'getHiddenWork'])->middleware('isEditor')->name('works.hidden');
+
+// Hiển thị danh sách tác phẩm bị phản hồi
+Route::get('/bientapvien/tacpham/phanhoi', [WorkManagementController::class, 'getFeedback'])->middleware('isEditor')->name('works.feedback');
 
 // Hiển thị chi tiết thông tin tác phẩm
 Route::get('/bientapvien/tacpham/chitiettacpham/{id}', [WorkManagementController::class, 'getWork'])->middleware('isStaff')->name('work.details');

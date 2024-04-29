@@ -9,11 +9,12 @@
 @section('main')
     <main class="container p-3">
         <article class="row">
-            <section class="col d-flex flex-column gap-2 justify-content-center align-items-center py-5">
-                <h3><strong>Lịch sử thanh toán</strong></h3>
+            <h3 class="text-center py-4"><strong>Lịch sử thanh toán</strong></h3>
+            <section class="col d-flex gap-2 flex-column justify-content-center align-items-center pb-5 flex-wrap">
+                
                 @foreach($bills as $bill)
-                    <div class="d-flex flex-column gap-2 bill p-3">
-                        <div><h5><strong>Hoá đơn #00{{$bill->id}}</strong></h5></div>
+                    <div class="col-lg-5 col-md-9 d-flex flex-column gap-2 bill p-3">
+                        <div><h5><strong>Hoá đơn #{{$bill->id + 1000}}</strong></h5></div>
                         <div class="row justify-content-center pb-2">
                             <?php $count=0; ?>
                             @foreach($bill_details as $bill_detail)
@@ -22,7 +23,7 @@
                                         <div class="list-group-item list-group-item-action list-group-custom">
                                             <div class="d-flex w-100 gap-5 px-4 py-2 justify-content-between align-items-center">
                                                 <div class="flex-grow-1 pl-2" style="max-width: 50px;">
-                                                    <img src="{{$coverStoragePath . '/' . $bill_detail->anh_bia}}" class="rounded-3" alt="Product 1" style="max-width: 50px;">
+                                                    <img src="{{$coverStoragePath . '/' . $bill_detail->anh_bia}}" class="rounded-3" alt="Product 1" style="width: 50px; height: auto;">
                                                 </div>                                     
                                                 <div class="d-flex flex-column flex-grow-1 justify-content-center">
                                                     <p><strong>{{$bill_detail->tua_de}}</strong></p>
