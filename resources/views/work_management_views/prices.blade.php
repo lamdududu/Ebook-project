@@ -69,5 +69,8 @@
                 </button>
             </div>
         </section>
+        <div>
+            {!! $works->links() !!}
+        </div>
     </form>
 @endsection

@@ -104,45 +104,55 @@
                                         <!-- <div class="d-flex justify-content-center align-items-start"> -->
                                             <div class="form-check form-check-inline d-flex justify-content-start align-items-center gap-3">
                                                 <input class="form-check-input" type="radio" name="chosenPublisher" id="publisherRadio1" value="1" style="margin: 0;"  @if(!old('chosenPublisher') || old('chosenPublisher') == 1) checked @endif>
-                                                <select class="form-select custom-input-text" name="publisher" aria-label="Default select example" style="max-width: 400px;">
-                                                    <option value="{{$publisher->id}}" selected>{{$publisher->nha_xuat_ban}}</option>
-                                                    @foreach($publishers as $workPublisher)
-                                                    <option value="{{$workPublisher->id}}">{{$workPublisher->nha_xuat_ban}}</option>
-                                                    @endforeach
-                                                </select>
-                                                @if($errors->has('publisher'))
-                                                    <div class="text-danger">
-                                                        {{ $errors->first('publisher') }}
-                                                    </div>
-                                                @endif
+                                                <div>
+                                                    <select class="form-select custom-input-text" name="publisher" aria-label="Default select example" style="max-width: 400px;">
+                                                        <option value="{{$publisher->id}}" selected>{{$publisher->nha_xuat_ban}}</option>
+                                                        @foreach($publishers as $workPublisher)
+                                                        <option value="{{$workPublisher->id}}">{{$workPublisher->nha_xuat_ban}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    @if($errors->has('publisher'))
+                                                        <div class="text-danger">
+                                                            {{ $errors->first('publisher') }}
+                                                        </div>
+                                                    @endif
+                                                </div>
                                             </div>
                                             <div class="form-check form-check-inline d-flex justify-content-start align-items-center gap-3 pt-3" style="color:var(--primary)">
                                                 <input class="form-check-input" type="radio" name="chosenPublisher" id="publisherRadio2" value="2" style="margin: 0;"  @if(old('chosenPublisher') && old('chosenPublisher') == 2) checked @endif>
                                                 <div class="d-flex gap-1 flex-column flex-fill" style="max-width:400px;">
-                                                    <input type="text" name="otherPublisher" class="form-control custom-input-text {{ $errors->has('otherPublisher') ? 'is-invalid' : ''}} {{ old('otherPublisher') ? 'is-valid' : '' }}" value="{{old('otherPublisher')}}" placeholder="Nhập nhà xuất bản khác...">
-                                                    @if($errors->has('otherPublisher'))
-                                                        <div class="invalid-feedback">
-                                                            {{ $errors->first('otherPublisher') }}
-                                                        </div>
-                                                    @endif
-                                                    <input type="text" name="phonePublisher" value="{{ old('phonePublisher') }}" class="form-control custom-input-text {{ $errors->has('phonePublisher') ? 'is-invalid' : ''}} {{ old('phonePublisher') ? 'is-valid' : '' }}" placeholder="Nhập số điện thoại nhà xuất bản...">
-                                                    @if($errors->has('phonePublisher'))
-                                                        <div class="invalid-feedback">
-                                                            {{ $errors->first('phonePublisher') }}
-                                                        </div>
-                                                    @endif
-                                                    <input type="text" name="addressPublisher" value="{{ old('addressPublisher') }}" class="form-control custom-input-text {{ $errors->has('addressPublisher') ? 'is-invalid' : ''}} {{ old('addressPublisher') ? 'is-valid' : '' }}" placeholder="Nhập địa chỉ nhà xuất bản...">
-                                                    @if($errors->has('addressPublisher'))
-                                                        <div class="invalid-feedback">
-                                                            {{ $errors->first('addressPublisher') }}
-                                                        </div>
-                                                    @endif
-                                                    <input type="text" name="emailPublisher" value="{{ old('emailPublisher') }}" class="form-control custom-input-text {{ $errors->has('emailPublisher') ? 'is-invalid' : ''}} {{ old('emailPublisher') ? 'is-valid' : '' }}" placeholder="Nhập email nhà xuất bản...">
-                                                    @if($errors->has('emailPublisher'))
-                                                        <div class="invalid-feedback">
-                                                            {{ $errors->first('emailPublisher') }}
-                                                        </div>
-                                                    @endif
+                                                    <div>
+                                                        <input type="text" name="otherPublisher" class="form-control custom-input-text {{ $errors->has('otherPublisher') ? 'is-invalid' : ''}} {{ old('otherPublisher') ? 'is-valid' : '' }}" value="{{old('otherPublisher')}}" placeholder="Nhập nhà xuất bản khác...">
+                                                        @if($errors->has('otherPublisher'))
+                                                            <div class="invalid-feedback">
+                                                                {{ $errors->first('otherPublisher') }}
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                    <div>
+                                                        <input type="text" name="phonePublisher" value="{{ old('phonePublisher') }}" class="form-control custom-input-text {{ $errors->has('phonePublisher') ? 'is-invalid' : ''}} {{ old('phonePublisher') ? 'is-valid' : '' }}" placeholder="Nhập số điện thoại nhà xuất bản...">
+                                                        @if($errors->has('phonePublisher'))
+                                                            <div class="invalid-feedback">
+                                                                {{ $errors->first('phonePublisher') }}
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                    <div>
+                                                        <input type="text" name="addressPublisher" value="{{ old('addressPublisher') }}" class="form-control custom-input-text {{ $errors->has('addressPublisher') ? 'is-invalid' : ''}} {{ old('addressPublisher') ? 'is-valid' : '' }}" placeholder="Nhập địa chỉ nhà xuất bản...">
+                                                        @if($errors->has('addressPublisher'))
+                                                            <div class="invalid-feedback">
+                                                                {{ $errors->first('addressPublisher') }}
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                    <div>
+                                                        <input type="text" name="emailPublisher" value="{{ old('emailPublisher') }}" class="form-control custom-input-text {{ $errors->has('emailPublisher') ? 'is-invalid' : ''}} {{ old('emailPublisher') ? 'is-valid' : '' }}" placeholder="Nhập email nhà xuất bản...">
+                                                        @if($errors->has('emailPublisher'))
+                                                            <div class="invalid-feedback">
+                                                                {{ $errors->first('emailPublisher') }}
+                                                            </div>
+                                                        @endif
+                                                    </div>
                                                 </div>
                                             </div>
                                         <!-- </div> -->
@@ -154,45 +164,55 @@
                                     <td colspan="2">
                                         <div class="form-check form-check-inline d-flex justify-content-start align-items-center gap-3">
                                             <input class="form-check-input" type="radio" name="chosenProvider" id="providerRadio1" value="1" style="margin: 0;"  @if(!old('chosenProvider') || old('chosenProvider') == 1) checked @endif>
-                                            <select class="form-select custom-input-text" name="provider" aria-label="Default select example" style="max-width: 400px;">
-                                                <option value="{{$copyright->id}}" selected>{{$copyright->ten_nha_cung_cap}}</option>
-                                                @foreach($copyrights as $copyrightProvider)
-                                                <option value="{{$copyrightProvider->id}}">{{$copyrightProvider->ten_nha_cung_cap}}</option>
-                                                @endforeach
-                                            </select>
-                                            @if($errors->has('provider'))
-                                                <div class="text-danger">
-                                                    {{ $errors->first('provider') }}
-                                                </div>
-                                            @endif
+                                            <div>
+                                                <select class="form-select custom-input-text" name="provider" aria-label="Default select example" style="max-width: 400px;">
+                                                    <option value="{{$copyright->id}}" selected>{{$copyright->ten_nha_cung_cap}}</option>
+                                                    @foreach($copyrights as $copyrightProvider)
+                                                    <option value="{{$copyrightProvider->id}}">{{$copyrightProvider->ten_nha_cung_cap}}</option>
+                                                    @endforeach
+                                                </select>
+                                                @if($errors->has('provider'))
+                                                    <div class="text-danger">
+                                                        {{ $errors->first('provider') }}
+                                                    </div>
+                                                @endif
+                                           </div>
                                         </div>
                                         <div class="form-check form-check-inline d-flex justify-content-start align-items-center gap-3 pt-3" style="color:var(--primary)">
                                             <input class="form-check-input" type="radio" name="chosenProvider" id="providerRadio1" value="2" style="margin: 0;" @if(old('chosenProvider') && old('chosenProvider') == 2) checked @endif>
                                             <div class="d-flex gap-1 flex-column flex-fill" style="max-width:400px;">
-                                                <input type="text" name="otherProvider" class="form-control custom-input-text {{ $errors->has('otherProvider') ? 'is-invalid' : ''}} {{ old('otherProvider') ? 'is-valid' : '' }}" value="{{old('otherProvider')}}" placeholder="Nhập đơn vị cung cấp bản quyền khác...">
-                                                @if($errors->has('otherProvider'))
-                                                    <div class="invalid-feedback">
-                                                        {{ $errors->first('otherProvider') }}
-                                                    </div>
-                                                @endif
-                                                <input type="text" name="phoneProvider" value="{{ old('phoneProvider') }}" class="form-control custom-input-text {{ $errors->has('phoneProvider') ? 'is-invalid' : ''}} {{ old('phoneProvider') ? 'is-valid' : '' }}" placeholder="Nhập số điện thoại đơn vị cung cấp bản quyền...">
-                                                @if($errors->has('phoneProvider'))
-                                                    <div class="invalid-feedback">
-                                                        {{ $errors->first('phoneProvider') }}
-                                                    </div>
-                                                @endif
-                                                <input type="text" name="addressProvider" value="{{ old('addressProvider') }}" class="form-control custom-input-text {{ $errors->has('addressProvider') ? 'is-invalid' : ''}} {{ old('addressProvider') ? 'is-valid' : '' }}" placeholder="Nhập địa chỉ đơn vị cung cấp bản quyền...">
-                                                @if($errors->has('addressProvider'))
-                                                    <div class="invalid-feedback">
-                                                        {{ $errors->first('addressProvider') }}
-                                                    </div>
-                                                @endif
-                                                <input type="text" name="emailProvider" value="{{ old('emailProvider') }}" class="form-control custom-input-text {{ $errors->has('emailProvider') ? 'is-invalid' : ''}} {{ old('emailProvider') ? 'is-valid' : '' }}" placeholder="Nhập email đơn vị cung cấp bản quyền...">
-                                                @if($errors->has('emailProvider'))
-                                                    <div class="invalid-feedback">
-                                                        {{ $errors->first('emailProvider') }}
-                                                    </div>
-                                                @endif
+                                                <div>
+                                                    <input type="text" name="otherProvider" class="form-control custom-input-text {{ $errors->has('otherProvider') ? 'is-invalid' : ''}} {{ old('otherProvider') ? 'is-valid' : '' }}" value="{{old('otherProvider')}}" placeholder="Nhập đơn vị cung cấp bản quyền khác...">
+                                                    @if($errors->has('otherProvider'))
+                                                        <div class="invalid-feedback">
+                                                            {{ $errors->first('otherProvider') }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div>
+                                                    <input type="text" name="phoneProvider" value="{{ old('phoneProvider') }}" class="form-control custom-input-text {{ $errors->has('phoneProvider') ? 'is-invalid' : ''}} {{ old('phoneProvider') ? 'is-valid' : '' }}" placeholder="Nhập số điện thoại đơn vị cung cấp bản quyền...">
+                                                    @if($errors->has('phoneProvider'))
+                                                        <div class="invalid-feedback">
+                                                            {{ $errors->first('phoneProvider') }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div>
+                                                    <input type="text" name="addressProvider" value="{{ old('addressProvider') }}" class="form-control custom-input-text {{ $errors->has('addressProvider') ? 'is-invalid' : ''}} {{ old('addressProvider') ? 'is-valid' : '' }}" placeholder="Nhập địa chỉ đơn vị cung cấp bản quyền...">
+                                                    @if($errors->has('addressProvider'))
+                                                        <div class="invalid-feedback">
+                                                            {{ $errors->first('addressProvider') }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                                <div>
+                                                    <input type="text" name="emailProvider" value="{{ old('emailProvider') }}" class="form-control custom-input-text {{ $errors->has('emailProvider') ? 'is-invalid' : ''}} {{ old('emailProvider') ? 'is-valid' : '' }}" placeholder="Nhập email đơn vị cung cấp bản quyền...">
+                                                    @if($errors->has('emailProvider'))
+                                                        <div class="invalid-feedback">
+                                                            {{ $errors->first('emailProvider') }}
+                                                        </div>
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
                                     </td>

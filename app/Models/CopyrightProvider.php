@@ -11,5 +11,8 @@ class CopyrightProvider extends Model
 
     protected $fillable = [
         'ten_nha_cung_cap',
+        'email',
+        'so_dien_thoai',
+        'dia_chi',
     ];
 }

@@ -26,20 +26,20 @@
             <tbody>
                 @foreach($works as $work)
                 <tr class="align-middle">
-                    <th scope="row" class="text-center">{{$work->id}}</th>
+                    <th scope="row" class="text-center">{{$work->index}}</th>
                     <td>{{$work->tua_de}}</td>
                     <td class="text-center">{{$work->ten_tai_khoan}}</td>
                     <td class="text-center">Cần chỉnh sửa</td>
                     <td class="text-center">{{$work->updated_at}}</td>
                     <td class="text-center">{{$work->noi_dung_phan_hoi}}</td>
                     <td class="text-center text-truncate custom-text">
-                        <a href="{{ route('work.details', ['id' => $work->id]) }}">
+                        <a href="{{ route('work.details', ['id' => $work->index]) }}">
                             <i class="bi bi-eye-fill"></i>
                             <span>Chi tiết</span>
                         </a>
                     </td>
                     <td class="text-center text-truncate custom-text">
-                        <a href="{{ route('work.edit', ['id' => $work->id]) }}">
+                        <a href="{{ route('work.edit', ['id' => $work->index]) }}">
                             <i class="bi bi-pencil-fill"></i>
                             <span>Chỉnh sửa</span>
                         </a>
@@ -48,7 +48,5 @@
                 @endforeach
             </tbody>
         </table>
-    </section>
-    <section>
     </section>
 @endsection

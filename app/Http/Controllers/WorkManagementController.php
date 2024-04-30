@@ -35,7 +35,9 @@ class WorkManagementController extends Controller
             ->join('work_statuses', 'works.trang_thai', '=', 'work_statuses.id')
             ->join('publishers', 'works.nha_xuat_ban', '=', 'publishers.id')
             ->select('works.*', 'publishers.nha_xuat_ban', 'accounts.ten_tai_khoan', 'work_statuses.ten_trang_thai_tp')
-            ->get();
+            ->orderByDesc('id')
+            ->paginate(10);
+
 
         return view('work_management_views.full-list', compact('data'));
     }
@@ -65,35 +67,44 @@ class WorkManagementController extends Controller
         return view('work_management_views.details', compact('publisher', 'work', 'coverStoragePath', 'workStoragePath', 'categories', 'copyright', 'status', 'account'));
     }
 
+    /**
+     * Hiển thị các tác phẩm đã đăng tải
+     */
     public function getPublicWork() {
         $data = work::join('accounts', 'works.tai_khoan_dang_tai', '=', 'accounts.id')
             ->join('work_statuses', 'works.trang_thai', '=', 'work_statuses.id')
             ->join('publishers', 'works.nha_xuat_ban', '=', 'publishers.id')
             ->where('works.trang_thai', 1)
             ->select('works.*', 'publishers.nha_xuat_ban', 'accounts.ten_tai_khoan', 'work_statuses.ten_trang_thai_tp')
-            ->get();
+            ->paginate(10);
 
         return view('work_management_views.full-list', compact('data'));
     }
 
+    /**
+     * Hiển thị các tác phẩm đã ẩn
+     */
     public function getHiddenWork() {
         $data = work::join('accounts', 'works.tai_khoan_dang_tai', '=', 'accounts.id')
             ->join('work_statuses', 'works.trang_thai', '=', 'work_statuses.id')
             ->join('publishers', 'works.nha_xuat_ban', '=', 'publishers.id')
             ->where('works.trang_thai', 2)
             ->select('works.*', 'publishers.nha_xuat_ban', 'accounts.ten_tai_khoan', 'work_statuses.ten_trang_thai_tp')
-            ->get();
+            ->paginate(10);
 
         return view('work_management_views.full-list', compact('data'));
     }
 
+    /**
+     * Hiển thị các tác phẩm đang chờ duyệt
+     */
     public function getApprovingWork() {
         $data = work::join('accounts', 'works.tai_khoan_dang_tai', '=', 'accounts.id')
             ->join('work_statuses', 'works.trang_thai', '=', 'work_statuses.id')
             ->join('publishers', 'works.nha_xuat_ban', '=', 'publishers.id')
             ->where('works.trang_thai', 3)
             ->select('works.*', 'publishers.nha_xuat_ban', 'accounts.ten_tai_khoan', 'work_statuses.ten_trang_thai_tp')
-            ->get();
+            ->paginate(10);
 
         return view('work_management_views.full-list', compact('data'));
     }
@@ -137,8 +148,6 @@ class WorkManagementController extends Controller
                 'qdxbDate' => 'required|before: now',
                 // kiểm tra mảng categoryCheck có ít nhất 1 phần tử (có ít nhất 1 thể loại được chọn)
                 'categoryCheck' => 'required|array|min:1',
-                // 'categoryCheck.*' => 'accepted',
-                // 'statusWork' => 'required',
                 'fileWork' => 'required|file|mimes:docx,doc,txt,pdf|max:20480',
                 'summary' => 'required|string',
             ],
@@ -172,7 +181,6 @@ class WorkManagementController extends Controller
                 'categoryCheck.required' => 'Chưa chọn thể loại',
                 'categoryCheck.array' => 'Chưa chọn thể loại',
                 'categoryCheck.min' => 'Chưa chọn thể loại',
-                // 'statusWork.required' => 'Chưa chọn trạng thái',
                 'fileWork.mimes' => 'Không phải tệp tin văn bản (.doc, .docx, .txt, .pdf)',
                 'fileWork.required' => 'Chưa tải lên tệp tác phẩm',
                 'fileWork.file' => 'Không phải tệp tin văn bản (.doc, .docx, .txt, .pdf)',
@@ -199,8 +207,8 @@ class WorkManagementController extends Controller
         }
 
         // Kiểm tra nhà xuất bản
-        if($request->input('chosenPublisher') == 1) {
-            $request ->validate(
+        if($request->input('chosenPublisher') == 0) {
+            $request->validate(
                 [
                     'publisher' => 'required',
                 ],
@@ -212,19 +220,33 @@ class WorkManagementController extends Controller
             $publisher = $request->input('publisher');
         }
 
-        else {
-            $request ->validate(
+        else
+        {
+            $request->validate(
                 [
                     'otherPublisher' => 'required|string',
+                    'phonePublisher' => 'required|numeric|digits:10',
+                    'addressPublisher' => 'required|string',
+                    'emailPublisher' => 'required|email',
                 ],
                 [
                     'otherPublisher.required' => 'Chưa nhập nhà xuất bản',
-                    'otherPublisher.string' => 'Tên nhà xuất bản sai định dạng',
+                    'otherPublisher.string' => 'Tên nhà xuất bản không hợp lệ',
+                    'phonePublisher.required' => 'Chưa nhập số điện thoại nhà xuất bản',
+                    'phonePublisher.digits' => 'Số điện thoại nhà xuất bản không hợp lệ',
+                    'phonePublisher.numeric' => 'Số điện thoại nhà xuất bản chứa ký tự không hợp lệ',
+                    'addressPublisher.required' => 'Chưa nhập địa chỉ nhà xuất bản',
+                    'addressPublisher.string' => 'Địa chỉ nhà xuất bản không hợp lệ',
+                    'emailPublisher.required' => 'Chưa nhập địa chỉ email nhà xuất bản',
+                    'emailPublisher.email' => 'Địa chỉ email nhà xuất bản không hợp lệ', 
                 ]
-                );
+            );
 
             $newPublisher = Publisher::create([
-                'nha_xuat_ban' => $request->input('otherPublisher')
+                'nha_xuat_ban' => $request->input('otherPublisher'),
+                'so_dien_thoai' => $request->input('phonePublisher'),
+                'dia_chi' => $request->input('addressPublisher'),
+                'email' => $request->input('emailPublisher'),
             ]);
 
             $publisher = $newPublisher->id;
@@ -232,7 +254,7 @@ class WorkManagementController extends Controller
 
 
         // Kiểm tra nhà cung cấp bản quyền
-        if($request->input('chosenProvider') == 1) {
+        if($request->input('chosenProvider') == 0) {
             $request ->validate(
                 [
                     'provider' => 'required',
@@ -245,19 +267,33 @@ class WorkManagementController extends Controller
             $provider = $request->input('provider');
         }
 
-        else {
+        else
+        {
             $request ->validate(
                 [
                     'otherProvider' => 'required|string',
+                    'phoneProvider' => 'required|numeric|digits:10',
+                    'addressProvider' => 'required|string',
+                    'emailProvider' => 'required|email',
                 ],
                 [
-                    'otherProvider.required' => 'Chưa nhập nhà xuất bản',
-                    'otherProvider.string' => 'Tên nhà xuất bản sai định dạng',
+                    'otherProvider.required' => 'Chưa nhập đơn vị cung cấp bản quyền',
+                    'otherProvider.string' => 'Tên đơn vị cung cấp bản quyền sai định dạng',
+                    'phoneProvider.required' => 'Chưa nhập số điện thoại đơn vị cung cấp bản quyền',
+                    'phoneProvider.digits' => 'Số điện thoại đơn vị cung cấp bản quyền không hợp lệ',
+                    'phoneProvider.numeric' => 'Số điện thoại đơn vị cung cấp bản quyền chứa ký tự không hợp lệ',
+                    'addressProvider.required' => 'Chưa nhập địa chỉ đơn vị cung cấp bản quyền',
+                    'addressProvider.string' => 'Địa chỉ đơn vị cung cấp bản quyền không hợp lệ',
+                    'emailProvider.required' => 'Chưa nhập địa chỉ email đơn vị cung cấp bản quyền',
+                    'emailProvider.email' => 'Địa chỉ email đơn vị cung cấp bản quyền không hợp lệ', 
                 ]
                 );
 
-            $newProvider = Publisher::create([
-                'ten_nha_cung_cap' => $request->input('otherProvider')
+            $newProvider = CopyrightProvider::create([
+                'ten_nha_cung_cap' => $request->input('otherProvider'),
+                'so_dien_thoai' => $request->input('phoneProvider'),
+                'dia_chi' => $request->input('addressProvider'),
+                'email' => $request->input('emailProvider'),
             ]);
 
             $provider = $newProvider->id;
@@ -283,32 +319,28 @@ class WorkManagementController extends Controller
             $path = $fileWork->storeAs('public/works', $fileNameWork);
         }
 
-        try {
-            $work = Work::create(
-                [
-                    'tua_de' => $request->input('titleWork'),
-                    'tac_gia' => $request->input('author'),
-                    'dich_gia' => $request->input('translator'),
-                    'ngon_ngu' => $request->input('language'),
-                    'nam_xuat_ban'  => $request->input('publishYear'),
-                    'nha_xuat_ban'=> $publisher,
-                    'tong_bien_tap' => $request->input('dirEditor'),
-                    'bien_tap_vien' => $request->input('editor'),
-                    'so_dkxb' => $request->input('dkxb'),
-                    'so_qdxb' => $request->input('qdxb'),
-                    'ngay_cap_qdxb' => Carbon::parse($request->input('qdxbDate'))->format('Y-m-d'),
-                    'ma_so_isbn' => $request->input('isbn'),
-                    'anh_bia' => $fileNameCover,
-                    'tep_tin' => $fileNameWork,
-                    'mo_ta_noi_dung' => $request->input('summary'),
-                    'tai_khoan_dang_tai' => Session::get('user')->id,
-                    'ban_quyen' => $provider,
-                    'trang_thai' => 3,
-                ]
-            );
-        } catch (\Exception $e) {
-            abort(401);
-        }
+        $work = Work::create(
+            [
+                'tua_de' => $request->input('titleWork'),
+                'tac_gia' => $request->input('author'),
+                'dich_gia' => $request->input('translator'),
+                'ngon_ngu' => $request->input('language'),
+                'nam_xuat_ban'  => $request->input('publishYear'),
+                'nha_xuat_ban'=> $publisher,
+                'tong_bien_tap' => $request->input('dirEditor'),
+                'bien_tap_vien' => $request->input('editor'),
+                'so_dkxb' => $request->input('dkxb'),
+                'so_qdxb' => $request->input('qdxb'),
+                'ngay_cap_qdxb' => Carbon::parse($request->input('qdxbDate'))->format('Y-m-d'),
+                'ma_so_isbn' => $request->input('isbn'),
+                'anh_bia' => $fileNameCover,
+                'tep_tin' => $fileNameWork,
+                'mo_ta_noi_dung' => $request->input('summary'),
+                'tai_khoan_dang_tai' => Session::get('user')->id,
+                'ban_quyen' => $provider,
+                'trang_thai' => 3,
+            ]
+        );
 
         foreach($request->input('categoryCheck', []) as $category) {
             if($category == -1) {
@@ -399,8 +431,6 @@ class WorkManagementController extends Controller
                 'qdxbDate' => 'required|before: now',
                 // kiểm tra mảng categoryCheck có ít nhất 1 phần tử (có ít nhất 1 thể loại được chọn)
                 'categoryCheck' => 'required|array|min:1',
-                // 'categoryCheck.*' => 'accepted',
-                // 'statusWork' => 'required',
                 'fileWork' => 'nullable|file|mimes:docx,doc,txt,pdf|max:20480',
                 'summary' => 'required|string',
             ],
@@ -435,7 +465,6 @@ class WorkManagementController extends Controller
                 'categoryCheck.required' => 'Chưa chọn thể loại',
                 'categoryCheck.array' => 'Chưa chọn thể loại',
                 'categoryCheck.min' => 'Chưa chọn thể loại',
-                // 'statusWork.required' => 'Chưa chọn trạng thái',
                 'fileWork.file' => 'Không phải tệp tin văn bản (.doc, .docx, .txt, .pdf)',
                 'fileWork.mimes' => 'Không phải tệp tin văn bản (.doc, .docx, .txt, .pdf)',
                 'fileWork.max' => 'Kích thước tệp tác phẩm quá lớn',
@@ -474,19 +503,33 @@ class WorkManagementController extends Controller
             $publisher = $request->input('publisher');
         }
 
-        else {
-            $request ->validate(
+        else
+        {
+            $request->validate(
                 [
                     'otherPublisher' => 'required|string',
+                    'phonePublisher' => 'required|numeric|digits:10',
+                    'addressPublisher' => 'required|string',
+                    'emailPublisher' => 'required|email',
                 ],
                 [
                     'otherPublisher.required' => 'Chưa nhập nhà xuất bản',
-                    'otherPublisher.string' => 'Tên nhà xuất bản sai định dạng',
+                    'otherPublisher.string' => 'Tên nhà xuất bản không hợp lệ',
+                    'phonePublisher.required' => 'Chưa nhập số điện thoại nhà xuất bản',
+                    'phonePublisher.digits' => 'Số điện thoại nhà xuất bản không hợp lệ',
+                    'phonePublisher.numeric' => 'Số điện thoại nhà xuất bản chứa ký tự không hợp lệ',
+                    'addressPublisher.required' => 'Chưa nhập địa chỉ nhà xuất bản',
+                    'addressPublisher.string' => 'Địa chỉ nhà xuất bản không hợp lệ',
+                    'emailPublisher.required' => 'Chưa nhập địa chỉ email nhà xuất bản',
+                    'emailPublisher.email' => 'Địa chỉ email nhà xuất bản không hợp lệ', 
                 ]
-                );
+            );
 
             $newPublisher = Publisher::create([
-                'nha_xuat_ban' => $request->input('otherPublisher')
+                'nha_xuat_ban' => $request->input('otherPublisher'),
+                'so_dien_thoai' => $request->input('phonePublisher'),
+                'dia_chi' => $request->input('addressPublisher'),
+                'email' => $request->input('emailPublisher'),
             ]);
 
             $publisher = $newPublisher->id;
@@ -507,19 +550,33 @@ class WorkManagementController extends Controller
             $provider = $request->input('provider');
         }
 
-        else {
+        else 
+        {
             $request ->validate(
                 [
                     'otherProvider' => 'required|string',
+                    'phoneProvider' => 'required|numeric|digits:10',
+                    'addressProvider' => 'required|string',
+                    'emailProvider' => 'required|email',
                 ],
                 [
-                    'otherProvider.required' => 'Chưa nhập nhà xuất bản',
-                    'otherProvider.string' => 'Tên nhà xuất bản sai định dạng',
+                    'otherProvider.required' => 'Chưa nhập đơn vị cung cấp bản quyền',
+                    'otherProvider.string' => 'Tên đơn vị cung cấp bản quyền sai định dạng',
+                    'phoneProvider.required' => 'Chưa nhập số điện thoại đơn vị cung cấp bản quyền',
+                    'phoneProvider.digits' => 'Số điện thoại đơn vị cung cấp bản quyền không hợp lệ',
+                    'phoneProvider.numeric' => 'Số điện thoại đơn vị cung cấp bản quyền chứa ký tự không hợp lệ',
+                    'addressProvider.required' => 'Chưa nhập địa chỉ đơn vị cung cấp bản quyền',
+                    'addressProvider.string' => 'Địa chỉ đơn vị cung cấp bản quyền không hợp lệ',
+                    'emailProvider.required' => 'Chưa nhập địa chỉ email đơn vị cung cấp bản quyền',
+                    'emailProvider.email' => 'Địa chỉ email đơn vị cung cấp bản quyền không hợp lệ', 
                 ]
                 );
 
-            $newProvider = Publisher::create([
-                'ten_nha_cung_cap' => $request->input('otherProvider')
+            $newProvider = CopyrightProvider::create([
+                'ten_nha_cung_cap' => $request->input('otherProvider'),
+                'so_dien_thoai' => $request->input('phoneProvider'),
+                'dia_chi' => $request->input('addressProvider'),
+                'email' => $request->input('emailProvider'),
             ]);
 
             $provider = $newProvider->id;
@@ -564,7 +621,7 @@ class WorkManagementController extends Controller
             'dich_gia' => $request->input('translator'),
             'ngon_ngu' => $request->input('language'),
             'nam_xuat_ban'  => $request->input('publishYear'),
-            'nha_xuat_ban'=> $request->input('publisher'),
+            'nha_xuat_ban'=> $publisher,
             'tong_bien_tap' => $request->input('dirEditor'),
             'bien_tap_vien' => $request->input('editor'),
             'so_dkxb' => $request->input('dkxb'),
@@ -572,22 +629,48 @@ class WorkManagementController extends Controller
             'ngay_cap_qdxb' => Carbon::parse($request->input('qdxbDate'))->format('Y-m-d'),
             'ma_so_isbn' => $request->input('isbn'),
             'mo_ta_noi_dung' => $request->input('summary'),
-
             // Tác phẩm khi được biên tập viên đăng tải hoặc chỉnh sửa phải được phê duyệt trước khi đăng tải chính thức
             'trang_thai' => 3,
-
-            'ban_quyen' => $request->input('provider'),
+            'ban_quyen' => $provider,
         ]);
 
         // xóa các thể loại cũ
         WorksCategories::where('tac_pham', $id)->delete();
 
-        // Thêm thể loại vừa chọn
+        // Thêm lại thể loại đã chọn
         foreach($request->input('categoryCheck', []) as $category) {
-            WorksCategories::create([
-                'tac_pham' => $id,
-                'the_loai' => $category,
-            ]);
+            if($category == -1) {
+                
+                // Tách nếu có nhiều thể loại được thêm (,)
+                $arrCtg = explode(',', $request->input('otherCategories'));
+                
+                foreach($arrCtg as $ctg) {
+
+                    if(!empty(trim($ctg))) {
+                        // Tạo thể loại mới
+                        $newCategory = Category::create([
+
+                            // Chuyển chuỗi về kiểu viết thường, sau đó viết hoa chữ cái đầu và xóa khoảng trắng hai đầu chuỗi
+                            'ten_the_loai' => ucfirst(trim(strtolower($ctg))), 
+                        ]);
+
+                        $category = $newCategory->id;
+
+                        // Thêm thể loại cho tác phẩm
+                        WorksCategories::create([
+                            'tac_pham' => $id,
+                            'the_loai' => $category,
+                        ]);
+                    }
+                }
+            }
+
+            else {
+                WorksCategories::create([
+                    'tac_pham' => $id,
+                    'the_loai' => $category,
+                ]);
+            }
         }
 
         return redirect()->route('work.details', ['id' => $id])->with('success', 'Cập nhật thành công');
@@ -617,11 +700,14 @@ class WorkManagementController extends Controller
                         ->join('work_statuses as s', 'works.trang_thai', '=', 's.id')
                         ->select('works.id', 'works.tua_de', 'a.ten_tai_khoan', 's.ten_trang_thai_tp', 'p.gia_ban_thuong', 'p.gia_ban_db', 't.thoi_diem')
                         ->orderByDesc('id')
-                        ->get();
+                        ->paginate(10);
 
         return view('work_management_views.prices', compact('works'));
     }
 
+    /**
+     * Hiển thị các tác phẩm đã ẩn ở giao diện quản trị viên
+     */
     public function getHiddenWorkAdmin()
     {
         $works = Work::leftJoin('prices as p', 'p.tac_pham', '=', 'works.id')
@@ -630,11 +716,14 @@ class WorkManagementController extends Controller
                         ->where('works.trang_thai', '2')
                         ->select('works.id', 'works.tua_de', 'a.ten_tai_khoan',  'p.gia_ban_thuong', 'p.gia_ban_db', 't.thoi_diem')
                         ->orderByDesc('id')
-                        ->get();
+                        ->paginate(10);
 
         return view('work_management_views.prices', compact('works'));
     }
 
+    /**
+     * Hiển thị các tác phẩm đang chờ duyệt ở giao diện quản trị viên
+     */
     public function getApproveWorkAdmin()
     {
        $works = Work::leftJoin('prices as p', 'p.tac_pham', '=', 'works.id')
@@ -643,11 +732,14 @@ class WorkManagementController extends Controller
                         ->where('works.trang_thai', '3')
                         ->select('works.id', 'works.tua_de', 'a.ten_tai_khoan', 'p.gia_ban_thuong', 'p.gia_ban_db', 't.thoi_diem')
                         ->orderByDesc('id')
-                        ->get();
+                        ->paginate(10);
 
         return view('work_management_views.approve', compact('works'));
     }
 
+    /**
+     * Hiển thị các tác phẩm đã đăng tải ở giao diện quản trị viên
+     */
     public function getPublicWorkAdmin()
     {
         $works = Work::leftJoin('prices as p', 'p.tac_pham', '=', 'works.id')
@@ -656,11 +748,14 @@ class WorkManagementController extends Controller
                         ->where('works.trang_thai', '=', '1')
                         ->select('works.id', 'works.tua_de', 'a.ten_tai_khoan', 'p.gia_ban_thuong', 'p.gia_ban_db', 't.thoi_diem')
                         ->orderByDesc('id')
-                        ->get();
+                        ->paginate(10);
 
         return view('work_management_views.prices', compact('works'));
     }
 
+    /**
+     * Hiển thị chi tiết tác phẩm ở giao diện quản trị viên
+     */
     public function getDetailsApproveWork($id)
     {
         $coverStoragePath = Storage::url('covers');
@@ -669,11 +764,18 @@ class WorkManagementController extends Controller
 
         $prices = Price::join('times', 'times.id', '=', 'prices.thoi_diem')
                         ->where('times.thoi_diem', '<=', now())
-                        ->where('prices.id', $id)
+                        ->where('prices.tac_pham', $id)
                         ->groupBy('prices.id')
                         ->orderBy('times.thoi_diem', 'desc')
                         ->limit(1)
                         ->first();
+        
+        if(!$prices) {
+            $prices = [
+                'gia_ban_thuong' => '',
+                'gia_ban_db' => '',
+            ];
+        }
 
         $workCate = WorksCategories::where('tac_pham', $id)->get();
         $categories = Category::whereIn('id', $workCate->pluck('the_loai'))->get();
@@ -771,7 +873,7 @@ class WorkManagementController extends Controller
         $works = Work::leftJoin('feedback', 'feedback.tac_pham', '=', 'works.id')
                     ->leftJoin('accounts as a', 'feedback.tai_khoan', '=', 'a.id')
                     ->where('works.trang_thai', '4')
-                    ->select('works.*', 'feedback.*', 'a.ten_tai_khoan')
+                    ->select('works.id as index', 'works.tua_de', 'works.updated_at', 'feedback.*', 'a.ten_tai_khoan')
                     ->get();
 
         return view('work_management_views.feedback', compact('works'));

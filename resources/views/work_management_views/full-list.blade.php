@@ -50,7 +50,8 @@
                 @endforeach
             </tbody>
         </table>
-    </section>
-    <section>
+        <div>
+            {!! $data->links() !!}
+        </div>
     </section>
 @endsection

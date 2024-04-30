@@ -11,5 +11,8 @@ class Publisher extends Model
 
     protected $fillable = [
         'nha_xuat_ban',
+        'email',
+        'so_dien_thoai',
+        'dia_chi',
     ];
 }

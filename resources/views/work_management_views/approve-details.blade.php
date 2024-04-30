@@ -85,7 +85,7 @@
                                     <tr class="align-middle">
                                         <th scope="row">Giá bản thường:</th>
                                         <td>
-                                            <input type="text" class="form-control custom-input-text {{ $errors->has('normal') ? 'is-invalid' : ''}} {{ old('normal') ? 'is-valid' : '' }}" name="normal" value="{{ old('normal')}}" placeholder="Nhập giá bán bản thường...">
+                                            <input type="text" class="form-control custom-input-text {{ $errors->has('normal') ? 'is-invalid' : ''}} {{ old('normal') ? 'is-valid' : '' }}" name="normal" value="{{ old('normal') ?: $prices['gia_ban_thuong'] }}" placeholder="Nhập giá bán bản thường...">
                                             @if($errors->has('normal'))
                                                 <div class="invalid-feedback">
                                                     {{ $errors->first('normal') }}
@@ -94,7 +94,7 @@
                                         </td>
                                         <th scope="row">Giá bản đặc biệt:</th>
                                         <td>
-                                            <input type="text" class="form-control custom-input-text {{ $errors->has('special') ? 'is-invalid' : ''}} {{ old('special') ? 'is-valid' : '' }}" name="special" value="{{ old('special')}}" placeholder="Nhập giá bán bản đặc biệt...">
+                                            <input type="text" class="form-control custom-input-text {{ $errors->has('special') ? 'is-invalid' : ''}} {{ old('special') ? 'is-valid' : '' }}" name="special" value="{{ old('special') ?: $prices['gia_ban_db'] }}" placeholder="Nhập giá bán bản đặc biệt...">
                                             @if($errors->has('special'))
                                                 <div class="invalid-feedback">
                                                     {{ $errors->first('special') }}
@@ -104,7 +104,7 @@
                                     <tr>
                                 </tbody>
                             </table>
-                            
+
                         </section>
                         <section class="table-responsive" style="max-width: 450px;">
                             <h5 class="pb-2" style="font-weight: bold;">Thông tin đăng tải</h5>
